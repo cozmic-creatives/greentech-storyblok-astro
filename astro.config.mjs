@@ -8,7 +8,6 @@ import preact from '@astrojs/preact';
 import node from '@astrojs/node';
 
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
-const isProduction = process.env.PUBLIC_ENV === 'production';
 const isPreview = process.env.PUBLIC_ENV === 'preview';
 const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false;
 

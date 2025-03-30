@@ -3,11 +3,13 @@ import { useStoryblokApi } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Button } from '~/components/ui/button';
+import { env } from '~/lib/utils';
 import '~/styles/globals.css';
 
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get('cdn/stories/home', {
-  version: import.meta.env.DEV ? "draft" : "published",
+  version: env.getStoryblokVersion(),
+  cv: Date.now(), 
 });
 
 const story = data.story;
