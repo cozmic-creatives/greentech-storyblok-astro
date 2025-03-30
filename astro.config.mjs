@@ -5,21 +5,25 @@ import tailwindcss from '@tailwindcss/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import path from 'path';
 import preact from '@astrojs/preact';
+import node from '@astrojs/node';
+
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
+const isProduction = process.env.PUBLIC_ENV === 'production';
+const isPreview = process.env.PUBLIC_ENV === 'preview';
+const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false;
 
 // https://astro.build/config
 export default defineConfig({
+  output: isPreview ? 'server' : 'static',
+  adapter: isPreview ? node({ mode: 'standalone' }) : undefined,
+
   integrations: [
     storyblok({
-      //accessToken: env.STORYBLOK_TOKEN,
-      // previewToken: env.STORYBLOK_PREVIEW_TOKEN,
       accessToken: env.STORYBLOK_PREVIEW_TOKEN,
       apiOptions: {
         region: '',
       },
-      bridge: {
-        customParent: 'https://app.storyblok.com',
-      },
+      bridge,
       components: {
         page: 'storyblok/Page',
         feature: 'storyblok/Feature',
@@ -29,6 +33,7 @@ export default defineConfig({
     }),
     preact(),
   ],
+
   vite: {
     plugins: [basicSsl(), tailwindcss()],
     server: {
