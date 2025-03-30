@@ -1,0 +1,19 @@
+---
+import { useStoryblokApi } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Button } from '~/components/ui/button';
+import '~/styles/globals.css';
+
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get('cdn/stories/home', {
+  version: import.meta.env.DEV ? "draft" : "published",
+});
+
+const story = data.story;
+---
+
+<BaseLayout>
+  <StoryblokComponent blok={story.content} />
+  <Button>Click me</Button>
+</BaseLayout>
