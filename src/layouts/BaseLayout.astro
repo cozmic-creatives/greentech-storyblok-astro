@@ -1,12 +1,20 @@
+---
+import { Navbar } from '~/components/navigation/Navbar';
+import '~/styles/globals.css';
+---
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.svg" />
-    <title>The Storyblok Astro Ultimate Tutorial: Part 1</title>
+    <title>GreenTech - Sustainable Plastic Solutions</title>
   </head>
   
   <body>
-    <slot />
+    <Navbar client:load />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>

@@ -4,8 +4,8 @@ import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import path from 'path';
-import preact from '@astrojs/preact';
 import node from '@astrojs/node';
+import react from '@astrojs/react';
 
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
 const isPreview = process.env.PUBLIC_ENV === 'preview';
@@ -30,7 +30,7 @@ export default defineConfig({
         teaser: 'storyblok/Teaser',
       },
     }),
-    preact(),
+    react(),
   ],
 
   vite: {
