@@ -28,7 +28,7 @@ export const NavigationMenuContent = forwardRef<
   <RadixNavigationMenuContent
     ref={ref}
     className={cn(
-      'left-1/2 -translate-x-1/2 absolute',
+      'left-1/2 -translate-x-1/2 absolute p-0',
       'absolute top-full bg-popover mt-[5px] rounded-md shadow-lg border border-border',
       'data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52',
       className

@@ -1,0 +1,39 @@
+---
+import { MobileNavbar } from '~/components/navigation/MobileNavbar';
+import { DesktopNavbar } from '~/components/navigation/DesktopNavbar';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+const { story } = Astro.props;
+
+// Fetch navigation data from Storyblok with proper typing
+const storyContentItems = story.content.items;
+
+const topBarRow = storyContentItems[0];
+
+// Extract navigation sections using the helper function
+const navigationSections = {
+  businessLines: storyContentItems[1],
+  brands: storyContentItems[2],
+  markets: storyContentItems[3],
+  otherLinks: storyContentItems.slice(4),
+};
+---
+
+<nav
+  class="sticky top-0 z-50 w-full border-b-3 border-primary bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+>
+  <StoryblokComponent blok={topBarRow} />
+  <div class="container flex h-18 items-center">
+    <div class="md:hidden">
+      <MobileNavbar {...navigationSections} client:load />
+    </div>
+
+    <a href="/" class="flex items-center space-x-2">
+      <img src="/greentech-logo.svg" alt="GreenTech Logo" class="h-9 w-auto" />
+    </a>
+
+    <div class="hidden md:flex md:flex-1 md:justify-center">
+      <DesktopNavbar {...navigationSections} client:load />
+    </div>
+  </div>
+</nav>

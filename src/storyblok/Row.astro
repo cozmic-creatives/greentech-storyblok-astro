@@ -1,0 +1,38 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+const { blok } = Astro.props;
+const { blocks, columnSizeDesktop, columnSizeMobile, container } = blok;
+
+// Parse column sizes if provided
+// Handle quoted values by replacing all quotes before splitting
+const cleanColumnSizeDesktop = columnSizeDesktop ? columnSizeDesktop.replace(/"/g, '') : '';
+const desktopSizes = cleanColumnSizeDesktop
+  ? cleanColumnSizeDesktop.split(',').map(size => size.trim())
+  : [];
+---
+
+<section {...storyblokEditable(blok)} class={`${blok.sectionClasses}`}>
+  <div class={`flex flex-wrap ${blok.rowClasses} ${container ? 'container' : ''}`}>
+    {
+      blocks?.map((nestedBlok: any, index: number) => {
+        const size = desktopSizes[index] || '';
+        let style = '';
+        let extraClasses = '';
+
+        if (size.includes('px') || size.includes('%') || size === 'auto') {
+          style = `width: ${size};`;
+        } else if (size) {
+          extraClasses = size; // This already handles multiple space-separated classes
+        }
+
+        return (
+          <div style={style} class={`block-wrapper ${extraClasses}`}>
+            <StoryblokComponent blok={nestedBlok} />
+          </div>
+        );
+      })
+    }
+  </div>
+</section>

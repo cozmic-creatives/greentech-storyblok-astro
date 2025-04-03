@@ -26,6 +26,7 @@ export const env = {
 
   /**
    * Get the appropriate Storyblok content version based on environment
+   * @returns "draft" for preview mode, "published" for production
    */
-  getStoryblokVersion: () => (env.isPreview() ? 'draft' : 'published'),
+  getStoryblokVersion: (): 'draft' | 'published' => (env.isPreview() ? 'draft' : 'published'),
 };

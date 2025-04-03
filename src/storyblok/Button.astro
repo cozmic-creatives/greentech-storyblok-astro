@@ -1,0 +1,10 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { Button } from '~/components/ui/button';
+
+const { blok } = Astro.props;
+---
+
+<Button {...storyblokEditable(blok)}>
+  {blok.text}
+</Button>

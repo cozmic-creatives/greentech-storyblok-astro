@@ -1,5 +1,5 @@
-import { forwardRef, type ComponentPropsWithoutRef } from 'react';
-import type { NavItem } from '~/types/navigation';
+import { forwardRef, type ComponentPropsWithoutRef, useState } from 'react';
+import type { NavItemStoryblok } from '~/types/component-types-sb';
 
 interface ListItemProps extends ComponentPropsWithoutRef<'a'> {
   title: string;
@@ -15,7 +15,7 @@ export const ListItem = forwardRef<HTMLAnchorElement, ListItemProps>(
         <a
           ref={ref}
           className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors 
-                     hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${className}`}
+                     hover:bg-gray-50 hover:text-primary-accessible focus:bg-gray-100 focus:text-primary-accessible ${className}`}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           {...props}
@@ -30,41 +30,41 @@ export const ListItem = forwardRef<HTMLAnchorElement, ListItemProps>(
 ListItem.displayName = 'ListItem';
 
 export interface DropdownSectionProps {
-  items: NavItem[];
-  currentImage: string | null;
-  onImageChange: (url?: string) => void;
-  title: string;
+  items: NavItemStoryblok[];
 }
 
-export function DropdownSection({
-  items,
-  currentImage,
-  onImageChange,
-  title,
-}: DropdownSectionProps) {
+export function DropdownSection({ items }: DropdownSectionProps) {
+  // Managing image state internally
+  const [currentImage, setCurrentImage] = useState<string | null>(
+    items[0]?.image?.filename || null
+  );
+
+  // Function to update image on hover
+  const handleItemHover = (item: NavItemStoryblok) => {
+    if (item.image?.filename) setCurrentImage(item.image.filename);
+  };
+
   return (
-    <div className="flex w-[900px] p-2">
+    <div className="flex w-[900px] min-h-[250px] p-3">
       {/* Image container - left side */}
-      <div className="relative w-1/4 mr-4 h-64 overflow-hidden rounded-md shadow-lg">
+      <div className="relative w-1/4 mr-4 overflow-hidden bg-gray-100 rounded-sm">
         <img
-          src={currentImage || '/images/nav/fallback.jpg'}
-          alt={`${title} preview`}
-          className="w-full h-full object-cover transition-transform duration-500 ease-in-out"
+          src={currentImage || 'https://picsum.photos/200'}
+          className="h-full object-cover transition-transform duration-500 ease-in-out"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
       </div>
 
       {/* Navigation links - right side */}
-      <ul className="grid w-3/4 gap-3 md:grid-cols-2 p-4" aria-label={`${title} Navigation`}>
-        {items.map(item => (
+      <ul className="grid w-3/4 gap-2 md:grid-cols-2 p-4">
+        {items.map((item, index) => (
           <ListItem
-            key={item.title}
-            title={item.title}
-            href={item.href}
-            onMouseEnter={() => item.imageUrl && onImageChange(item.imageUrl)}
+            key={`${item._uid || index}`}
+            title={item.label || ''}
+            href={item.link || '#'}
+            onMouseEnter={() => handleItemHover(item)}
           >
-            {item.description}
+            {item.description || ''}
           </ListItem>
         ))}
       </ul>
