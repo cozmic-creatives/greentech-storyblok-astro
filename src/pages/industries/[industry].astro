@@ -1,7 +1,7 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
-import BaseLayout from '~/layouts/BaseLayout.astro';
 import { getStoryblokStories, getStoryblokStory } from '~/lib/storyblok';
+import BaseLayout from '~/layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const stories = await getStoryblokStories({
@@ -10,13 +10,13 @@ export async function getStaticPaths() {
 
   return stories.map(story => {
     return {
-      params: { solution: story.slug },
+      params: { industry: story.slug },
     };
   });
 }
 
-const { solution } = Astro.params;
-const story = await getStoryblokStory(`solutions/${solution}`);
+const { industry } = Astro.params;
+const story = await getStoryblokStory(`industries/${industry}`);
 ---
 
 <BaseLayout>

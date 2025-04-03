@@ -1,31 +1,24 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { getStoryblokStories, getStoryblokStory } from '~/lib/storyblok';
+import BaseLayout from '~/layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const stories = await getStoryblokStories({
-    content_type: 'brand',
-    version: import.meta.env.DEV ? 'draft' : 'published',
+    content_type: 'page',
   });
 
   return stories.map(story => {
     return {
-      params: { slug: story.slug },
+      params: { brand: story.slug },
     };
   });
 }
 
-const { slug } = Astro.params;
-const story = await getStoryblokStory(`brand/${slug}`, {
-  version: import.meta.env.DEV ? 'draft' : 'published',
-});
+const { brand } = Astro.params;
+const story = await getStoryblokStory(`brands/${brand}`);
 ---
 
-<html lang="en">
-  <head>
-    <title>Storyblok & Astro</title>
-  </head>
-  <body>
-    <StoryblokComponent blok={story.content} />
-  </body>
-</html>
+<BaseLayout>
+  <StoryblokComponent blok={story.content} />
+</BaseLayout>
