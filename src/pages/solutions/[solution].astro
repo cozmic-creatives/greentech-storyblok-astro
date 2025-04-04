@@ -6,6 +6,7 @@ import { getStoryblokStories, getStoryblokStory } from '~/lib/storyblok';
 export async function getStaticPaths() {
   const stories = await getStoryblokStories({
     content_type: 'page',
+    starts_with: 'solutions/',
   });
 
   return stories.map(story => {

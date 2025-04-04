@@ -6,6 +6,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 export async function getStaticPaths() {
   const stories = await getStoryblokStories({
     content_type: 'page',
+    starts_with: 'industries/',
   });
 
   return stories.map(story => {
