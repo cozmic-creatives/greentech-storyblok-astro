@@ -38,7 +38,7 @@ export function DesktopNavbar({
   );
 
   return (
-    <div className="relative flex items-center justify-center w-full">
+    <div className="relative flex items-center w-full">
       <NavigationMenu className={className} viewport={false}>
         <NavigationMenuList className="gap-2">
           {/* Business Lines Dropdown */}

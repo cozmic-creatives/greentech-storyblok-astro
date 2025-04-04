@@ -1,0 +1,25 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Text from '~/storyblok/Text.astro';
+
+const { blok } = Astro.props;
+const { link, images, text } = blok;
+---
+
+<a
+  {...storyblokEditable(blok)}
+  href={link}
+  class="bg-gray-50 border overflow-hidden rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex items-center justify-center"
+>
+  {
+    images && images.length > 0 ? (
+      <img
+        src={images[0]?.filename}
+        alt={images[0]?.alt || 'Logo'}
+        class="object-cover w-auto h-[102%]"
+      />
+    ) : (
+      <Text blok={{ text }} />
+    )
+  }
+</a>

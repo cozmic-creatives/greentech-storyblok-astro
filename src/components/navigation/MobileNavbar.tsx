@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu } from 'lucide-react';
+import { ChevronDown, Menu } from 'lucide-react';
 import { cn } from '~/lib/utils';
 import { Button } from '~/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet';
@@ -17,12 +17,6 @@ export function MobileNavbar({ businessLines, brands, markets, otherLinks }: Mob
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="mr-2">
-          <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle menu</span>
-        </Button>
-      </SheetTrigger>
       <SheetContent side="left" className="pr-0">
         <div className="flex flex-col gap-4 py-4">
           <div className="flex items-center justify-between px-4">
@@ -57,7 +51,7 @@ export function MobileNavbar({ businessLines, brands, markets, otherLinks }: Mob
               <a
                 key={navItem.link}
                 href={navItem.link}
-                className="flex py-2 text-lg font-medium"
+                className="flex py-2 font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 {navItem.label}
@@ -66,6 +60,13 @@ export function MobileNavbar({ businessLines, brands, markets, otherLinks }: Mob
           </div>
         </div>
       </SheetContent>
+
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="mr-2">
+          <Menu className="h-5 w-5" />
+          <span className="sr-only">Toggle menu</span>
+        </Button>
+      </SheetTrigger>
     </Sheet>
   );
 }
@@ -84,7 +85,7 @@ function MobileNavAccordion({
   return (
     <div>
       <button
-        className="flex w-full items-center justify-between py-2 text-lg font-medium"
+        className="flex w-full items-center justify-between py-2 font-medium"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {label}
@@ -109,7 +110,6 @@ function MobileNavAccordion({
                 onClick={() => setIsOpen(false)}
               >
                 <div className="font-medium">{item.label}</div>
-                <div className="text-sm text-muted-foreground">{item.description}</div>
               </a>
             ))}
           </div>

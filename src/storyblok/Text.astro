@@ -3,13 +3,17 @@ import { storyblokEditable } from '@storyblok/astro';
 import { Markdown } from 'astro-remote';
 
 import Icon from '~/components/Icon.astro';
+import { Badge } from '~/components/ui/badge';
 
 const { blok } = Astro.props;
+const { text = 'text', textClasses } = blok;
 ---
 
-<Markdown
-  {...storyblokEditable(blok)}
-  content={blok.text}
-  sanitize={{ allowComponents: true }}
-  components={{ Icon }}
-/>
+<div class={`prose prose-headings:m-0 prose-p:m-0 dark:prose-invert flex flex-col ${textClasses}`}>
+  <Markdown
+    {...storyblokEditable(blok)}
+    content={text}
+    sanitize={{ allowComponents: true }}
+    components={{ Icon, Badge }}
+  />
+</div>

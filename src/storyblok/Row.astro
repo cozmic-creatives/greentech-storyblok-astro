@@ -1,38 +1,41 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { cn } from '@/lib/utils';
 
 const { blok } = Astro.props;
-const { blocks, columnSizeDesktop, columnSizeMobile, container } = blok;
+const { blocks, columnClasses, container, sectionClasses, rowClasses } = blok;
 
 // Parse column sizes if provided
 // Handle quoted values by replacing all quotes before splitting
-const cleanColumnSizeDesktop = columnSizeDesktop ? columnSizeDesktop.replace(/"/g, '') : '';
-const desktopSizes = cleanColumnSizeDesktop
+const cleanColumnSizeDesktop = columnClasses ? columnClasses.replace(/"/g, '') : '';
+const computedColumnClasses = cleanColumnSizeDesktop
   ? cleanColumnSizeDesktop.split(',').map(size => size.trim())
   : [];
+
+// Calculate default column classes based on number of blocks
+const totalBlocks = blocks?.length || 0;
+const defaultColumnClasses = blocks?.map((_, index) => {
+  // Default to w-full for mobile and responsive width based on total columns for desktop
+  // return `w-full lg:w-1/${totalBlocks}`;
+});
+
+// Generate final column classes by merging defaults with CMS values (CMS takes precedence)
+const finalColumnClasses = blocks?.map((_, index) => {
+  const defaultClass = defaultColumnClasses[index] || '';
+  const cmsClass = computedColumnClasses[index] || '';
+  return cn(defaultClass, cmsClass);
+});
 ---
 
-<section {...storyblokEditable(blok)} class={`${blok.sectionClasses}`}>
-  <div class={`flex flex-wrap ${blok.rowClasses} ${container ? 'container' : ''}`}>
+<section {...storyblokEditable(blok)} class={`${sectionClasses}`}>
+  <div class={`flex ${rowClasses} ${container ? 'container' : ''}`}>
     {
-      blocks?.map((nestedBlok: any, index: number) => {
-        const size = desktopSizes[index] || '';
-        let style = '';
-        let extraClasses = '';
-
-        if (size.includes('px') || size.includes('%') || size === 'auto') {
-          style = `width: ${size};`;
-        } else if (size) {
-          extraClasses = size; // This already handles multiple space-separated classes
-        }
-
-        return (
-          <div style={style} class={`block-wrapper ${extraClasses}`}>
-            <StoryblokComponent blok={nestedBlok} />
-          </div>
-        );
-      })
+      blocks?.map((nestedBlok: any, index: number) => (
+        <div class={`block-wrapper ${finalColumnClasses[index] || ''}`}>
+          <StoryblokComponent blok={nestedBlok} />
+        </div>
+      ))
     }
   </div>
 </section>

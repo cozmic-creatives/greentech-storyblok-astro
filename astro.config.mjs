@@ -31,6 +31,8 @@ export default defineConfig({
         row: 'storyblok/Row',
         teaser: 'storyblok/Teaser',
         text: 'storyblok/Text',
+        partnersSection: 'storyblok/PartnersSection',
+        card: 'storyblok/Card/index',
       },
     }),
     react(),

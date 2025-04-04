@@ -1,0 +1,23 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { Button } from '~/components/ui/button';
+import LogoCard from '~/storyblok/Card/Logo.astro';
+
+const { blok } = Astro.props;
+const { variant, text, images } = blok;
+---
+
+{variant === 'logo' && <LogoCard blok={blok} />}
+
+{
+  (!variant || variant === 'default') && (
+    <div {...storyblokEditable(blok)}>
+      <div class="card">
+        <h2>{blok.title}</h2>
+        <p>{blok.description}</p>
+        {console.log('Card variant:', variant)}
+        <Button>{blok.button_text}</Button>
+      </div>
+    </div>
+  )
+}

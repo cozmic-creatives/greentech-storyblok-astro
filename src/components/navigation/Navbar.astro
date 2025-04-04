@@ -23,16 +23,19 @@ const navigationSections = {
   class="sticky top-0 z-50 w-full border-b-3 border-primary bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
 >
   <StoryblokComponent blok={topBarRow} />
-  <div class="container flex h-18 items-center">
-    <div class="md:hidden">
+  <div class="container flex h-18 items-center justify-between">
+    <div class="lg:hidden">
       <MobileNavbar {...navigationSections} client:load />
     </div>
 
-    <a href="/" class="flex items-center space-x-2">
-      <img src="/greentech-logo.svg" alt="GreenTech Logo" class="h-9 w-auto" />
+    <a
+      href="/"
+      class="absolute left-1/2 -translate-x-1/2 lg:relative lg:translate-x-0 lg:left-auto"
+    >
+      <img src="/greentech-logo.svg" alt="GreenTech Logo" class="h-8 lg:h-9 w-auto" />
     </a>
 
-    <div class="hidden md:flex md:flex-1 md:justify-center">
+    <div class="hidden lg:flex">
       <DesktopNavbar {...navigationSections} client:load />
     </div>
   </div>

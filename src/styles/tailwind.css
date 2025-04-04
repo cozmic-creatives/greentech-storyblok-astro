@@ -1,10 +1,34 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
-@source inline("grow");
+@source inline("grow hidden relative flex block container prose-lg sticky");
+@source inline("{top,bottom,left,right}-{0,1,2,3,4,5,6,7,8}");
+@source inline("{md,lg}:{top,bottom,left,right}-{0,1,2,3,4,5,6,7,8}");
+@source inline("{w,h}-{0,1,2,3,4,5,6,7,8,9,10,auto,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12}");
+@source inline("{md,lg}:{w,h}-{0,1,2,3,4,5,6,7,8,9,10,auto,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12}");
+@source inline("{md,lg}:{grow,hidden,relative,flex,block,container}");
+@source inline("{p,px,py,pt,pr,pb,pl}-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,auto}");
+@source inline("{md,lg}:{p,px,py,pt,pr,pb,pl}-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,auto}");
+@source inline("{m,mx,my,mt,mr,mb,ml}-{0,1,2,3,4,5,6,7,8,9,10}");
+@source inline("{md,lg}:{m,mx,my,mt,mr,mb,ml}-{0,1,2,3,4,5,6,7,8,9,10}");
+@source inline("grid-cols-{0,1,2,3,4,5,6,7,8}");
+@source inline("{md,lg}:{grid-cols-{0,1,2,3,4,5,6,7,8}}");
+@source inline("gap-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,auto}");
+@source inline("{md,lg}:{gap-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,auto}}");
+@source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}");
+@source inline("{md,lg}:{text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}}");
+@source inline("font-{thin,light,normal,medium,semibold,bold}");
+@source inline("bg-{primary,background,foreground,gray-50,gray-100}");
+@source inline("border-{t,r,b,l}-{0,1,2,3}");
+@source inline("border-{primary,background,foreground}");
+@source inline("ring-{primary,background,foreground}");
+@source inline("text-{primary,background,foreground,secondary}");
+@source inline("text-{black,white}/{10,20,30,40,50,60,70,80,90}");
+@source inline("{items,justify}-{start,center,end}");
 
 :root {
   --radius: 0.625rem;
@@ -116,7 +140,7 @@
 }
 
 .prose {
-  --tw-prose-invert-body: oklch(0.9 0 0);
+  --tw-prose-invert-body: oklch(0.93 0 0);
 }
 
 @utility container {
@@ -128,6 +152,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
   }
 }
