@@ -88,7 +88,9 @@ function MobileNavAccordion({
         className="flex w-full items-center justify-between py-2 font-medium"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        {label}
+        <span className={`${cn(isExpanded && 'text-primary')} transition-colors duration-200`}>
+          {label}
+        </span>
         <ChevronDown
           className={cn('h-4 w-4 transition-transform duration-300', isExpanded && 'rotate-180')}
         />
