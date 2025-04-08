@@ -1,9 +1,7 @@
 ---
 import Navbar from '~/components/navigation/Navbar.astro';
-import { getStoryblokStory } from '~/lib/storyblok';
+import Footer from '~/components/Footer.astro';
 import '~/styles/main.css';
-
-const story = await getStoryblokStory('main-navigation');
 ---
 
 <html lang="en">
@@ -15,9 +13,10 @@ const story = await getStoryblokStory('main-navigation');
   </head>
 
   <body>
-    <Navbar story={story} />
+    <Navbar />
     <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>

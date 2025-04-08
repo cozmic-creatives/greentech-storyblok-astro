@@ -1,10 +1,9 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
-import { renderRichText } from '@storyblok/astro';
-import { Button } from '~/components/ui/button';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import Text from '~/storyblok/Text.astro';
 
 const { blok } = Astro.props;
-const renderedRichText = renderRichText(blok.headline);
 ---
 
 <section
@@ -13,25 +12,17 @@ const renderedRichText = renderRichText(blok.headline);
   style={`background-image: url(${blok.images?.[0]?.filename || ''})`}
 >
   <div
-    class="absolute inset-0 bg-gradient-to-tr from-black via-black/70 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/40 lg:to-transparent"
+    class="absolute inset-0 bg-gradient-to-tr from-black via-black/70 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/70 lg:to-transparent"
   >
   </div>
   <div class="container relative z-10">
     <div class="flex flex-col gap-6 md:gap-8 md:w-2/3 lg:gap-8 lg:w-1/2">
-      <div class="prose prose-invert prose-sm lg:prose-lg" set:html={renderedRichText} />
-      <div class="flex gap-3">
-        {
-          blok.callToAction?.map(button => (
-            <Button
-              size="lg-xl"
-              variant="chamfered-corners"
-              {...storyblokEditable(button)}
-              key={button._uid}
-            >
-              {button.text}
-            </Button>
-          ))
-        }
+      <Text blok={{ text: blok.headline }} />
+
+      {blok.components?.map(component => <StoryblokComponent blok={component} />)}
+
+      <div class="flex gap-3 flex-wrap">
+        {blok.callToAction?.map(button => <StoryblokComponent blok={button} />)}
       </div>
     </div>
   </div>

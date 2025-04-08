@@ -3,15 +3,64 @@ import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 
 const { blok } = Astro.props;
-const { numberOfColumns, blocks, gridClasses } = blok;
+const { numberOfColumns, blocks, gridClasses, sectionClasses } = blok;
 
-const columnConfig = numberOfColumns?.split(',') || ['1', '2', '3'];
-const [lgColumns, mdColumns, smColumns] = columnConfig;
+// Check if semicolon exists to determine mode
+const usesGridTemplate = numberOfColumns?.includes(';');
+
+let gridClassConfig = '';
+let lgTemplate = '';
+let mdTemplate = '';
+let smTemplate = '';
+
+if (usesGridTemplate) {
+  // Parse semicolon format: "3fr,2fr,2fr,2fr; 3fr,2fr,2fr,2fr; 3fr,2fr,2fr,2fr"
+  const breakpoints = numberOfColumns.split(';').map(bp => bp.trim());
+
+  // Assign grid-template-columns for each breakpoint (lg, md, sm) and convert commas to spaces
+  lgTemplate = breakpoints[0] ? breakpoints[0].replace(/,/g, ' ') : '';
+  mdTemplate = breakpoints[1] ? breakpoints[1].replace(/,/g, ' ') : lgTemplate;
+  smTemplate = breakpoints[2] ? breakpoints[2].replace(/,/g, ' ') : mdTemplate;
+} else {
+  // Original behavior with comma-separated columns
+  const columnConfig = numberOfColumns?.split(',') || ['1', '2', '3'];
+  const [lgColumns, mdColumns, smColumns] = columnConfig;
+  gridClassConfig = `grid grid-cols-${smColumns || 1} md:grid-cols-${mdColumns || 2} lg:grid-cols-${lgColumns || 3} ${gridClasses}`;
+}
+
+// Generate a unique ID for this grid
+const gridId = `grid-${Math.random().toString(36).substring(2, 9)}`;
+
+// Generate CSS for custom grid layout if using template mode
+const gridCSS = usesGridTemplate
+  ? `
+  #${gridId} {
+    display: grid;
+    grid-template-columns: ${smTemplate};
+  }
+  
+  @media (min-width: 768px) {
+    #${gridId} {
+      grid-template-columns: ${mdTemplate};
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    #${gridId} {
+      grid-template-columns: ${lgTemplate};
+    }
+  }
+`
+  : '';
 ---
 
-<div {...storyblokEditable(blok)}>
+{usesGridTemplate && <style set:html={gridCSS} />}
+
+<div class={sectionClasses}>
   <div
-    class={`grid grid-cols-${smColumns || 1} md:grid-cols-${mdColumns || 2} lg:grid-cols-${lgColumns || 3} ${gridClasses}`}
+    id={usesGridTemplate ? gridId : undefined}
+    class={usesGridTemplate ? `grid ${gridClasses}` : gridClassConfig}
+    {...storyblokEditable(blok)}
   >
     {
       blocks?.map(nestedBlok => {

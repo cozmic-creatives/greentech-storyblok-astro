@@ -1,0 +1,17 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Icon from '~/components/Icon.astro';
+const { blok } = Astro.props;
+const { image, link, description, label, icon } = blok;
+---
+
+<div class="flex gap-2">
+  {icon && <Icon name={icon} class="text-primary mt-[1px]" />}
+  <a
+    href={link}
+    class={`no-underline ${link ? 'hover:underline!' : ''}`}
+    {...storyblokEditable(blok)}
+  >
+    {label}
+  </a>
+</div>

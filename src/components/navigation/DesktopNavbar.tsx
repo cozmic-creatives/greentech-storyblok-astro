@@ -33,9 +33,7 @@ export function DesktopNavbar({
   activeItem,
 }: DesktopNavbarProps) {
   // Style for navigation triggers
-  const navTriggerStyle = cva(
-    'bg-transparent hover:bg-transparent! focus:bg-transparent! focus:outline-none text-sm font-medium transition-colors'
-  );
+  const navTriggerStyle = cva('cursor-pointer focus:bg-transparent bg-transparent');
 
   return (
     <div className="relative flex items-center w-full">

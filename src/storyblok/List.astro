@@ -1,0 +1,20 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { cn } from '~/lib/utils';
+
+const { blok } = Astro.props;
+const { name, items, title, classes } = blok;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class={cn(classes, 'prose prose-headings:m-0 prose-p:m-0 dark:prose-invert')}
+>
+  {title && <p class="font-bold pb-2">{title}</p>}
+  {
+    items?.map(nestedBlok => {
+      return <StoryblokComponent blok={nestedBlok} {...storyblokEditable(nestedBlok)} />;
+    })
+  }
+</div>

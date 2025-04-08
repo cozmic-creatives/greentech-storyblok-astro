@@ -3,4 +3,5 @@
 .lucide-icon {
   font-size: 16px;
   stroke: currentColor;
+  position: relative;
 }

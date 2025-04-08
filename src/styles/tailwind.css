@@ -5,11 +5,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@source inline("grow hidden relative flex block container prose-lg sticky");
-@source inline("{top,bottom,left,right}-{0,1,2,3,4,5,6,7,8}");
-@source inline("{md,lg}:{top,bottom,left,right}-{0,1,2,3,4,5,6,7,8}");
-@source inline("{w,h}-{0,1,2,3,4,5,6,7,8,9,10,auto,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12}");
-@source inline("{md,lg}:{w,h}-{0,1,2,3,4,5,6,7,8,9,10,auto,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12}");
+@source inline("{grow,hidden,relative,flex,flex-col,flex-row,block,container,prose-lg,prose-xl,sticky,invert}");
+@source inline("{md,lg}:{grow,hidden,relative,flex,flex-col,flex-row,block,container,prose-lg,sticky}");
+@source inline("{top,bottom,left,right}-{0,1,1.5,2,2.5,3,4,5,6,7,8}");
+@source inline("{md,lg}:{top,bottom,left,right}-{0,1,1.5,2,2.5,3,4,5,6,7,8}");
+@source inline("{w,h}-{full,0,1,2,3,4,5,6,7,8,9,10,auto}");
+@source inline("{md,lg}:{w,h}-{full,0,1,2,3,4,5,6,7,8,9,10,auto}");
 @source inline("{md,lg}:{grow,hidden,relative,flex,block,container}");
 @source inline("{p,px,py,pt,pr,pb,pl}-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,auto}");
 @source inline("{md,lg}:{p,px,py,pt,pr,pb,pl}-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,auto}");
@@ -19,14 +20,17 @@
 @source inline("{md,lg}:{grid-cols-{0,1,2,3,4,5,6,7,8}}");
 @source inline("gap-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,auto}");
 @source inline("{md,lg}:{gap-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,auto}}");
-@source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}");
+@source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}{,!}");
 @source inline("{md,lg}:{text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}}");
 @source inline("font-{thin,light,normal,medium,semibold,bold}");
-@source inline("bg-{primary,background,foreground,gray-50,gray-100}");
+@source inline("bg-{primary,background,foreground,gray-50,gray-100,black,white}");
+@source inline("bg-{black,white}/{10,20,30,40,50,60,70,80,90}");
 @source inline("border-{t,r,b,l}-{0,1,2,3}");
+@source inline("border-{black,white}/{10,20,30,40,50,60,70,80,90}");
 @source inline("border-{primary,background,foreground}");
 @source inline("ring-{primary,background,foreground}");
-@source inline("text-{primary,background,foreground,secondary}");
+@source inline("text-{primary,background,foreground,secondary,white,black,left,right,center}");
+@source inline("{md,lg}:{text-{primary,background,foreground,secondary,white,black,left,right,center}}");
 @source inline("text-{black,white}/{10,20,30,40,50,60,70,80,90}");
 @source inline("{items,justify}-{start,center,end}");
 
@@ -141,6 +145,10 @@
 
 .prose {
   --tw-prose-invert-body: oklch(0.93 0 0);
+
+  a {
+    @apply cursor-pointer font-normal decoration-primary decoration-2 underline-offset-4;
+  }
 }
 
 @utility container {

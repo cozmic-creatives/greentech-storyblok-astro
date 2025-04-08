@@ -12,27 +12,13 @@ const cleanColumnSizeDesktop = columnClasses ? columnClasses.replace(/"/g, '') :
 const computedColumnClasses = cleanColumnSizeDesktop
   ? cleanColumnSizeDesktop.split(',').map(size => size.trim())
   : [];
-
-// Calculate default column classes based on number of blocks
-const totalBlocks = blocks?.length || 0;
-const defaultColumnClasses = blocks?.map((_, index) => {
-  // Default to w-full for mobile and responsive width based on total columns for desktop
-  // return `w-full lg:w-1/${totalBlocks}`;
-});
-
-// Generate final column classes by merging defaults with CMS values (CMS takes precedence)
-const finalColumnClasses = blocks?.map((_, index) => {
-  const defaultClass = defaultColumnClasses[index] || '';
-  const cmsClass = computedColumnClasses[index] || '';
-  return cn(defaultClass, cmsClass);
-});
 ---
 
 <section {...storyblokEditable(blok)} class={`${sectionClasses}`}>
   <div class={`flex ${rowClasses} ${container ? 'container' : ''}`}>
     {
       blocks?.map((nestedBlok: any, index: number) => (
-        <div class={`block-wrapper ${finalColumnClasses[index] || ''}`}>
+        <div class={`block-wrapper ${computedColumnClasses[index] || ''}`}>
           <StoryblokComponent blok={nestedBlok} />
         </div>
       ))

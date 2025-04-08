@@ -1,10 +1,12 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
-import { Button } from '~/components/ui/button';
-
+import { Button as ButtonComponent } from '~/components/ui/button';
+import Icon from '~/components/Icon.astro';
 const { blok } = Astro.props;
+const { class: className } = blok;
 ---
 
-<Button {...storyblokEditable(blok)}>
+<ButtonComponent {...storyblokEditable(blok)} {...blok} className={className}>
   {blok.text}
-</Button>
+  <Icon name={blok.icon} />
+</ButtonComponent>

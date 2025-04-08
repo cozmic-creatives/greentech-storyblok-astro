@@ -2,8 +2,10 @@
 import { MobileNavbar } from '~/components/navigation/MobileNavbar';
 import { DesktopNavbar } from '~/components/navigation/DesktopNavbar';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { storyblokEditable } from '@storyblok/astro';
+import { getStoryblokStory } from '~/lib/storyblok';
 
-const { story } = Astro.props;
+const story = await getStoryblokStory('main-navigation');
 
 // Fetch navigation data from Storyblok with proper typing
 const storyContentItems = story.content.items;
@@ -22,10 +24,10 @@ const navigationSections = {
 <nav
   class="sticky top-0 z-50 w-full border-b-3 border-primary bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
 >
-  <StoryblokComponent blok={topBarRow} />
+  <StoryblokComponent blok={topBarRow} {...storyblokEditable(topBarRow)} />
   <div class="container flex h-18 items-center justify-between">
     <div class="lg:hidden">
-      <MobileNavbar {...navigationSections} client:load />
+      <MobileNavbar {...navigationSections} client:load {...storyblokEditable(story)} />
     </div>
 
     <a
@@ -36,7 +38,7 @@ const navigationSections = {
     </a>
 
     <div class="hidden lg:flex">
-      <DesktopNavbar {...navigationSections} client:load />
+      <DesktopNavbar {...navigationSections} client:load {...storyblokEditable(story)} />
     </div>
   </div>
 </nav>
