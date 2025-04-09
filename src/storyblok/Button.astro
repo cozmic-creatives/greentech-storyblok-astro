@@ -3,10 +3,10 @@ import { storyblokEditable } from '@storyblok/astro';
 import { Button as ButtonComponent } from '~/components/ui/button';
 import Icon from '~/components/Icon.astro';
 const { blok } = Astro.props;
-const { class: className } = blok;
+const { class: className, iconBefore } = blok;
 ---
 
-<ButtonComponent {...storyblokEditable(blok)} {...blok} className={className}>
+<ButtonComponent {...storyblokEditable(blok)} {...blok} className={`gap-[6px] ${className}`}>
   {blok.text}
-  <Icon name={blok.icon} />
+  <Icon name={blok.icon} class={iconBefore && 'order-first'} />
 </ButtonComponent>

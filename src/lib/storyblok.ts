@@ -1,6 +1,6 @@
 import { useStoryblokApi } from '@storyblok/astro';
 import { env } from './utils';
-import type { ISbStoriesParams, ISbStoryParams, ISbStory, ISbStoryData } from '@storyblok/astro';
+import type { ISbStoriesParams, ISbStoryParams, ISbStoryData } from '@storyblok/astro';
 
 /**
  * Get a story from Storyblok by its slug
@@ -47,4 +47,15 @@ export async function getStoryblokStories<T = any>(
  */
 export function getStoryblokApi() {
   return useStoryblokApi();
+}
+
+export async function getStoryblokDatasourceEntries(options = {}) {
+  const storyblokApi = useStoryblokApi();
+  const { data } = await storyblokApi.get('cdn/datasource_entries', {
+    version: env.getStoryblokVersion(),
+    cv: Date.now(),
+    ...options,
+  });
+
+  return data;
 }

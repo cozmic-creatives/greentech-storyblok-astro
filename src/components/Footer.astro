@@ -9,5 +9,5 @@ const footerBlocks = footerContent.items[0].blocks;
 ---
 
 <footer {...storyblokEditable(footerContent)}>
-  {footerBlocks?.map(blok => <StoryblokComponent blok={blok} {...storyblokEditable(blok)} />)}
+  {footerBlocks?.map(blok => <StoryblokComponent blok={blok} />)}
 </footer>

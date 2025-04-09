@@ -1,0 +1,16 @@
+---
+import { cn } from '~/lib/utils';
+import Icon from '~/components/Icon.astro';
+import { storyblokEditable } from '@storyblok/astro';
+const { blok } = Astro.props;
+const { text = 'text', iconClasses, icon, link, linkClasses } = blok;
+---
+
+<a
+  href={link}
+  class={cn(linkClasses, 'flex items-center gap-1 prose dark:prose-invert text-primary')}
+  {...storyblokEditable(blok)}
+>
+  <span class="underline">{text}</span>
+  {icon && <Icon name={icon} class={cn(iconClasses, 'text-lg! mt-[2px]')} />}
+</a>

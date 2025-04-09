@@ -1,0 +1,14 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+
+const { blok } = Astro.props;
+const { variant, blocks, name } = blok;
+---
+
+{
+  (!variant || variant === 'default') && (
+    <div {...storyblokEditable(blok)}>
+      <h2>{name}</h2>
+    </div>
+  )
+}

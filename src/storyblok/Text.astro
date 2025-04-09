@@ -4,6 +4,7 @@ import { Markdown } from 'astro-remote';
 import { cn } from '~/lib/utils';
 import Icon from '~/components/Icon.astro';
 import { Badge } from '~/components/ui/badge';
+import SocialIcons from '~/components/SocialIcons.astro';
 
 const { blok } = Astro.props;
 const { text = 'text', textClasses } = blok;
@@ -13,5 +14,9 @@ const { text = 'text', textClasses } = blok;
   class={cn('prose prose-headings:m-0 prose-p:m-0 dark:prose-invert flex flex-col', textClasses)}
   {...storyblokEditable(blok)}
 >
-  <Markdown content={text} sanitize={{ allowComponents: true }} components={{ Icon, Badge }} />
+  <Markdown
+    content={text}
+    sanitize={{ allowComponents: true }}
+    components={{ Icon, Badge, SocialIcons }}
+  />
 </div>

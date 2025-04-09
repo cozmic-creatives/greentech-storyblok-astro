@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import { getStoryblokDatasourceEntries } from '~/lib/storyblok';
+import { cn } from '~/lib/utils';
+
+// Fetch social media links from Storyblok datasource
+const response = await getStoryblokDatasourceEntries({
+  datasource: 'config',
+});
+
+// Extract social media URLs from the response
+const socialLinks = response.datasource_entries.reduce((acc, entry) => {
+  if (['youtube_url', 'linkedin_url', 'facebook_url'].includes(entry.name)) {
+    acc[entry.name] = entry.value;
+  }
+  return acc;
+}, {});
+
+// Map social media platforms to their respective icon names
+const socialIcons = [
+  { name: 'youtube', url: socialLinks.youtube_url, icon: 'youtube' },
+  { name: 'linkedin', url: socialLinks.linkedin_url, icon: 'linkedin' },
+  { name: 'facebook', url: socialLinks.facebook_url, icon: 'facebook' },
+];
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class="flex items-center gap-4">
+  {
+    socialIcons.map(
+      social =>
+        social.url && (
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={cn(
+              'text-foreground hover:text-primary transition-colors duration-300',
+              className
+            )}
+            aria-label={`Visit our ${social.name} page`}
+          >
+            <Icon name={social.icon} class="text-2xl!" />
+          </a>
+        )
+    )
+  }
+</div>

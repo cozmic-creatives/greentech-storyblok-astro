@@ -1,0 +1,28 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+import Text from '~/storyblok/Text.astro';
+
+const { blok } = Astro.props;
+const { title, text, blocks } = blok;
+
+const textItems = blocks.filter(block => block.component === 'text');
+const listItems = blocks.filter(block => block.component === 'list');
+const buttonItems = blocks.filter(block => block.component === 'button');
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class="bg-primary border border-primary rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col md:flex-row overflow-hidden relative"
+>
+  <div class="p-6 lg:p-10 flex-1 flex flex-col justify-center dark">
+    {textItems[0] && <Text blok={textItems[0]} />}
+    {listItems.length > 0 && listItems.map(item => <StoryblokComponent blok={item} />)}
+  </div>
+
+  <div class="bg-white p-6 lg:p-10 w-full md:w-2/5 flex flex-col gap-4 justify-center">
+    {textItems[1] && <Text blok={textItems[1]} />}
+    {buttonItems.length > 0 && buttonItems.map(item => <StoryblokComponent blok={item} />)}
+  </div>
+</div>

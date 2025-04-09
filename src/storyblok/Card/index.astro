@@ -2,12 +2,18 @@
 import { storyblokEditable } from '@storyblok/astro';
 import { Button } from '~/components/ui/button';
 import LogoCard from '~/storyblok/Card/Logo.astro';
+import IconCard from '~/storyblok/Card/Icon.astro';
+import ImageCard from '~/storyblok/Card/Image.astro';
+import SplitCard from '~/storyblok/Card/SplitCard.astro';
 
 const { blok } = Astro.props;
 const { variant, text, images } = blok;
 ---
 
 {variant === 'logo' && <LogoCard blok={blok} />}
+{variant === 'icon' && <IconCard blok={blok} />}
+{variant === 'image' && <ImageCard blok={blok} />}
+{variant === 'split-card' && <SplitCard blok={blok} />}
 
 {
   (!variant || variant === 'default') && (
