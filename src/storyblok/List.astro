@@ -21,8 +21,8 @@ const iconNames = icon && icon.includes(',') ? icon.split(',').map(i => i.trim()
       const iconName = Array.isArray(iconNames) ? iconNames[index] || iconNames[0] : iconNames;
 
       return (
-        <div class="flex gap-2">
-          {icon && <Icon name={iconName} class={cn(iconClasses, 'text-xl!')} />}
+        <div class="flex gap-2 items-center">
+          {icon && <Icon name={iconName} class={cn(iconClasses)} />}
           <StoryblokComponent blok={nestedBlok} />
         </div>
       );

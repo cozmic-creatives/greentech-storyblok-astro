@@ -1,0 +1,58 @@
+---
+import { Input as InputComponent } from '~/components/ui/input';
+import { Textarea } from '~/components/ui/textarea';
+import { Checkbox } from '~/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select';
+import { storyblokEditable } from '@storyblok/astro';
+import { cn } from '~/lib/utils';
+
+const { blok } = Astro.props;
+const { inputClasses, placeholder, type = 'text', label, options = [] } = blok;
+---
+
+<div class={cn('flex flex-col gap-1', inputClasses)} {...storyblokEditable(blok)}>
+  {
+    type !== 'checkbox' && (
+      <label for={label + '-input'} class="text-sm font-medium text-gray-700 whitespace-nowrap">
+        {label}
+      </label>
+    )
+  }
+
+  {
+    type === 'select' ? (
+      <Select>
+        <SelectTrigger id={label + '-input'} className={inputClasses}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map(option => (
+            <SelectItem value={option.value}>{option.label}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    ) : type === 'textarea' ? (
+      <Textarea id={label + '-input'} placeholder={placeholder} className={inputClasses} />
+    ) : type === 'checkbox' ? (
+      <div class="flex items-center gap-2">
+        <Checkbox id={label + '-input'} />
+        <label for={label + '-input'} class="text-sm font-medium text-gray-700">
+          {label}
+        </label>
+      </div>
+    ) : (
+      <InputComponent
+        id={label + '-input'}
+        type={type}
+        placeholder={placeholder}
+        className={inputClasses}
+      />
+    )
+  }
+</div>

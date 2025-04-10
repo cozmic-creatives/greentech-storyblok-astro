@@ -1,0 +1,25 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Text from '~/storyblok/Text.astro';
+import Icon from '~/components/Icon.astro';
+
+const { blok } = Astro.props;
+const { link, images, text, icon } = blok;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class="group p-6 border rounded-xl hover:border-primary hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-row gap-4 h-full items-start"
+>
+  {
+    icon && (
+      <Icon
+        name={icon}
+        class="text-[26px]! leading-[26px] text-primary flex-shrink-0 bg-primary/10 p-3 rounded-full"
+      />
+    )
+  }
+  <div class="grow">
+    <Text blok={{ text }} />
+  </div>
+</div>

@@ -1,0 +1,31 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+const { blok } = Astro.props;
+const { blocks, name } = blok;
+
+const formItems = blocks?.filter(block => block.component === 'input');
+const textItems = blocks?.filter(block => block.component === 'text');
+const buttonItems = blocks?.filter(block => block.component === 'button');
+---
+
+<div {...storyblokEditable(blok)} class="contact-form bg-white rounded-lg shadow-lg">
+  <div class="border border-primary bg-primary/10 p-6 lg:p-8 rounded-t-lg">
+    {textItems[0] && <StoryblokComponent blok={textItems[0]} />}
+  </div>
+
+  <div class="p-6 lg:p-8 border border-t-0 rounded-b-lg gap-4 flex flex-col">
+    {
+      formItems.map(block => {
+        return <StoryblokComponent blok={block} />;
+      })
+    }
+
+    {
+      buttonItems.map(block => {
+        return <StoryblokComponent blok={block} />;
+      })
+    }
+  </div>
+</div>

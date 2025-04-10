@@ -1,0 +1,26 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { cn } from '~/lib/utils';
+
+const { blok } = Astro.props;
+const { address, mapHeight = 'h-96', mapWidth = 'w-full', mapClasses = '' } = blok;
+
+// Encode the address for use in the Google Maps URL
+const encodedAddress = encodeURIComponent(
+  address || '40 North Rd, Linden, Randburg, 2195, South Africa'
+);
+const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3581.0394736971193!2d28.00174!3d-26.13889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95a0d6b8d3b5a7%3A0x4c7944a6f9a3b8a!2s${encodedAddress}!5e0!3m2!1sen!2sus!4v1651234567890!5m2!1sen!2sus`;
+---
+
+<div {...storyblokEditable(blok)} class={cn(mapWidth, mapHeight, mapClasses)}>
+  <iframe
+    src={mapUrl}
+    width="100%"
+    height="100%"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  >
+  </iframe>
+</div>

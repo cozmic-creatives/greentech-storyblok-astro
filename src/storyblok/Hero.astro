@@ -2,28 +2,47 @@
 import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Text from '~/storyblok/Text.astro';
+import { cn } from '~/lib/utils';
 
 const { blok } = Astro.props;
+const { variant, heroClasses, sectionClasses, blocks } = blok;
+
+const listItems = blocks.filter(block => block.component === 'list');
+const buttonItems = blocks.filter(block => block.component === 'button');
+const badgeItems = blocks.filter(block => block.component === 'badge');
 ---
 
 <section
   {...storyblokEditable(blok)}
-  class="py-12 md:py-24 lg:py-32 relative bg-cover bg-center"
+  class={cn(sectionClasses, 'relative bg-cover bg-center')}
   style={`background-image: url(${blok.images?.[0]?.filename || ''})`}
 >
   <div
-    class="absolute inset-0 bg-gradient-to-tr from-black via-black/70 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/70 lg:to-transparent"
+    class={cn(
+      heroClasses,
+      'absolute inset-0 bg-gradient-to-tr from-black via-black/70 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/70 lg:to-transparent'
+    )}
   >
   </div>
   <div class="container relative z-10">
-    <div class="flex flex-col gap-6 md:gap-8 md:w-2/3 lg:gap-8 lg:w-1/2">
-      <Text blok={{ text: blok.headline }} />
+    <div class="flex flex-col gap-4 md:gap-6 md:w-2/3 lg:gap-8 lg:w-1/2 dark">
+      {badgeItems?.map(badge => <StoryblokComponent blok={badge} />)}
 
-      {blok.components?.map(component => <StoryblokComponent blok={component} />)}
+      <Text
+        blok={{ text: blok.headline, textClasses: 'prose prose-invert prose-sm lg:prose-lg' }}
+      />
 
-      <div class="flex gap-3 flex-wrap">
-        {blok.callToAction?.map(button => <StoryblokComponent blok={button} />)}
-      </div>
+      {listItems?.map(item => <StoryblokComponent blok={item} />)}
+
+      {
+        buttonItems?.length > 0 && (
+          <div class="flex gap-3 flex-wrap">
+            {buttonItems?.map(button => (
+              <StoryblokComponent blok={button} />
+            ))}
+          </div>
+        )
+      }
     </div>
   </div>
 </section>

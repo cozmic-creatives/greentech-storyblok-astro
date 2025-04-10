@@ -1,11 +1,12 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
-import GoogleMap from '~/storyblok/Component/GoogleMap.astro';
+import ContactForm from '~/storyblok/Form/ContactForm.astro';
+
 const { blok } = Astro.props;
 const { variant, blocks, name } = blok;
 ---
 
-{variant === 'google-map' && <GoogleMap blok={blok} />}
+{variant === 'contact' && <ContactForm blok={blok} />}
 
 {
   (!variant || variant === 'default') && (

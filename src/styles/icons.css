@@ -1,7 +1,12 @@
 @import 'lucide-static/font/lucide.css';
 
 .lucide-icon {
-  font-size: 16px;
+  font-size: 20px;
   stroke: currentColor;
   position: relative;
+}
+
+button .lucide-icon {
+  font-size: 16px;
+  margin-top: 2px;
 }
