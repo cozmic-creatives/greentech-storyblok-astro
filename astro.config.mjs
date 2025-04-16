@@ -39,6 +39,7 @@ export default defineConfig({
         form: 'storyblok/Form/index',
         input: 'storyblok/Input',
         button: 'storyblok/Button',
+        accordion: 'storyblok/Accordion',
       },
     }),
     react(),

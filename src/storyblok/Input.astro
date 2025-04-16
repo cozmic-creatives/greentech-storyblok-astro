@@ -38,7 +38,11 @@ const { inputClasses, placeholder, type = 'text', label, options = [] } = blok;
         </SelectContent>
       </Select>
     ) : type === 'textarea' ? (
-      <Textarea id={label + '-input'} placeholder={placeholder} className={inputClasses} />
+      <Textarea
+        id={label + '-input'}
+        placeholder={placeholder}
+        className={`${inputClasses} min-h-[100px]`}
+      />
     ) : type === 'checkbox' ? (
       <div class="flex items-center gap-2">
         <Checkbox id={label + '-input'} />

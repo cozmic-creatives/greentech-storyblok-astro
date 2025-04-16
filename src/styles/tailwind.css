@@ -18,8 +18,8 @@
 @source inline("{md,lg}:{m,mx,my,mt,mr,mb,ml}-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,auto}");
 @source inline("grid-cols-{0,1,2,3,4,5,6,7,8}");
 @source inline("{md,lg}:{grid-cols-{0,1,2,3,4,5,6,7,8}}");
-@source inline("basis-{1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto,full}");
-@source inline("{md,lg}:{basis-{1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto,full}}");
+@source inline("w-{1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto,full}");
+@source inline("{md,lg}:{w-{1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto,full}}");
 @source inline("gap-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,auto}");
 @source inline("{md,lg}:{gap-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,auto}}");
 @source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}{,!}");

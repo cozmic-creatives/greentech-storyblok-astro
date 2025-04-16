@@ -1,0 +1,18 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { Accordion as AccordionComponent } from '~/components/AccordionWrapper';
+import { cn } from '~/lib/utils';
+
+const { blok } = Astro.props;
+const { title, items = [], accordionClasses } = blok;
+---
+
+<div {...storyblokEditable(blok)}>
+  <AccordionComponent
+    {...storyblokEditable(blok)}
+    title={title}
+    items={items}
+    accordionClasses={cn('w-full', accordionClasses)}
+    client:idle
+  />
+</div>
