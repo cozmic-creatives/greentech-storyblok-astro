@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Deployment and Infrastructure
+
+This project supports both static site generation (SSG) and server-side rendering (SSR) modes.
+
+## Docker Support
+
+The project includes Docker configurations for both modes:
+- [Dockerfile.static](mdc:Dockerfile.static) - For static site generation
+- [Dockerfile.ssr](mdc:Dockerfile.ssr) - For server-side rendering
+- [.dockerignore](mdc:.dockerignore) - Docker ignore file
+
+## Nginx Configuration
+
+Nginx configurations for serving the site are available in the [nginx/](mdc:nginx) directory.
+
+## Environment Handling
+
+The project uses environment variables for configuration:
+- `PUBLIC_ENV=preview` - For development and preview mode (uses SSR)
+- `PUBLIC_ENV=production` - For production mode (uses static generation)
+
+This is configured in the [astro.config.mjs](mdc:astro.config.mjs) file, which sets different output modes based on the environment.

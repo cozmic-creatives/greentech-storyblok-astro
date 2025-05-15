@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Site Structure and Navigation
+
+This project follows Astro's file-based routing system, where files in the `pages` directory correspond to routes in the application.
+
+## Main Pages
+
+- [index.astro](mdc:src/pages/index.astro) - Homepage
+- [company.astro](mdc:src/pages/company.astro) - Company page
+- [contact.astro](mdc:src/pages/contact.astro) - Contact page
+
+## Dynamic Sections
+
+- [solutions/](mdc:src/pages/solutions) - Solution pages
+- [industries/](mdc:src/pages/industries) - Industry-specific pages
+- [brands/](mdc:src/pages/brands) - Brand pages
+
+## Navigation
+
+Navigation is integrated with Storyblok, allowing content editors to manage the site structure from the CMS. The [NavItem.astro](mdc:src/storyblok/NavItem.astro) component is used to build navigation menus.

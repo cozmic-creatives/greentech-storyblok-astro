@@ -1,0 +1,104 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import TabItem from './TabItem.astro';
+import { TabsWrapper } from '~/components/TabsWrapper';
+import { AccordionWrapper } from '~/components/AccordionWrapper';
+import { cn } from '~/lib/utils';
+import { renderComponentsToStrings } from '~/utils/astro';
+import type { Component } from '~/components/ClientComponentRenderer';
+
+const { blok } = Astro.props;
+const { tabItems = [], tabClasses, label, accordionOnMobile } = blok;
+
+/**
+ * Categorize components into those that should be processed server-side
+ * and those that should be handled client-side
+ * @param component - The Storyblok component to categorize
+ * @returns Whether the component should be rendered on the server
+ */
+function shouldProcessOnServer(component: Component): boolean {
+  // Add more component types that should be client-rendered as needed
+  return component.component !== 'gallery';
+}
+
+/**
+ * Process tab items to separate server and client rendering
+ */
+function processTabs(tabs: any[]) {
+  const processedTabItems: any[] = [];
+  const unprocessedTabItems: any[] = [];
+
+  tabs.forEach(tab => {
+    if (tab.components) {
+      const processedComponents: Component[] = [];
+      const unprocessedComponents: Component[] = [];
+
+      // Categorize components
+      tab.components.forEach((component: Component) => {
+        if (shouldProcessOnServer(component)) processedComponents.push(component);
+        else unprocessedComponents.push(component);
+      });
+
+      // Add to processed items with filtered components
+      processedTabItems.push({
+        ...tab,
+        components: processedComponents,
+        editableAttributes: storyblokEditable(tab),
+      });
+
+      // Add to unprocessed items with only the client components
+      if (unprocessedComponents.length > 0) {
+        unprocessedTabItems.push({
+          _uid: tab._uid,
+          components: unprocessedComponents,
+          editableAttributes: storyblokEditable(tab),
+        });
+      }
+    } else
+      processedTabItems.push({
+        ...tab,
+        editableAttributes: storyblokEditable(tab),
+      });
+  });
+
+  return { processedTabItems, unprocessedTabItems };
+}
+
+// Process tabs to separate server and client rendering
+const { processedTabItems, unprocessedTabItems } = processTabs(tabItems);
+
+// Create an array of props for each tab with processed components
+const tabItemProps = processedTabItems.map(tab => ({ blok: tab }));
+
+// Pre-render all tabs in parallel using our utility function
+const tabContents = await renderComponentsToStrings(TabItem, tabItemProps);
+
+// Create a map of tab UIDs to their content
+const tabContentMap = Object.fromEntries(
+  processedTabItems.map((tab, index) => [tab._uid, tabContents[index]])
+);
+---
+
+<TabsWrapper
+  editableAttributes={storyblokEditable(blok)}
+  tabItems={tabItems}
+  label={label}
+  tabClasses={cn('w-full', tabClasses, accordionOnMobile ? 'hidden md:flex' : '')}
+  tabContentMap={tabContentMap}
+  unprocessedTabItems={unprocessedTabItems}
+  client:idle
+/>
+
+{
+  accordionOnMobile && (
+    <AccordionWrapper
+      {...storyblokEditable(blok)}
+      tabItems={tabItems}
+      label={label}
+      accordionClasses={cn('w-full md:hidden', tabClasses)}
+      tabContentMap={tabContentMap}
+      unprocessedTabItems={unprocessedTabItems}
+      client:idle
+    />
+  )
+}

@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Storyblok Components
+
+This project integrates with Storyblok as a headless CMS. Components in Storyblok correspond to Astro components in the codebase.
+
+## Component Mapping
+
+The mapping between Storyblok components and Astro components is defined in [astro.config.mjs](mdc:astro.config.mjs).
+
+## Main Components
+
+- Layout Components:
+  - [Page.astro](mdc:src/storyblok/Page.astro) - Main page container
+  - [Grid.astro](mdc:src/storyblok/Grid.astro) - Grid layout component
+  - [Row.astro](mdc:src/storyblok/Row.astro) - Row layout component
+
+- Content Components:
+  - [Hero.astro](mdc:src/storyblok/Hero.astro) - Hero section
+  - [Text.astro](mdc:src/storyblok/Text.astro) - Text block component
+  - [Card/](mdc:src/storyblok/Card) - Card component
+  - [List.astro](mdc:src/storyblok/List.astro) - List component
+  
+- Interactive Components:
+  - [Button.astro](mdc:src/storyblok/Button.astro) - Button component
+  - [Link.astro](mdc:src/storyblok/Link.astro) - Link component
+  - [Accordion.astro](mdc:src/storyblok/Accordion.astro) - Accordion component
+  - [Form/](mdc:src/storyblok/Form) - Form components
+  - [Input.astro](mdc:src/storyblok/Input.astro) - Input field component
+  
+## Type Generation
+
+Storyblok component types can be generated using:
+```
+npm run storyblok:generate-types
+```
+
+This updates the TypeScript definitions in [src/types/component-types-sb.d.ts](mdc:src/types/component-types-sb.d.ts)

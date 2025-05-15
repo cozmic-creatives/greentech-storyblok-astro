@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Workflow
+
+This document outlines the standard development workflow for this project.
+
+## Getting Started
+
+1. Install dependencies:
+   ```
+   npm install
+   ```
+
+2. Start the development server:
+   ```
+   npm run dev
+   ```
+   This runs in preview mode with Storyblok integration enabled.
+
+## Storyblok Integration
+
+The project is connected to Storyblok using access tokens. These are loaded from environment variables in [astro.config.mjs](mdc:astro.config.mjs).
+
+To generate TypeScript types for Storyblok components:
+```
+npm run storyblok:generate-types
+```
+
+## Build Process
+
+- For preview builds: `npm run build:preview`
+- For production builds: `npm run build:production`
+
+The main difference is that preview uses SSR (server-side rendering) while production uses static generation.
+
+## Code Formatting
+
+The project uses Prettier for code formatting, configured in [.prettierrc](mdc:.prettierrc).
+
+## TypeScript
+
+TypeScript configuration is in [tsconfig.json](mdc:tsconfig.json). Custom type definitions for the project are in [src/types/](mdc:src/types).

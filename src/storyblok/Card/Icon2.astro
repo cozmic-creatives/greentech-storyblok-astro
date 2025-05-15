@@ -1,0 +1,32 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Text from '~/storyblok/Text.astro';
+import Icon from '~/components/Icon.astro';
+import { extractHeadingText } from '~/utils/string';
+
+const { blok } = Astro.props;
+const { link, images, text, icon } = blok;
+
+const headingMatch = extractHeadingText(text);
+const title = headingMatch?.headingText || text;
+const content = headingMatch?.cleanText || text;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class="group p-6 border rounded-xl hover:border-primary bg-gray-50 hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-2 h-full"
+>
+  <div class="flex items-center gap-2">
+    {
+      icon && (
+        <div class="bg-primary/20 rounded-full p-2 h-10 w-10 flex items-center justify-center">
+          <Icon name={icon} class="text-[24px]! leading-[24px] text-primary" />
+        </div>
+      )
+    }
+    <Text blok={{ text: title }} />
+  </div>
+  <div class="grow"></div>
+
+  <Text blok={{ text: content }} />
+</div>

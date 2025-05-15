@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# GreenTech Storyblok Astro Project
+
+This is an Astro project that uses Storyblok as a headless CMS. The project is set up with Tailwind CSS for styling and React for interactive components.
+
+## Key Files
+
+- Main configuration: [astro.config.mjs](mdc:astro.config.mjs)
+- Package dependencies: [package.json](mdc:package.json)
+- TypeScript configuration: [tsconfig.json](mdc:tsconfig.json)
+
+## Build and Development
+
+The project can be run in different environments:
+- Development: `npm run dev` (runs with preview token)
+- Production build: `npm run build:production`
+- Preview build: `npm run build:preview`

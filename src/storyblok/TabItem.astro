@@ -1,0 +1,25 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import type { Component } from '~/components/ClientComponentRenderer';
+
+/**
+ * TabItem props interface
+ */
+interface Props {
+  blok: {
+    _uid: string;
+    components?: Component[];
+    tabItemClasses?: string;
+    [key: string]: any;
+  };
+}
+
+const { blok } = Astro.props;
+const { components = [], tabItemClasses = '' } = blok;
+---
+
+<div {...storyblokEditable(blok)} class:list={['tab-item', tabItemClasses]}>
+  {/* Render each component in the tab */}
+  {components.map(component => <StoryblokComponent blok={component} />)}
+</div>

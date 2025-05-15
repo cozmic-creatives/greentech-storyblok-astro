@@ -1,12 +1,18 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
-import { Button as ButtonComponent } from '~/components/ui/button';
 import Icon from '~/components/Icon.astro';
+import { cn } from '~/lib/utils';
+import { buttonVariants } from '~/components/ui/button';
+
 const { blok } = Astro.props;
-const { class: className, iconBefore } = blok;
+const { btnClasses, iconBefore, variant, link, size } = blok;
 ---
 
-<ButtonComponent {...storyblokEditable(blok)} {...blok} className={`gap-[6px] ${className}`}>
+<a
+  {...storyblokEditable(blok)}
+  href={link}
+  className={cn('gap-[6px]', buttonVariants({ variant, size, className: btnClasses }))}
+>
   {blok.text}
   <Icon name={blok.icon} class={iconBefore && 'order-first'} />
-</ButtonComponent>
+</a>

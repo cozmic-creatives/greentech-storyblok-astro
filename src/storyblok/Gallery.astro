@@ -1,0 +1,132 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { cn } from '~/lib/utils';
+
+const { blok } = Astro.props;
+const { galleryClasses, images = [] } = blok;
+
+// Add unique ID for the modal
+const galleryId = `gallery-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div {...storyblokEditable(blok)} class="gallery-component">
+  <div class={cn('columns-2 md:columns-3 lg:columns-4 gap-4', galleryClasses)}>
+    {
+      images.map((image, index) => (
+        <div class="gallery-item mb-4 break-inside-avoid">
+          {image.filename && (
+            <img
+              src={image.filename}
+              alt={image.alt || ''}
+              class="w-full gallery-image cursor-pointer"
+              data-gallery-id={galleryId}
+              data-image-src={image.filename}
+            />
+          )}
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Modal container -->
+  <div
+    id={`modal-${galleryId}`}
+    class="fixed inset-0 bg-black/80 z-50 items-center justify-center p-4 hidden"
+    data-gallery-id={galleryId}
+  >
+    <div class="absolute top-4 right-4">
+      <button
+        class="gallery-close-btn bg-white/80 rounded-full p-2 text-black hover:bg-white"
+        data-gallery-id={galleryId}
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="gallery-backdrop flex items-center justify-center h-full"
+      data-gallery-id={galleryId}
+    >
+      <img
+        id={`modal-image-${galleryId}`}
+        src=""
+        alt="Full size image"
+        class="max-w-[90%] max-h-[90vh] object-contain"
+      />
+    </div>
+  </div>
+</div>
+
+<script>
+  // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Find all gallery images
+    const galleryImages = document.querySelectorAll('.gallery-image');
+
+    // Add click handlers to all gallery images
+    galleryImages.forEach(img => {
+      img.addEventListener('click', function () {
+        const galleryId = this.getAttribute('data-gallery-id');
+        const imageSrc = this.getAttribute('data-image-src');
+
+        if (galleryId && imageSrc) {
+          const modal = document.getElementById(`modal-${galleryId}`);
+          const modalImg = document.getElementById(`modal-image-${galleryId}`) as HTMLImageElement;
+
+          if (modalImg) modalImg.src = imageSrc;
+          if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+      });
+    });
+
+    // Add click handlers to close buttons
+    const closeButtons = document.querySelectorAll('.gallery-close-btn');
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', function () {
+        const galleryId = this.getAttribute('data-gallery-id');
+        if (galleryId) {
+          const modal = document.getElementById(`modal-${galleryId}`);
+          if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    });
+
+    // Add click handlers to modal backdrops
+    const backdrops = document.querySelectorAll('.gallery-backdrop');
+    backdrops.forEach(backdrop => {
+      backdrop.addEventListener('click', function (e) {
+        // Only close if clicking directly on the backdrop, not on the image
+        if (e.target === this) {
+          const galleryId = this.getAttribute('data-gallery-id');
+          if (galleryId) {
+            const modal = document.getElementById(`modal-${galleryId}`);
+            if (modal) {
+              modal.classList.add('hidden');
+              modal.classList.remove('flex');
+              document.body.style.overflow = '';
+            }
+          }
+        }
+      });
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const visibleModals = document.querySelectorAll('[id^="modal-"]:not(.hidden)');
+        visibleModals.forEach(modal => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  });
+</script>

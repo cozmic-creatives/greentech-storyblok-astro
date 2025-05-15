@@ -3,7 +3,7 @@ import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 
 const { blok } = Astro.props;
-const { blocks, columnClasses, container, sectionClasses, rowClasses } = blok;
+const { blocks, columnClasses, container, sectionClasses, rowClasses, id } = blok;
 
 // Parse column sizes if provided
 // Handle quoted values by replacing all quotes before splitting
@@ -13,7 +13,7 @@ const computedColumnClasses = cleanColumnSizeDesktop
   : [];
 ---
 
-<section {...storyblokEditable(blok)} class={`${sectionClasses}`}>
+<section {...storyblokEditable(blok)} id={id} class={`${sectionClasses}`}>
   <div class={`flex ${rowClasses} ${container ? 'container' : ''}`}>
     {
       blocks?.map((nestedBlok: any, index: number) => (

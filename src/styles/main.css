@@ -1,6 +1,11 @@
 @import './icons.css';
 @import './tailwind.css';
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 40px; /* Adds padding for all anchor scrolls */
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -9,4 +14,9 @@ body {
 
 main {
   flex: 1;
+}
+
+/* Alternative method using the :target pseudo-class */
+:target {
+  scroll-margin-top: 40px; /* Adds margin to the targeted element */
 }

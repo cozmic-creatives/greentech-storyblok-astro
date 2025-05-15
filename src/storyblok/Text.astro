@@ -8,12 +8,14 @@ import SocialIcons from '~/components/SocialIcons.astro';
 
 const { blok } = Astro.props;
 const { text = 'text', textClasses } = blok;
+
+const hasProseClass = textClasses?.includes('prose');
+const proseClasses = hasProseClass
+  ? 'prose dark:prose-invert'
+  : 'prose prose-headings:m-0 prose-p:m-0 dark:prose-invert';
 ---
 
-<div
-  class={cn('prose prose-headings:m-0 prose-p:m-0 dark:prose-invert flex flex-col', textClasses)}
-  {...storyblokEditable(blok)}
->
+<div class={cn(`${proseClasses} flex flex-col`, textClasses)} {...storyblokEditable(blok)}>
   <Markdown
     content={text}
     sanitize={{ allowComponents: true }}

@@ -13,9 +13,10 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
 ---
 
 <section
+  id="parallax-hero"
   {...storyblokEditable(blok)}
   class={cn(sectionClasses, 'relative bg-cover bg-center')}
-  style={`background-image: url(${blok.images?.[0]?.filename || ''})`}
+  style={`background-image: url(${blok.images?.[0]?.filename || ''}); transition: background-position 0.15s ease-out;`}
 >
   <div
     class={cn(
@@ -29,7 +30,10 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
       {badgeItems?.map(badge => <StoryblokComponent blok={badge} />)}
 
       <Text
-        blok={{ text: blok.headline, textClasses: 'prose prose-invert prose-sm lg:prose-lg' }}
+        blok={{
+          text: blok.headline,
+          textClasses: 'prose prose-invert prose-sm lg:prose-lg prose-headings:m-0 prose-p:m-0',
+        }}
       />
 
       {listItems?.map(item => <StoryblokComponent blok={item} />)}
@@ -46,3 +50,40 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
     </div>
   </div>
 </section>
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hero = document.getElementById('parallax-hero');
+    if (!hero) return;
+
+    const maxMovement = 10; // Maximum pixels the background can move
+    const defaultPosition = '50% 50%'; // Default center position
+
+    // Reset to default position when mouse leaves the section
+    hero.addEventListener('mouseleave', () => {
+      requestAnimationFrame(() => {
+        hero.style.backgroundPosition = defaultPosition;
+      });
+    });
+
+    // Only apply effect when mouse is over the hero section
+    hero.addEventListener('mousemove', e => {
+      // Get hero element dimensions and position
+      const rect = hero.getBoundingClientRect();
+
+      // Calculate mouse position relative to hero element center (values between -0.5 and 0.5)
+      const mouseXPercent = ((e.clientX - rect.left) / rect.width - 0.5) * -1;
+      const mouseYPercent = ((e.clientY - rect.top) / rect.height - 0.5) * -1;
+
+      // Apply movement in the opposite direction of the mouse
+      // Multiply by maxMovement to control range of motion
+      const moveX = mouseXPercent * maxMovement;
+      const moveY = mouseYPercent * maxMovement;
+
+      // Apply the transform - using requestAnimationFrame for smooth animation
+      requestAnimationFrame(() => {
+        hero.style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
+      });
+    });
+  });
+</script> -->
