@@ -1,7 +1,10 @@
 ---
 import Navbar from '~/components/navigation/Navbar.astro';
 import Footer from '~/components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+import { fadeBlur } from '~/utils/animations';
 import '~/styles/main.css';
+import '~/styles/view-transitions.css';
 ---
 
 <html lang="en">
@@ -10,7 +13,9 @@ import '~/styles/main.css';
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.svg" />
     <title>GreenTech - Sustainable Plastic Solutions</title>
+    <ClientRouter />
 
+    <!-- Crisp chat integration -->
     <script type="text/javascript">
       window.$crisp = [];
       window.CRISP_WEBSITE_ID = '42f678f5-e18a-4b6c-9319-0997d83aaa62';
@@ -25,10 +30,16 @@ import '~/styles/main.css';
   </head>
 
   <body>
+    <!-- Loading indicator for transitions -->
+    <div id="loading-indicator" class="loading-indicator"></div>
+
     <Navbar />
-    <main>
+    <main transition:animate={fadeBlur}>
       <slot />
     </main>
     <Footer />
+
+    <!-- View transitions event handlers -->
+    <script is:inline src="/scripts/viewTransitions.js"></script>
   </body>
 </html>
