@@ -7,8 +7,10 @@ import IconCard2 from '~/storyblok/Card/Icon2.astro';
 import ImageCard from '~/storyblok/Card/Image.astro';
 import SplitCard from '~/storyblok/Card/SplitCard.astro';
 import IconHorizontalCard from '~/storyblok/Card/IconHorizontal.astro';
+import TeamCard from '~/storyblok/Card/TeamCard.astro';
+
 const { blok } = Astro.props;
-const { variant, text, images } = blok;
+const { variant } = blok;
 ---
 
 {variant === 'logo' && <LogoCard blok={blok} />}
@@ -17,6 +19,7 @@ const { variant, text, images } = blok;
 {variant === 'icon-horizontal' && <IconHorizontalCard blok={blok} />}
 {variant === 'image' && <ImageCard blok={blok} />}
 {variant === 'split-card' && <SplitCard blok={blok} />}
+{variant === 'team-card' && <TeamCard blok={blok} />}
 
 {
   (!variant || variant === 'default') && (

@@ -30,6 +30,7 @@ export default defineConfig({
         grid: 'storyblok/Grid',
         row: 'storyblok/Row',
         text: 'storyblok/Text',
+        richText: 'storyblok/RichText',
         card: 'storyblok/Card/index',
         list: 'storyblok/List',
         navItem: 'storyblok/NavItem',

@@ -4,6 +4,12 @@ import { cn } from '@/lib/utils';
 import ClientComponentRenderer from '~/components/ClientComponentRenderer';
 import type { Component } from '~/components/ClientComponentRenderer';
 
+// Helper function to normalize HTML entity encoding
+const normalizeHtmlEntities = (html: string) => {
+  // Convert HTML4 style quotes to HTML5 style
+  return html.replace(/&quot;/g, '&#34;');
+};
+
 // Define types based on the Storyblok data structure
 export interface TabItem {
   _uid: string;
@@ -82,9 +88,11 @@ export const TabsWrapper: React.FC<TabsWrapperProps> = ({
           className={cn('tab-content', tab.tabItemClasses)}
           {...tab.editableAttributes}
         >
-          {/* Render server-rendered HTML for processed components */}
+          {/* Render server-rendered HTML for processed components with normalized entities */}
           {tabContentMap[tab._uid] && (
-            <div dangerouslySetInnerHTML={{ __html: tabContentMap[tab._uid] }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: normalizeHtmlEntities(tabContentMap[tab._uid]) }}
+            />
           )}
 
           {/* Render client-side components for unprocessed items */}

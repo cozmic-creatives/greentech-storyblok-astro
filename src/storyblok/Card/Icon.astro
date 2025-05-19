@@ -2,14 +2,18 @@
 import { storyblokEditable } from '@storyblok/astro';
 import Text from '~/storyblok/Text.astro';
 import Icon from '~/components/Icon.astro';
+import { cn } from '@/lib/utils';
 
 const { blok } = Astro.props;
-const { link, images, text, icon } = blok;
+const { link, images, text, icon, cardClasses } = blok;
 ---
 
 <div
   {...storyblokEditable(blok)}
-  class="group p-6 border rounded-xl hover:border-primary hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-2 h-full"
+  class={cn(
+    'group p-6 border rounded-xl hover:border-primary hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-2 h-full',
+    cardClasses
+  )}
 >
   {icon && <Icon name={icon} class="text-[36px]! leading-[36px] text-primary" />}
   <div class="grow"></div>

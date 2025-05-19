@@ -1,5 +1,6 @@
 @import './icons.css';
 @import './tailwind.css';
+@import './prose.css';
 
 html {
   scroll-behavior: smooth;

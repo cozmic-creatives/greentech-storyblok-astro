@@ -1,11 +1,20 @@
 /**
  * View Transitions Event Handlers
- * Manages loading indicator and scroll behavior during page transitions
+ * Manages loading indicator, scroll behavior, and other transitions
  */
 
-// This runs when the page transition has completed (DOM is updated and animation is finished)
+// This runs on initial page load and after each page transition
 document.addEventListener('astro:page-load', () => {
   console.log('Page transition complete!');
+  
+  // Handle Crisp chat after page transition
+  if (window.CRISP_WEBSITE_ID && window.$crisp && window.$crisp.push) {
+    // If Crisp exists but needs to be refreshed after navigation
+    console.log('Refreshing Crisp chat after navigation');
+    
+    // Reset session to ensure widget is properly displayed after navigation
+    window.$crisp.push(['do', 'session:reset']);
+  }
 });
 
 // Show loading indicator when navigation starts

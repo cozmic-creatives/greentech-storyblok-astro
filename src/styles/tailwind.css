@@ -9,7 +9,7 @@
 @source inline("{md,lg}:{grow,hidden,relative,flex,flex-col,flex-row,block,container,prose-lg,sticky,underline}");
 @source inline("{top,bottom,left,right}-{0,1,1.5,2,2.5,3,4,5,6,7,8}");
 @source inline("{md,lg}:{top,bottom,left,right}-{0,1,1.5,2,2.5,3,4,5,6,7,8}");
-@source inline("{w,h}-{full,0,1,2,3,4,5,6,7,8,9,10,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto}");
+@source inline("{w,h}-{[1px],[2px],full,0,1,2,3,4,5,6,7,8,9,10,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto}");
 @source inline("{md,lg}:{w,h}-{full,0,1,2,3,4,5,6,7,8,9,10,1/12,2/12,3/12,4/12,5/12,6/12,7/12,8/12,9/12,10/12,11/12,auto}");
 @source inline("{md,lg}:{grow,hidden,relative,flex,block,container}");
 @source inline("{p,px,py,pt,pr,pb,pl}-{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,auto}");
@@ -26,9 +26,10 @@
 @source inline("{md,lg}:{text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}}");
 @source inline("font-{thin,light,normal,medium,semibold,bold}");
 @source inline("bg-{primary,background,foreground,gray-50,gray-100,black,white}");
-@source inline("bg-{black,white,primary}/{10,20,30,40,50,60,70,80,90}");
+@source inline("bg-{black,white,primary,gray}/{10,20,30,40,50,60,70,80,90}");
+@source inline("border-{0,1,2,3}");
 @source inline("border-{t,r,b,l,x,y}-{0,1,2,3}");
-@source inline("border-{black,white,primary}/{10,20,30,40,50,60,70,80,90}");
+@source inline("border-{black,white,primary,gray}/{10,20,30,40,50,60,70,80,90}");
 @source inline("border-{primary,background,foreground}");
 @source inline("ring-{primary,background,foreground}");
 @source inline("text-{primary,background,foreground,secondary,white,black,left,right,center}");
@@ -36,6 +37,7 @@
 @source inline("text-{black,white}/{10,20,30,40,50,60,70,80,90}");
 @source inline("{items,justify}-{start,center,end}");
 @source inline("{md,lg}:{order-{first,last}}");
+@source inline("shadow-{sm,md,lg,xl,2xl}");
 
 :root {
   --radius: 0.625rem;
@@ -144,15 +146,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-}
-
-.prose {
-  --tw-prose-invert-body: oklch(1 0 0);
-  max-width: 85ch;
-
-  a {
-    @apply cursor-pointer font-normal decoration-primary decoration-2 underline-offset-4;
-  }
 }
 
 /* Reset accordion trigger SVG transform */

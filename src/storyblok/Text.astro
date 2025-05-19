@@ -5,6 +5,7 @@ import { cn } from '~/lib/utils';
 import Icon from '~/components/Icon.astro';
 import { Badge } from '~/components/ui/badge';
 import SocialIcons from '~/components/SocialIcons.astro';
+import Divider from '~/components/Divider.astro';
 
 const { blok } = Astro.props;
 const { text = 'text', textClasses } = blok;
@@ -19,6 +20,6 @@ const proseClasses = hasProseClass
   <Markdown
     content={text}
     sanitize={{ allowComponents: true }}
-    components={{ Icon, Badge, SocialIcons }}
+    components={{ Icon, Badge, SocialIcons, Divider }}
   />
 </div>

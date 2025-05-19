@@ -1,0 +1,33 @@
+.prose {
+  --tw-prose-invert-body: oklch(1 0 0);
+  max-width: 100%;
+
+  a {
+    @apply cursor-pointer font-normal decoration-primary decoration-2 underline-offset-4;
+  }
+
+  p + p {
+    @apply mt-0;
+  }
+
+  p + h2 {
+    @apply mt-5;
+  }
+
+  li::marker {
+    @apply text-primary;
+  }
+
+  u {
+    @apply decoration-primary underline-offset-4;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-inherit;
+  }
+}

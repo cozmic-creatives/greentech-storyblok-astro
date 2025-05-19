@@ -3,16 +3,29 @@ import { storyblokEditable } from '@storyblok/astro';
 import Icon from '~/components/Icon.astro';
 import { cn } from '~/lib/utils';
 import { buttonVariants } from '~/components/ui/button';
+import { isSafeCrispCommand, sanitizeCrispCommand } from '~/utils/crisp';
 
 const { blok } = Astro.props;
 const { btnClasses, iconBefore, variant, link, size } = blok;
+
+const btnVariants = buttonVariants({ variant, size, className: btnClasses });
 ---
 
-<a
-  {...storyblokEditable(blok)}
-  href={link}
-  className={cn('gap-[6px]', buttonVariants({ variant, size, className: btnClasses }))}
->
-  {blok.text}
-  <Icon name={blok.icon} class={iconBefore && 'order-first'} />
-</a>
+{
+  isSafeCrispCommand(link) ? (
+    <button
+      {...storyblokEditable(blok)}
+      type="button"
+      class={cn('gap-[6px]', btnVariants)}
+      onclick={`if(window.$crisp){${sanitizeCrispCommand(link)}}`}
+    >
+      {blok.text}
+      <Icon name={blok.icon} class={iconBefore && 'order-first'} />
+    </button>
+  ) : (
+    <a {...storyblokEditable(blok)} href={link} class={cn('gap-[6px]', btnVariants)}>
+      {blok.text}
+      <Icon name={blok.icon} class={iconBefore && 'order-first'} />
+    </a>
+  )
+}

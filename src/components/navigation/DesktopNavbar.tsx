@@ -14,6 +14,8 @@ import {
 } from '~/components/navigation/NavigationComponents';
 import { DropdownSection } from '~/components/navigation/DropdownSection';
 import type { NavItemStoryblok } from '~/types/component-types-sb';
+import { Button } from '~/components/ui/button';
+import { isSafeCrispCommand, sanitizeCrispCommand } from '~/utils/crisp';
 
 interface DesktopNavbarProps {
   businessLines: NavItemStoryblok;
@@ -22,6 +24,7 @@ interface DesktopNavbarProps {
   otherLinks: NavItemStoryblok[];
   className?: string;
   activeItem?: string;
+  ctaButton: NavItemStoryblok;
 }
 
 export function DesktopNavbar({
@@ -31,6 +34,7 @@ export function DesktopNavbar({
   otherLinks,
   className,
   activeItem,
+  ctaButton,
 }: DesktopNavbarProps) {
   // Style for navigation triggers
   const navTriggerStyle = cva('cursor-pointer focus:bg-transparent bg-transparent');
@@ -86,8 +90,21 @@ export function DesktopNavbar({
           ))}
         </NavigationMenuList>
 
-        {/* Search Component */}
-        <Search />
+        {/* CTA Button */}
+
+        <Button
+          variant={ctaButton.variant}
+          className={cn('lg:ml-4')}
+          onClick={() => {
+            if (window.$crisp) {
+              $crisp.push(['set', 'message:text', ["Hi! I'd like to get help."]]);
+              $crisp.push(['do', 'chat:open']);
+            }
+          }}
+        >
+          {ctaButton.text}
+          <span className={`lucide-icon icon-${ctaButton.icon}`}></span>
+        </Button>
       </NavigationMenu>
     </div>
   );
