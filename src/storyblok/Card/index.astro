@@ -8,6 +8,8 @@ import ImageCard from '~/storyblok/Card/Image.astro';
 import SplitCard from '~/storyblok/Card/SplitCard.astro';
 import IconHorizontalCard from '~/storyblok/Card/IconHorizontal.astro';
 import TeamCard from '~/storyblok/Card/TeamCard.astro';
+import ReviewCard from '~/storyblok/Card/ReviewCard.astro';
+import DownloadCard from '~/storyblok/Card/Download.astro';
 
 const { blok } = Astro.props;
 const { variant } = blok;
@@ -18,8 +20,10 @@ const { variant } = blok;
 {variant === 'icon-2' && <IconCard2 blok={blok} />}
 {variant === 'icon-horizontal' && <IconHorizontalCard blok={blok} />}
 {variant === 'image' && <ImageCard blok={blok} />}
+{variant === 'review' && <ReviewCard blok={blok} />}
 {variant === 'split-card' && <SplitCard blok={blok} />}
 {variant === 'team-card' && <TeamCard blok={blok} />}
+{variant === 'download' && <DownloadCard blok={blok} />}
 
 {
   (!variant || variant === 'default') && (

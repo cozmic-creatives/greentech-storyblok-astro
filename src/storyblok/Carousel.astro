@@ -1,0 +1,37 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { CarouselWrapper } from '../components/CarouselWrapper';
+import { cn } from '../lib/utils';
+import { processContentItems, createContentMap } from '../utils/astro';
+
+const { blok } = Astro.props;
+const {
+  slidesPerView,
+  items = [],
+  carouselClasses = '',
+  autoPlay = false,
+  autoPlayDelay = 5000,
+} = blok;
+
+// Process carousel items to separate server and client rendering
+const { processedItems, unprocessedItems } = processContentItems(items);
+
+// Create a map of item UIDs to their rendered content
+const itemContentMap = await createContentMap(StoryblokComponent, processedItems);
+
+// Default carousel classes for responsive design - ensuring content is contained on mobile
+const defaultClasses = 'w-full max-w-[100vw] md:max-w-5xl lg:max-w-6xl mx-auto px-4 md:px-6';
+---
+
+<CarouselWrapper
+  editableAttributes={storyblokEditable(blok)}
+  items={items}
+  slidesPerView={slidesPerView}
+  carouselClasses={cn(defaultClasses, carouselClasses)}
+  itemContentMap={itemContentMap}
+  unprocessedItems={unprocessedItems}
+  autoPlay={autoPlay}
+  autoPlayDelay={autoPlayDelay}
+  client:idle
+/>

@@ -31,6 +31,7 @@ export default defineConfig({
         row: 'storyblok/Row',
         text: 'storyblok/Text',
         richText: 'storyblok/RichText',
+        carousel: 'storyblok/Carousel',
         card: 'storyblok/Card/index',
         list: 'storyblok/List',
         navItem: 'storyblok/NavItem',

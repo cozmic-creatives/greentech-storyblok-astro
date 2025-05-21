@@ -1,0 +1,17 @@
+---
+// GradientBorder.astro
+// A component that wraps any element with a gradient border effect
+
+interface Props {
+  lineWidth?: number; // Width of the gradient border in pixels
+  class?: string; // Additional classes to apply to the wrapper
+}
+
+const { lineWidth = 2, class: className = '' } = Astro.props;
+---
+
+<div
+  class={`relative ${className} bg-gradient-to-bl from-primary via-primary/40 to-primary-accessible p-[${lineWidth}px]`}
+>
+  <slot />
+</div>

@@ -1,0 +1,79 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import Text from '~/storyblok/Text.astro';
+import { Image } from 'astro:assets';
+import { extractBoldText } from '~/utils/string';
+import { Quote, Star } from '@lucide/astro';
+import GradientBorder from '~/components/GradientBorder.astro';
+const { blok } = Astro.props;
+const { link, images, text, title, icon } = blok;
+
+// Extract the bold name from the title (if present)
+const titleData = extractBoldText(title);
+const name = titleData?.boldTexts?.[0] || '';
+const occupation = titleData?.cleanText?.trim() || title || '';
+
+// Extract stars from icon (between 1-5)
+const extractStars = iconValue => {
+  if (!iconValue) return 0;
+  const starCount = parseInt(iconValue);
+  return !isNaN(starCount) ? Math.min(Math.max(starCount, 0), 5) : 0;
+};
+
+const stars = extractStars(icon);
+---
+
+<GradientBorder
+  lineWidth={3}
+  class="rounded-lg h-full shadow-lg hover:scale-[1.02] transition-transform relative"
+>
+  {
+    stars > 0 && (
+      <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary px-2 py-1 rounded-full z-10 flex items-center gap-0.5">
+        {Array(stars)
+          .fill(0)
+          .map(() => (
+            <Star size={12} class="fill-white text-white" />
+          ))}
+      </div>
+    )
+  }
+
+  <div
+    class="bg-white/90 rounded-md hover:border-primary/70 h-full p-6 pt-5 flex flex-col group relative select-none"
+    {...storyblokEditable(blok)}
+  >
+    <!-- Quote section (now more prominent) -->
+    <div class="relative mb-auto">
+      <!-- Review text -->
+      {text && <Text blok={{ text: text, textClasses: 'font-medium text-gray-800' }} />}
+    </div>
+
+    <!-- Quote icon at the bottom -->
+    <Quote size={40} class="absolute bottom-2 right-2 text-primary opacity-20 transform" />
+    <!-- <Quote size={40} class="absolute top-2 left-2 text-primary opacity-20 transform rotate-180" /> -->
+
+    <!-- Small divider line -->
+    <div class="w-full h-[2px] bg-primary/50 group-hover:bg-primary/70 transition-colors mt-4">
+    </div>
+
+    <!-- Author section (now at the bottom, left-aligned and without avatar) -->
+    <div class="mt-2">
+      <!-- Name and occupation -->
+      <h3 class="font-medium text-sm text-gray-800">{name}</h3>
+      <p class="text-xs text-gray-500">{occupation}</p>
+    </div>
+
+    <!-- Optional link -->
+    {
+      link && link.url && (
+        <a
+          href={link.url}
+          class="mt-3 text-xs text-primary hover:text-primary/80 transition-colors"
+        >
+          {link.text || 'Read more'}
+        </a>
+      )
+    }
+  </div>
+</GradientBorder>
