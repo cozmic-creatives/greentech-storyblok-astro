@@ -12,15 +12,23 @@ The project follows a standard Astro structure with Storyblok integration:
 - [src/](mdc:src) - Main source code
   - [src/pages/](mdc:src/pages) - Astro pages that define routes
   - [src/components/](mdc:src/components) - Reusable components (non-Storyblok)
-  - [src/storyblok/](mdc:src/storyblok) - Storyblok components
-  - [src/layouts/](mdc:src/layouts) - Page layouts
-  - [src/styles/](mdc:src/styles) - CSS and styling
-  - [src/utils/](mdc:src/utils) - Utility functions
+  - [src/storyblok/](mdc:src/storyblok) - Storyblok components that map to CMS blocks
+  - [src/layouts/](mdc:src/layouts) - Page layouts used as templates
+  - [src/styles/](mdc:src/styles) - CSS and Tailwind styling
+  - [src/utils/](mdc:src/utils) - Utility functions and helpers
   - [src/lib/](mdc:src/lib) - Library code and third-party integrations
   - [src/types/](mdc:src/types) - TypeScript type definitions
+  - [src/scripts/](mdc:src/scripts) - Client-side scripts
 
 ## Build and Output Directories
 
 - [.astro/](mdc:.astro) - Astro build cache
 - [dist/](mdc:dist) - Built output ready for deployment
 - [public/](mdc:public) - Static assets served as-is
+
+## Configuration Files
+
+- [astro.config.mjs](mdc:astro.config.mjs) - Astro configuration including Storyblok setup
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript configuration
+- [.prettierrc](mdc:.prettierrc) - Code formatting rules
+- [components.json](mdc:components.json) - Component configuration

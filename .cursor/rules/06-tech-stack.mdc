@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Technology Stack
+
+This project uses the following technologies and frameworks:
+
+## Core Technologies
+
+- [Astro](mdc:https:/astro.build) - The web framework for content-driven websites
+- [Storyblok](mdc:https:/www.storyblok.com) - Headless CMS for content management
+- [React](mdc:https:/reactjs.org) - Library for interactive UI components
+- [TypeScript](mdc:https:/www.typescriptlang.org) - Type-safe JavaScript
+
+## UI and Styling
+
+- [Tailwind CSS](mdc:https:/tailwindcss.com) - Utility-first CSS framework
+- [Radix UI](mdc:https:/www.radix-ui.com) - Unstyled, accessible UI components
+- [Lucide](mdc:https:/lucide.dev) - Icon library
+- [Embla Carousel](mdc:https:/www.embla-carousel.com) - Carousel/slider library
+
+## Development Tools
+
+- [Prettier](mdc:https:/prettier.io) - Code formatter
+- [Vite](mdc:https:/vitejs.dev) - Build tool and development server
+- [Node.js](mdc:https:/nodejs.org) - JavaScript runtime for SSR mode
+
+## Deployment
+
+- [Docker](mdc:https:/www.docker.com) - Containerization platform
+- [Nginx](mdc:https:/nginx.org) - Web server for static deployments

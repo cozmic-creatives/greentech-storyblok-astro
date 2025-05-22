@@ -5,36 +5,65 @@ alwaysApply: false
 ---
 # Development Workflow
 
-This document outlines the standard development workflow for this project.
+This guide covers the typical development workflow for this Astro + Storyblok project.
 
 ## Getting Started
 
 1. Install dependencies:
-   ```
+   ```bash
    npm install
    ```
 
-2. Start the development server:
-   ```
+2. Set up environment variables:
+   - Create a `.env` file with your Storyblok token
+   - Example: `STORYBLOK_PREVIEW_TOKEN=your_token_here`
+
+3. Start the development server:
+   ```bash
    npm run dev
    ```
-   This runs in preview mode with Storyblok integration enabled.
 
-## Storyblok Integration
+## Working with Storyblok
 
-The project is connected to Storyblok using access tokens. These are loaded from environment variables in [astro.config.mjs](mdc:astro.config.mjs).
+### Content Editing
 
-To generate TypeScript types for Storyblok components:
-```
-npm run storyblok:generate-types
-```
+1. Create/edit content in the Storyblok visual editor
+2. Preview changes in real-time through the development server
+
+### Component Development
+
+1. Create a new Storyblok component in the Storyblok UI
+2. Run type generation: `npm run storyblok:generate-types`
+3. Create a matching component in [src/storyblok/](mdc:src/storyblok)
+4. Add the component mapping in [astro.config.mjs](mdc:astro.config.mjs)
 
 ## Build Process
 
-- For preview builds: `npm run build:preview`
-- For production builds: `npm run build:production`
+### Preview Build
 
-The main difference is that preview uses SSR (server-side rendering) while production uses static generation.
+```bash
+npm run build:preview
+```
+- Creates a server-rendered (SSR) build
+- Enables Storyblok visual editor integration
+- Uses the `@astrojs/node` adapter
+
+### Production Build
+
+```bash
+npm run build:production
+```
+- Creates a static site build
+- Optimized for production deployment
+- No Storyblok visual editor integration
+
+## Testing Locally
+
+To test the production build locally:
+```bash
+npm run build:production
+npm run preview
+```
 
 ## Code Formatting
 

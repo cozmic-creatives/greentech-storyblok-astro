@@ -3,9 +3,32 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Site Structure and Navigation
+# Site Structure
 
-This project follows Astro's file-based routing system, where files in the `pages` directory correspond to routes in the application.
+The site is built using Astro with Storyblok integration.
+
+## Routing
+
+- Routes are defined in [src/pages/](mdc:src/pages)
+- Dynamic routes for Storyblok content are handled in [src/pages/[...slug].astro](mdc:src/pages/[...slug].astro)
+
+## Page Structure
+
+Pages typically follow this structure:
+1. A layout from [src/layouts/](mdc:src/layouts) is used as a wrapper
+2. The main content is fetched from Storyblok
+3. Storyblok components are rendered using the `StoryblokComponent` renderer
+
+## Content Fetching
+
+- Storyblok content is fetched using the `useStoryblokApi` hook
+- Preview mode uses server-side rendering (SSR) via the `@astrojs/node` adapter
+- Production mode uses static site generation (SSG)
+
+## Environment Modes
+
+- Preview environment: Uses Storyblok's preview API for draft content
+- Production environment: Uses Storyblok's published content only
 
 ## Main Pages
 

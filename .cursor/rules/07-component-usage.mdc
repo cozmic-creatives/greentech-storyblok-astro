@@ -1,0 +1,62 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Component Usage Guide
+
+This project uses a combination of Storyblok components, React components, and Astro components.
+
+## Component Types
+
+### Storyblok Components
+
+Located in [src/storyblok/](mdc:src/storyblok) and correspond to content blocks in the Storyblok CMS.
+
+Usage example:
+```astro
+---
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+---
+
+<StoryblokComponent blok={content.blok} />
+```
+
+### UI Components
+
+Located in [src/components/ui/](mdc:src/components/ui) and follow a common pattern:
+
+- React components for interactive elements
+- Styled with Tailwind CSS
+- Many based on Radix UI primitives for accessibility
+
+Usage example (React):
+```jsx
+import { Button } from '~/components/ui/button';
+
+export default function MyComponent() {
+  return <Button variant="primary">Click Me</Button>;
+}
+```
+
+Usage example (Astro):
+```astro
+---
+import { Button } from '~/components/ui/button';
+---
+
+<Button variant="primary">Click Me</Button>
+```
+
+## Best Practices
+
+1. For new UI components:
+   - Create them in [src/components/ui/](mdc:src/components/ui)
+   - Use Tailwind CSS for styling
+   - Ensure accessibility
+
+2. For new Storyblok components:
+   - Create the component in Storyblok first
+   - Generate types with `npm run storyblok:generate-types`
+   - Create the component in [src/storyblok/](mdc:src/storyblok)
+   - Add the mapping in [astro.config.mjs](mdc:astro.config.mjs)

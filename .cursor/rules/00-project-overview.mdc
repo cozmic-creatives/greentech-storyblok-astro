@@ -12,6 +12,7 @@ This is an Astro project that uses Storyblok as a headless CMS. The project is s
 - Main configuration: [astro.config.mjs](mdc:astro.config.mjs)
 - Package dependencies: [package.json](mdc:package.json)
 - TypeScript configuration: [tsconfig.json](mdc:tsconfig.json)
+- Environment variables: [.env](mdc:.env)
 
 ## Build and Development
 
@@ -19,3 +20,10 @@ The project can be run in different environments:
 - Development: `npm run dev` (runs with preview token)
 - Production build: `npm run build:production`
 - Preview build: `npm run build:preview`
+
+## Deployment
+
+The project includes Docker configurations for both static and SSR deployments:
+- Static deployment: [Dockerfile.static](mdc:Dockerfile.static)
+- SSR deployment: [Dockerfile.ssr](mdc:Dockerfile.ssr)
+- Nginx configuration: [nginx/](mdc:nginx)

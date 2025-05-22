@@ -3,25 +3,44 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Deployment and Infrastructure
+# Deployment
 
-This project supports both static site generation (SSG) and server-side rendering (SSR) modes.
+The project supports both static and server-side rendering (SSR) deployment options.
 
-## Docker Support
+## Deployment Options
 
-The project includes Docker configurations for both modes:
-- [Dockerfile.static](mdc:Dockerfile.static) - For static site generation
-- [Dockerfile.ssr](mdc:Dockerfile.ssr) - For server-side rendering
-- [.dockerignore](mdc:.dockerignore) - Docker ignore file
+### Static Deployment (Production)
 
-## Nginx Configuration
+- Uses [Dockerfile.static](mdc:Dockerfile.static) for containerization
+- Builds the site with `npm run build:production`
+- Serves static files using Nginx
+- Configuration: [nginx/default.conf](mdc:nginx/default.conf)
 
-Nginx configurations for serving the site are available in the [nginx/](mdc:nginx) directory.
+### SSR Deployment (Preview)
 
-## Environment Handling
+- Uses [Dockerfile.ssr](mdc:Dockerfile.ssr) for containerization
+- Builds the site with `npm run build:preview`
+- Runs the site using Node.js via the `@astrojs/node` adapter
+- Enables Storyblok visual editor integration
 
-The project uses environment variables for configuration:
-- `PUBLIC_ENV=preview` - For development and preview mode (uses SSR)
-- `PUBLIC_ENV=production` - For production mode (uses static generation)
+## Environment Configuration
 
-This is configured in the [astro.config.mjs](mdc:astro.config.mjs) file, which sets different output modes based on the environment.
+Environment variables are set in the [.env](mdc:.env) file and can be overridden during build or deployment.
+
+Key environment variables:
+- `PUBLIC_ENV`: Controls whether the site is built for 'production' or 'preview'
+- `STORYBLOK_PREVIEW_TOKEN`: Token for accessing Storyblok's API
+
+## Docker Commands
+
+To build and run the containers:
+
+```bash
+# For production (static)
+docker build -f Dockerfile.static -t greentech-static .
+docker run -p 8080:80 greentech-static
+
+# For preview (SSR)
+docker build -f Dockerfile.ssr -t greentech-ssr .
+docker run -p 4321:4321 greentech-ssr
+```
