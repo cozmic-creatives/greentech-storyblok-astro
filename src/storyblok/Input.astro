@@ -13,10 +13,10 @@ import { storyblokEditable } from '@storyblok/astro';
 import { cn } from '~/lib/utils';
 
 const { blok } = Astro.props;
-const { inputClasses, placeholder, type = 'text', label, options = [] } = blok;
+const { inputClasses, placeholder, type = 'text', label, options = [], size } = blok;
 ---
 
-<div class={cn('flex flex-col gap-1', inputClasses)} {...storyblokEditable(blok)}>
+<div class={cn('flex flex-col', label ? 'gap-1' : '', inputClasses)} {...storyblokEditable(blok)}>
   {
     type !== 'checkbox' && (
       <label for={label + '-input'} class="text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -56,6 +56,7 @@ const { inputClasses, placeholder, type = 'text', label, options = [] } = blok;
         type={type}
         placeholder={placeholder}
         className={inputClasses}
+        size={size}
       />
     )
   }

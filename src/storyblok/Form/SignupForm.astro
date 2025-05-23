@@ -1,0 +1,15 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+const { blok } = Astro.props;
+const { blocks, name } = blok;
+
+const formItems = blocks?.filter(block => block.component === 'input');
+const buttonItems = blocks?.filter(block => block.component === 'button');
+---
+
+<div {...storyblokEditable(blok)} class="gap-3 flex items-center flex-col md:flex-row">
+  <StoryblokComponent blok={formItems[0]} />
+  <StoryblokComponent blok={buttonItems[0]} />
+</div>

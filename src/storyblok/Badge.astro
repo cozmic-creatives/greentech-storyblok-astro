@@ -2,15 +2,18 @@
 import { storyblokEditable } from '@storyblok/astro';
 import { Badge as BadgeComponent } from '~/components/ui/badge';
 import { cn } from '~/lib/utils';
+import Icon from '~/components/Icon.astro';
+
 const { blok } = Astro.props;
-const { text, badgeClasses, variant, size } = blok;
+const { text, badgeClasses, variant, size, icon } = blok;
 ---
 
 <BadgeComponent
   {...storyblokEditable(blok)}
   variant={variant}
   size={size}
-  className={cn(badgeClasses)}
+  className={cn(badgeClasses, icon && !text && 'aspect-square')}
 >
+  {icon && <Icon name={icon} />}
   {text}
 </BadgeComponent>

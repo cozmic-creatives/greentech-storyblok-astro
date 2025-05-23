@@ -10,6 +10,7 @@ import IconHorizontalCard from '~/storyblok/Card/IconHorizontal.astro';
 import TeamCard from '~/storyblok/Card/TeamCard.astro';
 import ReviewCard from '~/storyblok/Card/ReviewCard.astro';
 import DownloadCard from '~/storyblok/Card/Download.astro';
+import NumberCard from '~/storyblok/Card/Number.astro';
 
 const { blok } = Astro.props;
 const { variant } = blok;
@@ -24,6 +25,7 @@ const { variant } = blok;
 {variant === 'split-card' && <SplitCard blok={blok} />}
 {variant === 'team-card' && <TeamCard blok={blok} />}
 {variant === 'download' && <DownloadCard blok={blok} />}
+{variant === 'number' && <NumberCard blok={blok} />}
 
 {
   (!variant || variant === 'default') && (

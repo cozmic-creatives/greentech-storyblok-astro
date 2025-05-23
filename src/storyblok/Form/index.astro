@@ -1,12 +1,14 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 import ContactForm from '~/storyblok/Form/ContactForm.astro';
+import SignupForm from '~/storyblok/Form/SignupForm.astro';
 
 const { blok } = Astro.props;
 const { variant, blocks, name } = blok;
 ---
 
 {variant === 'contact' && <ContactForm blok={blok} />}
+{variant === 'signup' && <SignupForm blok={blok} />}
 
 {
   (!variant || variant === 'default') && (

@@ -1,0 +1,31 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { cn } from '@/lib/utils';
+
+const { blok } = Astro.props;
+const { link, images, text, icon, cardClasses, title } = blok;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class={cn('w-full flex flex-col items-center gap-2 text-center', cardClasses)}
+>
+  <div class="text-5xl font-bold text-primary" data-countup={title}>
+    {title}
+  </div>
+  <div class="text-primary-dark text-lg">{text}</div>
+</div>
+
+<script>
+  import { initCountUp } from '@/lib/countup';
+
+  // Initialize count-up animations
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCountUp);
+  } else {
+    initCountUp();
+  }
+
+  // Re-initialize for Astro navigation
+  document.addEventListener('astro:page-load', initCountUp);
+</script>
