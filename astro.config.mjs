@@ -6,6 +6,7 @@ import basicSsl from '@vitejs/plugin-basic-ssl';
 import path from 'path';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
 const isPreview = process.env.PUBLIC_ENV === 'preview';
@@ -13,6 +14,7 @@ const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://greentech.matthewbracke.com', // Update with your actual domain
   output: isPreview ? 'server' : 'static',
   adapter: isPreview ? node({ mode: 'standalone' }) : undefined,
 
@@ -49,6 +51,7 @@ export default defineConfig({
       },
     }),
     react(),
+    sitemap(),
   ],
 
   vite: {

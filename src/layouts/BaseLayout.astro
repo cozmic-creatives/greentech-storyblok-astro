@@ -1,17 +1,34 @@
 ---
 import Navbar from '~/components/navigation/Navbar.astro';
 import Footer from '~/components/Footer.astro';
+import SEO, { type SEOProps } from '~/components/SEO.astro';
 
 import '~/styles/main.css';
 import '~/styles/view-transitions.css';
+
+interface Props {
+  seo?: SEOProps;
+}
+
+const { seo = {} } = Astro.props;
 ---
 
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/x-icon" href="/favicon.svg" />
-    <title>GreenTech - Sustainable Plastic Solutions</title>
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#16a34a" />
+    <meta name="msapplication-TileColor" content="#16a34a" />
+
+    <SEO {...seo} />
 
     <!-- Crisp chat integration -->
     <script type="text/javascript">

@@ -163,16 +163,6 @@ export async function createContentMap(
   StoryblokComponent: AstroComponentFactory,
   processedItems: any[]
 ): Promise<Record<string, string>> {
-  // Debug the items we're processing
-  console.log(
-    'createContentMap - input items:',
-    processedItems.map(item => ({
-      _uid: item._uid,
-      componentsLength: item.components?.length || 0,
-      hasContent: Boolean(item.content),
-    }))
-  );
-
   // Render each item to a string
   const itemContents = await Promise.all(
     processedItems.map(async item => {
@@ -186,7 +176,6 @@ export async function createContentMap(
             item.components.map((component: Component) => ({ blok: component }))
           ).then(html => html.join(''));
 
-          console.log(`Item ${item._uid} components rendered: ${componentsHtml.length} chars`);
           return componentsHtml;
         } catch (error) {
           console.error(`Failed to render components for item ${item._uid}:`, error);
@@ -196,26 +185,18 @@ export async function createContentMap(
 
       // 2. Item has direct content - return it directly
       if (item.content) {
-        console.log(`Item ${item._uid} has direct content: ${item.content.substring(0, 50)}...`);
         return item.content;
       }
 
       // 3. Item itself might be a component - try rendering it directly
       try {
         const itemHtml = await renderComponentToString(StoryblokComponent, { blok: item });
-        console.log(`Item ${item._uid} direct render result: ${itemHtml.length} chars`);
         return itemHtml;
       } catch (error) {
         console.error(`Failed to directly render item ${item._uid}:`, error);
         return '';
       }
     })
-  );
-
-  // Debug the results
-  console.log(
-    'createContentMap - output content lengths:',
-    itemContents.map(content => content.length)
   );
 
   // Create a map of item UIDs to their content

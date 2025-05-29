@@ -2,6 +2,7 @@
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { getStoryblokStories, getStoryblokStory } from '~/lib/storyblok';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import { extractSEOFromStory } from '~/utils/seo';
 
 export async function getStaticPaths() {
   const stories = await getStoryblokStories({
@@ -18,8 +19,18 @@ export async function getStaticPaths() {
 
 const { brand } = Astro.params;
 const story = await getStoryblokStory(`brands/${brand}`);
+
+// Extract SEO data from the story with brand-specific fallbacks
+const seo = extractSEOFromStory(story, {
+  title: `${story.name} - Sustainable Plastic Brand | GreenTech`,
+  description: `Discover ${story.name}, a leading sustainable plastic brand by GreenTech. Innovative eco-friendly materials and solutions for a greener future.`,
+  keywords: `${story.name}, sustainable plastic brand, eco-friendly materials, green technology, plastic solutions`,
+  openGraph: {
+    type: 'product',
+  },
+});
 ---
 
-<BaseLayout>
+<BaseLayout seo={seo}>
   <StoryblokComponent blok={story.content} />
 </BaseLayout>

@@ -2,10 +2,23 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { getStoryblokStory } from '~/lib/storyblok';
+import { extractSEOFromStory } from '~/utils/seo';
 
 const story = await getStoryblokStory('contact');
+
+// Extract SEO data from the story with contact-specific fallbacks
+const seo = extractSEOFromStory(story, {
+  title: 'Contact GreenTech - Get in Touch for Sustainable Solutions',
+  description:
+    'Contact GreenTech for sustainable plastic solutions and recycling technologies. Get in touch with our team to discuss your eco-friendly material needs.',
+  keywords:
+    'contact greentech, sustainable plastic solutions, recycling technology, eco-friendly materials, green technology contact',
+  openGraph: {
+    type: 'website',
+  },
+});
 ---
 
-<BaseLayout>
+<BaseLayout seo={seo}>
   <StoryblokComponent blok={story.content} />
 </BaseLayout>

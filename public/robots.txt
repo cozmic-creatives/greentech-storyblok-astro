@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Block access to admin and private areas
+Disallow: /admin/
+Disallow: /_astro/
+Disallow: /api/
+
+# Allow access to important files
+Allow: /favicon.svg
+Allow: /greentech-logo.svg
+
+# Sitemap location (update with your actual domain)
+Sitemap: https://greentech.example.com/sitemap.xml 
