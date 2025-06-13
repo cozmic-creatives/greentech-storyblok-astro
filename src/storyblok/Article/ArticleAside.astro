@@ -1,0 +1,34 @@
+---
+import { ArrowLeft } from '@lucide/astro';
+// No props needed for now, just a simple navigation component
+---
+
+<!-- Sticky Sidebar -->
+<aside class="hidden lg:block w-64 flex-shrink-0 sticky top-32 self-start h-fit">
+  <div
+    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+  >
+    <nav class="space-y-4">
+      <a
+        href="/articles"
+        class="flex items-center gap-3 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 group"
+      >
+        <ArrowLeft
+          class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200"
+        />
+        <span class="font-medium">Back to Articles</span>
+      </a>
+    </nav>
+  </div>
+</aside>
+
+<!-- Mobile Back Button -->
+<div class="lg:hidden fixed bottom-6 right-6 z-50">
+  <a
+    href="/articles"
+    class="bg-primary hover:bg-primary/90 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2"
+  >
+    <ArrowLeft class="w-5 h-5" />
+    <span class="text-sm font-medium">Articles</span>
+  </a>
+</div>

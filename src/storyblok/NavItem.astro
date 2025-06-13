@@ -5,7 +5,7 @@ const { blok } = Astro.props;
 const { image, link, description, label, icon } = blok;
 ---
 
-<div class="flex gap-2">
+<div class="flex gap-2 items-center">
   {icon && <Icon name={icon} class="text-primary mt-[1px]" />}
   <a
     href={link}

@@ -26,6 +26,7 @@ export default defineConfig({
       },
       bridge,
       components: {
+        article: 'storyblok/Article/index',
         button: 'storyblok/Button',
         page: 'storyblok/Page',
         hero: 'storyblok/Hero',

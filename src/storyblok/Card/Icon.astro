@@ -1,8 +1,8 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 import Text from '~/storyblok/Text.astro';
-import Icon from '~/components/Icon.astro';
-import { cn } from '@/lib/utils';
+import IconComponent from '~/components/Icon.astro';
+import { cn } from '~/lib/utils';
 
 const { blok } = Astro.props;
 const { link, images, text, icon, cardClasses } = blok;
@@ -15,7 +15,7 @@ const { link, images, text, icon, cardClasses } = blok;
     cardClasses
   )}
 >
-  {icon && <Icon name={icon} class="text-[36px]! leading-[36px] text-primary" />}
+  {icon && <IconComponent name={icon} class="text-[36px]! leading-[36px] text-primary" />}
   <div class="grow"></div>
   {
     images && images.length > 0 ? (

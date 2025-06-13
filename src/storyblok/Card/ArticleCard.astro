@@ -1,0 +1,36 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
+
+const { blok } = Astro.props;
+const { title, excerpt, slug, cardClasses } = blok;
+---
+
+<Card
+  className={`hover:shadow-lg transition-shadow duration-300 ${cardClasses || ''}`}
+  {...storyblokEditable(blok)}
+>
+  <CardHeader>
+    <CardTitle className="line-clamp-2">
+      <a
+        href={`/articles/${slug}`}
+        class="hover:text-green-600 dark:hover:text-green-400 transition-colors"
+      >
+        {title}
+      </a>
+    </CardTitle>
+    {excerpt && <CardDescription className="line-clamp-3">{excerpt}</CardDescription>}
+  </CardHeader>
+  <CardContent>
+    <a
+      href={`/articles/${slug}`}
+      class="inline-flex items-center text-green-600 hover:text-green-700 font-medium transition-colors"
+    >
+      Read more
+      <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"
+        ></path>
+      </svg>
+    </a>
+  </CardContent>
+</Card>

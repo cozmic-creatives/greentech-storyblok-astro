@@ -1,0 +1,98 @@
+---
+import { storyblokEditable, renderRichText } from '@storyblok/astro';
+import { Image } from 'astro:assets';
+import Text from '../Text.astro';
+import RichText from '../RichText.astro';
+import Badge from '../Badge.astro';
+import ArticleAside from './ArticleAside.astro';
+
+const { blok } = Astro.props;
+const { title, excerpt, body, articleTags, image } = blok;
+
+// Render rich text content properly
+const renderedBody = body ? renderRichText(body) : '';
+const tags = articleTags ? articleTags.split(',') : [];
+---
+
+<article {...storyblokEditable(blok)}>
+  <!-- Hero Section -->
+  <section class="relative py-12 lg:py-16 bg-line-connects-light">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <!-- Left Column: Content -->
+        <div class="lg:w-1/2 lg:pr-8">
+          {
+            title && (
+              <h1 class="text-2xl lg:text-4xl font-bold mb-6 text-gray-900 dark:text-white leading-tight">
+                {title}
+              </h1>
+            )
+          }
+
+          {
+            excerpt && (
+              <div class="text-lg sm:text-xl text-gray-700 dark:text-gray-200 leading-relaxed">
+                <Text blok={{ text: excerpt }} />
+              </div>
+            )
+          }
+        </div>
+
+        <!-- Right Column: Image -->
+        {
+          image && (
+            <div class="lg:w-1/2 w-full">
+              <div class="relative overflow-hidden rounded-xl">
+                <Image
+                  src={image.filename}
+                  alt={image.alt || title}
+                  inferSize={true}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Section -->
+  <div class="py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 relative">
+        <!-- Article Body - Centered -->
+        <main class="flex-1 order-2 lg:order-1">
+          {
+            body && (
+              <div class="prose prose-lg prose-gray dark:prose-invert mx-auto">
+                <RichText blok={{ text: body }} />
+              </div>
+            )
+          }
+
+          <!-- Article Tags -->
+          {
+            articleTags && (
+              <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
+                  Tags
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                  {tags.map(tag => (
+                    <Badge blok={{ text: `#${tag}`, variant: 'outline' }} />
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </main>
+
+        <!-- Article Aside Component -->
+        <div class="order-1 lg:order-2">
+          <ArticleAside />
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,39 @@
+---
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { getStoryblokStories, getStoryblokStory } from '~/lib/storyblok';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { extractSEOFromStory } from '~/utils/seo';
+
+export async function getStaticPaths() {
+  const stories = await getStoryblokStories({
+    content_type: 'article',
+    starts_with: 'articles/',
+  });
+
+  return stories.map(story => {
+    return {
+      params: { slug: story.slug },
+    };
+  });
+}
+
+const { slug } = Astro.params;
+const story = await getStoryblokStory(`articles/${slug}`);
+
+// Extract SEO data from the story with article-specific fallbacks
+const seo = extractSEOFromStory(story, {
+  title: `${story.content?.title || story.name} | GreenTech Articles`,
+  description:
+    story.content?.excerpt ||
+    `Read ${story.name}, an insightful article about sustainable technology and green innovation by GreenTech.`,
+  keywords: `${story.name}, sustainable technology, green innovation, environmental solutions, GreenTech articles`,
+  openGraph: {
+    type: 'article',
+  },
+});
+---
+
+<BaseLayout seo={seo}>
+  <StoryblokComponent blok={story.content} />
+</BaseLayout>
+

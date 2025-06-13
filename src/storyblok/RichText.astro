@@ -15,4 +15,5 @@ const { blok } = Astro.props;
 const { text, richTextClass } = blok;
 ---
 
+{/* @ts-ignore */}
 <RichTextRenderer content={text} {...storyblokEditable(blok)} class={cn(richTextClass, 'prose')} />
