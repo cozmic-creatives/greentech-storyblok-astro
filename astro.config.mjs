@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import { storyblok } from '@storyblok/astro';
 import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
-import basicSsl from '@vitejs/plugin-basic-ssl';
+import mkcert from 'vite-plugin-mkcert';
 import path from 'path';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
@@ -10,6 +10,7 @@ import sitemap from '@astrojs/sitemap';
 
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
 const isPreview = process.env.PUBLIC_ENV === 'preview';
+const isDev = process.env.NODE_ENV === 'development';
 const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false;
 
 // https://astro.build/config
@@ -56,10 +57,7 @@ export default defineConfig({
   ],
 
   vite: {
-    plugins: [basicSsl(), tailwindcss()],
-    server: {
-      https: true,
-    },
+    plugins: [...(isDev ? [mkcert()] : []), tailwindcss()],
     resolve: {
       alias: {
         '~': path.resolve('./src'),
