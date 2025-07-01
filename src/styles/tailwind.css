@@ -45,34 +45,69 @@
 @source inline("{md,lg}:{order-{first,last}}");
 @source inline("shadow-{sm,md,lg,xl,2xl}");
 
+/* ===== SHADCN/UI THEME VARIABLES (Source of Truth) ===== */
 :root {
+  /* Layout */
   --radius: 0.625rem;
+
+  /* Base Colors */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+
+  /* Primary Colors (Default: GreenTech Green) */
   --primary: #96c03d;
+  --primary-dark: #7a9c32;
   --primary-foreground: oklch(1 0 0);
+
+  /* Brand Colors with Dark Variants */
+  --motan: #f57100;
+  --motan-dark: #c25a00;
+  --swift: var(--motan);
+  --swift-dark: var(--motan-dark);
+  --battenfield: #70b62c;
+  --battenfield-dark: #5b8a25;
+  --hbtherm: #0073be;
+  --hbtherm-dark: #005a94;
+  --eas: #1a786e;
+  --eas-dark: #145e54;
+  --tantec: #912a7c;
+  --tantec-dark: #70205f;
+  --ngr: #f9c623;
+  --ngr-dark: #c79a1f;
+  --moldo-plastico: #dc2b69;
+  --moldo-plastico-dark: #b82357;
+  --tampoprint: #033a7d;
+  --tampoprint-dark: #022d62;
+
+  /* Secondary Colors */
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.145 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.145 0 0);
+
+  /* Utility Colors */
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: var(--primary);
-  --chart-1: #96c03d;
+
+  /* Chart Colors */
+  --chart-1: var(--primary);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar */
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #96c03d;
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.145 0 0);
@@ -87,8 +122,12 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
+
+  /* In dark mode, primary stays the same but components use primary-dark when needed */
   --primary: #96c03d;
+  --primary-dark: #7a9c32;
   --primary-foreground: oklch(0.145 0 0);
+
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -99,14 +138,16 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: var(--primary);
-  --chart-1: #96c03d;
+
+  --chart-1: var(--primary);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: #96c03d;
+  --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
@@ -114,14 +155,40 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ===== TAILWIND CSS THEME ===== */
 @theme inline {
+  /* Layout */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-primary: #96c03d;
-  --color-primary-accessible: #7a9c32;
-  --color-primary-dark: #5b7525;
+
+  /* ===== BRAND COLORS ===== */
+  /* GreenTech Primary */
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+
+  /* Brand Colors with Dark Variants */
+  --color-motan: var(--motan);
+  --color-motan-dark: var(--motan-dark);
+  --color-swift: var(--swift);
+  --color-swift-dark: var(--swift-dark);
+  --color-battenfield: var(--battenfield);
+  --color-battenfield-dark: var(--battenfield-dark);
+  --color-hbtherm: var(--hbtherm);
+  --color-hbtherm-dark: var(--hbtherm-dark);
+  --color-eas: var(--eas);
+  --color-eas-dark: var(--eas-dark);
+  --color-tantec: var(--tantec);
+  --color-tantec-dark: var(--tantec-dark);
+  --color-ngr: var(--ngr);
+  --color-ngr-dark: var(--ngr-dark);
+  --color-moldo-plastico: var(--moldo-plastico);
+  --color-moldo-plastico-dark: var(--moldo-plastico-dark);
+  --color-tampoprint: var(--tampoprint);
+  --color-tampoprint-dark: var(--tampoprint-dark);
+
+  /* ===== MAPPED VARIABLES (Reference shadcn variables) ===== */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -129,6 +196,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -154,6 +222,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  /* ===== ANIMATIONS ===== */
   --animate-beat: beat 1s ease-in-out infinite;
   @keyframes beat {
     0%,
@@ -166,11 +235,13 @@
   }
 }
 
+/* ===== COMPONENT OVERRIDES ===== */
 /* Reset accordion trigger SVG transform */
 [data-slot='accordion-trigger'] svg {
   transform: none !important;
 }
 
+/* ===== UTILITIES ===== */
 @utility container {
   @apply mx-auto w-full max-w-screen-xl px-4 md:px-6 lg:px-8;
 }
@@ -179,6 +250,7 @@
   @apply decoration-primary decoration-2 underline-offset-4;
 }
 
+/* ===== BASE STYLES ===== */
 @layer base {
   * {
     @apply border-border outline-ring/50;

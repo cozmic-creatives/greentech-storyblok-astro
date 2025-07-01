@@ -73,9 +73,7 @@ export const TabsWrapper: React.FC<TabsWrapperProps> = ({
             value={tab._uid}
             className="data-[state=active]:border-gray-200 data-[state=active]:border-1"
           >
-            {tab.icon && (
-              <span className={`lucide-icon icon-${tab.icon} text-primary-accessible`}></span>
-            )}
+            {tab.icon && <span className={`lucide-icon icon-${tab.icon} text-primary-dark`}></span>}
             {tab.label || label}
           </TabsTrigger>
         ))}

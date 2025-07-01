@@ -3,9 +3,10 @@ import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Text from '~/storyblok/Text.astro';
 import { cn } from '~/lib/utils';
+import { Image } from 'astro:assets';
 
 const { blok } = Astro.props;
-const { variant, heroClasses, sectionClasses, blocks } = blok;
+const { variant, heroClasses, sectionClasses, blocks, images } = blok;
 
 const listItems = blocks.filter(block => block.component === 'list');
 const buttonItems = blocks.filter(block => block.component === 'button');
@@ -16,15 +17,24 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
   id="parallax-hero"
   {...storyblokEditable(blok)}
   class={cn(sectionClasses, 'relative bg-cover bg-center')}
-  style={`background-image: url(${blok.images?.[0]?.filename || ''}); transition: background-position 0.15s ease-out;`}
+  style={`background-image: url(${images?.[0]?.filename || ''}); background-position: center center; transition: background-position 0.15s ease-out;`}
 >
   <div
     class={cn(
       heroClasses,
-      'absolute inset-0 bg-gradient-to-tr from-black via-black/70 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/70 lg:to-transparent'
+      'absolute inset-0 bg-gradient-to-tr from-black via-black/60 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/70 lg:to-transparent'
     )}
   >
   </div>
+
+  {
+    images?.[1]?.filename && (
+      <div class="absolute top-10 right-10 z-20 bg-white/95 p-4 border-3 border-primary hidden lg:block lg:max-w-72">
+        <Image src={images[1].filename} alt={images[1].alt || ''} inferSize={true} />
+      </div>
+    )
+  }
+
   <div class="container relative z-10">
     <div class="flex flex-col gap-4 md:gap-6 md:w-2/3 lg:gap-8 lg:w-1/2 dark">
       {badgeItems?.map(badge => <StoryblokComponent blok={badge} />)}
@@ -51,39 +61,44 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
   </div>
 </section>
 
+{
+  images?.[1]?.filename && (
+    <div class="bottom-0 left-0 right-0 bg-white/95 p-5 lg:hidden border-t-3 border-primary">
+      <Image
+        src={images[1].filename}
+        alt={images[1].alt || ''}
+        inferSize={true}
+        class="mx-auto max-w-56"
+      />
+    </div>
+  )
+}
+
 <!-- <script>
   document.addEventListener('DOMContentLoaded', () => {
     const hero = document.getElementById('parallax-hero');
     if (!hero) return;
 
-    const maxMovement = 10; // Maximum pixels the background can move
-    const defaultPosition = '50% 50%'; // Default center position
+    let ticking = false;
 
-    // Reset to default position when mouse leaves the section
-    hero.addEventListener('mouseleave', () => {
-      requestAnimationFrame(() => {
-        hero.style.backgroundPosition = defaultPosition;
-      });
-    });
+    const updateParallax = () => {
+      const scrollY = window.pageYOffset;
+      const rate = scrollY * -0.5; // Adjust this value for more/less parallax effect
 
-    // Only apply effect when mouse is over the hero section
-    hero.addEventListener('mousemove', e => {
-      // Get hero element dimensions and position
-      const rect = hero.getBoundingClientRect();
+      hero.style.backgroundPosition = `center ${rate}px`;
+      ticking = false;
+    };
 
-      // Calculate mouse position relative to hero element center (values between -0.5 and 0.5)
-      const mouseXPercent = ((e.clientX - rect.left) / rect.width - 0.5) * -1;
-      const mouseYPercent = ((e.clientY - rect.top) / rect.height - 0.5) * -1;
+    const requestTick = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    };
 
-      // Apply movement in the opposite direction of the mouse
-      // Multiply by maxMovement to control range of motion
-      const moveX = mouseXPercent * maxMovement;
-      const moveY = mouseYPercent * maxMovement;
+    // Set initial position to prevent jump
+    updateParallax();
 
-      // Apply the transform - using requestAnimationFrame for smooth animation
-      requestAnimationFrame(() => {
-        hero.style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
-      });
-    });
+    window.addEventListener('scroll', requestTick, { passive: true });
   });
 </script> -->

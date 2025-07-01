@@ -3,12 +3,31 @@ import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 
 const { blok } = Astro.props;
+const { color } = blok;
 ---
 
-<main {...storyblokEditable(blok)}>
+{
+  color && (
+    <style
+      set:html={`
+    :root {
+      --primary: var(${color});
+      --primary-dark: var(${color}-dark);
+    }
+
+    .dark {
+      --primary: var(${color});
+      --primary-dark: var(${color}-dark);
+    }
+  `}
+    />
+  )
+}
+
+<div {...storyblokEditable(blok)}>
   {
     blok.body?.map(blok => {
       return <StoryblokComponent blok={blok} />;
     })
   }
-</main>
+</div>

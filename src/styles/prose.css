@@ -30,4 +30,16 @@
   h6 {
     @apply text-inherit;
   }
+
+  ul {
+    @apply mt-0 pl-4;
+  }
+
+  p + ul {
+    @apply mb-0;
+  }
+
+  p:has(+ ul) {
+    @apply mb-0;
+  }
 }

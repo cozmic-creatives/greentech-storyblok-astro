@@ -4,11 +4,17 @@ import Text from '~/storyblok/Text.astro';
 import { Download as DownloadIcon } from '@lucide/astro';
 import { buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
+import { extractBoldText } from '~/utils/string';
 
 const { blok } = Astro.props;
 const { link, images, text } = blok;
 
 const btnVariants = buttonVariants({ variant: 'outline', className: 'rounded-md' });
+
+// Extract bold text from the text content if it exists
+const boldTextResult = text ? extractBoldText(text) : null;
+const displayText = boldTextResult?.cleanText || text;
+const boldTexts = boldTextResult?.boldTexts;
 ---
 
 <div
@@ -22,7 +28,11 @@ const btnVariants = buttonVariants({ variant: 'outline', className: 'rounded-md'
 
   <!-- Document info -->
   <div class="flex flex-col flex-grow mx-4">
-    {text && <Text blok={{ text }} />}
+    {
+      boldTexts &&
+        boldTexts.map(boldText => <Text blok={{ text: boldText, textClasses: 'font-semibold' }} />)
+    }
+    {displayText && <Text blok={{ text: displayText, textClasses: 'text-sm text-gray-400' }} />}
   </div>
 
   <!-- Download button -->

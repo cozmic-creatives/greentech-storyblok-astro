@@ -15,7 +15,7 @@ export const ListItem = forwardRef<HTMLAnchorElement, ListItemProps>(
         <a
           ref={ref}
           className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors 
-                     hover:bg-gray-50 hover:text-primary-accessible focus:bg-gray-100 focus:text-primary-accessible ${className}`}
+                     hover:bg-gray-50 hover:text-primary-dark focus:bg-gray-100 focus:text-primary-dark ${className}`}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           {...props}
