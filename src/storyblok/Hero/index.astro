@@ -1,0 +1,13 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import DefaultHero from '~/storyblok/Hero/Default.astro';
+import CenteredHero from '~/storyblok/Hero/Centered.astro';
+
+const { blok } = Astro.props;
+const { variant } = blok;
+---
+
+{variant === 'centered' && <CenteredHero blok={blok} />}
+
+{(!variant || variant === 'default') && <DefaultHero blok={blok} />}
+

@@ -30,7 +30,12 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
   {
     images?.[1]?.filename && (
       <div class="absolute top-10 right-10 z-20 bg-white/95 p-4 border-3 border-primary hidden lg:block lg:max-w-72">
-        <Image src={images[1].filename} alt={images[1].alt || ''} inferSize={true} />
+        <Image
+          src={images[1].filename}
+          alt={images[1].alt || ''}
+          inferSize={true}
+          class="w-full lg:max-h-36"
+        />
       </div>
     )
   }
@@ -68,7 +73,7 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
         src={images[1].filename}
         alt={images[1].alt || ''}
         inferSize={true}
-        class="mx-auto max-w-56"
+        class="mx-auto max-w-56 max-h-36 object-contain"
       />
     </div>
   )

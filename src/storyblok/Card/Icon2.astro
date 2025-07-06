@@ -14,7 +14,7 @@ const content = headingMatch?.cleanText || text;
 
 <div
   {...storyblokEditable(blok)}
-  class="group p-6 border rounded-xl hover:border-primary bg-gray-50 hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-2 h-full"
+  class="group p-6 border rounded-xl hover:border-primary bg-gray-50 hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-3 h-full"
 >
   <div class="flex items-center gap-2">
     {
@@ -26,7 +26,6 @@ const content = headingMatch?.cleanText || text;
     }
     <Text blok={{ text: title }} />
   </div>
-  <div class="grow"></div>
 
   <Text blok={{ text: content }} />
 </div>

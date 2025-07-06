@@ -30,7 +30,7 @@ export default defineConfig({
         article: 'storyblok/Article/index',
         button: 'storyblok/Button',
         page: 'storyblok/Page',
-        hero: 'storyblok/Hero',
+        hero: 'storyblok/Hero/index',
         grid: 'storyblok/Grid',
         row: 'storyblok/Row',
         text: 'storyblok/Text',
