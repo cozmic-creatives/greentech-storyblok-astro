@@ -1,9 +1,37 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { getStoryblokStories } from '~/lib/storyblok';
 
 const { blok } = Astro.props;
-const { numberOfColumns, blocks, gridClasses, sectionClasses } = blok;
+const { numberOfColumns, blocks, gridClasses, sectionClasses, fetchItems } = blok;
+
+// Fetch items if fetchItems is specified
+let fetchedItems = [];
+if (fetchItems) {
+  try {
+    const stories = await getStoryblokStories({
+      content_type: fetchItems,
+      starts_with: `${fetchItems}s/`, // Convert 'article' to 'articles/'
+    });
+
+    // Convert stories to blocks compatible with ArticleCard
+    fetchedItems = stories.map(story => ({
+      component: 'card',
+      variant: 'article',
+      title: story.content?.title || story.name,
+      excerpt: story.content?.excerpt,
+      image: story.content?.image,
+      slug: story.slug,
+      cardClasses: '',
+    }));
+  } catch (error) {
+    console.error(`Error fetching ${fetchItems}:`, error);
+  }
+}
+
+// Merge existing blocks with fetched items
+const allBlocks = [...(blocks || []), ...fetchedItems];
 
 // Check if semicolon exists to determine mode
 const usesGridTemplate = numberOfColumns?.includes(';');
@@ -63,7 +91,7 @@ const gridCSS = usesGridTemplate
     {...storyblokEditable(blok)}
   >
     {
-      blocks?.map(nestedBlok => {
+      allBlocks?.map(nestedBlok => {
         return <StoryblokComponent blok={nestedBlok} />;
       })
     }

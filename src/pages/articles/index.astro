@@ -1,53 +1,24 @@
 ---
-import { getStoryblokStories } from '~/lib/storyblok';
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import ArticleCard from '~/storyblok/Card/ArticleCard.astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { getStoryblokStory } from '~/lib/storyblok';
+import { extractSEOFromStory } from '~/utils/seo';
 
-// Get all articles
-const articles = await getStoryblokStories({
-  content_type: 'article',
-  starts_with: 'articles/',
-});
+const story = await getStoryblokStory('articles-home');
 
-const seo = {
-  title: 'Articles | GreenTech',
+// Extract SEO data from the story with company-specific fallbacks
+const seo = extractSEOFromStory(story, {
+  title: 'About GreenTech - Sustainable Plastic Solutions Company',
   description:
-    'Read the latest articles about sustainable technology, green innovation, and environmental solutions.',
+    'Learn about GreenTech, a leading provider of sustainable plastic solutions and innovative recycling technologies. Our mission is transforming waste into valuable resources.',
   keywords:
-    'articles, sustainable technology, green innovation, environmental solutions, GreenTech',
-};
+    'about greentech, sustainable plastic company, recycling technology, green solutions, eco-friendly materials, company mission',
+  openGraph: {
+    type: 'website',
+  },
+});
 ---
 
 <BaseLayout seo={seo}>
-  <div class="container mx-auto px-4 py-12">
-    <header class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Articles</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Discover insights about sustainable technology and green innovation
-      </p>
-    </header>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {
-        articles.map(article => (
-          <ArticleCard
-            blok={{
-              title: article.content?.title || article.name,
-              excerpt: article.content?.excerpt,
-              slug: article.slug,
-              cardClasses: '',
-            }}
-          />
-        ))
-      }
-    </div>
-
-    {
-      articles.length === 0 && (
-        <div class="text-center py-12">
-          <p class="text-gray-600 dark:text-gray-300 text-lg">No articles found.</p>
-        </div>
-      )
-    }
-  </div>
+  <StoryblokComponent blok={story.content} />
 </BaseLayout>
