@@ -11,4 +11,4 @@ Allow: /favicon.svg
 Allow: /greentech-logo.svg
 
 # Sitemap location (update with your actual domain)
-Sitemap: https://greentech.example.com/sitemap.xml 
+Sitemap: https://greentech.matthewbracke.com/sitemap.xml 

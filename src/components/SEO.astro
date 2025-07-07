@@ -66,12 +66,17 @@ const og = {
   type: 'website',
   title: title,
   description: description,
-  image: '/greentech-logo.svg',
-  imageAlt: 'GreenTech Logo',
+  image: '/greentech-social-banner.png',
+  imageAlt: 'GreenTech - Sustainable Plastic Solutions',
   url: canonicalURL.href,
   siteName: 'GreenTech',
   ...openGraph,
 };
+
+// Ensure absolute URLs for images
+if (og.image && !og.image.startsWith('http')) {
+  og.image = new URL(og.image, canonicalURL.origin).href;
+}
 
 // Default Twitter values
 const tw = {
@@ -84,6 +89,11 @@ const tw = {
   imageAlt: og.imageAlt,
   ...twitter,
 };
+
+// Ensure absolute URLs for Twitter images
+if (tw.image && !tw.image.startsWith('http')) {
+  tw.image = new URL(tw.image, canonicalURL.origin).href;
+}
 
 // Robots meta tag
 const robotsContent =

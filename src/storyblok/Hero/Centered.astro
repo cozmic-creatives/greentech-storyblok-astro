@@ -16,8 +16,11 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
 <section
   id="parallax-hero-centered"
   {...storyblokEditable(blok)}
-  class={cn(sectionClasses, 'relative bg-cover bg-center m-4 rounded-3xl overflow-hidden')}
-  style={`background-image: url(${images?.[0]?.filename || ''}); background-position: center center; transition: background-position 0.15s ease-out;`}
+  class={cn(
+    sectionClasses,
+    'relative bg-cover bg-center m-4 rounded-3xl overflow-hidden shadow-xl transition-all duration-300'
+  )}
+  style={`background-image: url(${images?.[0]?.filename || ''}); background-position: center center;`}
 >
   <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/90"></div>
 
@@ -49,3 +52,32 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
     </div>
   </div>
 </section>
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hero = document.getElementById('parallax-hero-centered');
+    if (!hero) return;
+
+    let ticking = false;
+
+    const updateParallax = () => {
+      const scrollY = window.pageYOffset;
+      const rate = scrollY * -0.2; // Adjust this value for more/less parallax effect
+
+      hero.style.backgroundPosition = `center ${rate}px`;
+      ticking = false;
+    };
+
+    const requestTick = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    };
+
+    // Set initial position to prevent jump
+    updateParallax();
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+  });
+</script> -->

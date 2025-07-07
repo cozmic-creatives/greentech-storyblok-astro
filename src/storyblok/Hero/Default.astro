@@ -17,7 +17,7 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
   id="parallax-hero"
   {...storyblokEditable(blok)}
   class={cn(sectionClasses, 'relative bg-cover bg-center')}
-  style={`background-image: url(${images?.[0]?.filename || ''}); background-position: center center; transition: background-position 0.15s ease-out;`}
+  style={`background-image: url(${images?.[0]?.filename || ''});`}
 >
   <div
     class={cn(
@@ -88,7 +88,7 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
 
     const updateParallax = () => {
       const scrollY = window.pageYOffset;
-      const rate = scrollY * -0.5; // Adjust this value for more/less parallax effect
+      const rate = scrollY * -0.3; // Adjust this value for more/less parallax effect
 
       hero.style.backgroundPosition = `center ${rate}px`;
       ticking = false;
