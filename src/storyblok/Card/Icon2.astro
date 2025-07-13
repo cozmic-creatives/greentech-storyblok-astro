@@ -3,9 +3,10 @@ import { storyblokEditable } from '@storyblok/astro';
 import Text from '~/storyblok/Text.astro';
 import Icon from '~/components/Icon.astro';
 import { extractHeadingText } from '~/utils/string';
+import { cn } from '~/lib/utils';
 
 const { blok } = Astro.props;
-const { link, images, text, icon } = blok;
+const { link, images, text, icon, cardClasses } = blok;
 
 const headingMatch = extractHeadingText(text);
 const title = headingMatch?.headingText || text;
@@ -14,7 +15,10 @@ const content = headingMatch?.cleanText || text;
 
 <div
   {...storyblokEditable(blok)}
-  class="group p-6 border rounded-xl hover:border-primary bg-gray-50 hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-3 h-full"
+  class={cn(
+    'group p-6 border rounded-xl hover:border-primary bg-gray-50 hover:bg-primary/10 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 flex flex-col gap-3 h-full',
+    cardClasses
+  )}
 >
   <div class="flex items-center gap-2">
     {
