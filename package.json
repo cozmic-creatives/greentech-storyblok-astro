@@ -4,12 +4,13 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "PUBLIC_ENV=preview astro dev",
-    "build:production": "PUBLIC_ENV=production astro build",
-    "build:preview": "PUBLIC_ENV=preview astro build",
+    "build:production": "npm run generate:tag-analytics && PUBLIC_ENV=production astro build",
+    "build:preview": "npm run generate:tag-analytics && PUBLIC_ENV=preview astro build",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npm run generate:tag-analytics && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "generate:tag-analytics": "tsx src/scripts/generate-tag-analytics.ts",
     "storyblok:generate-types": "storyblok pull-components --space 332224 && storyblok generate-typescript-typedefs --sourceFilePaths ./components.332224.json --destinationFilePath ./src/types/component-types-sb.d.ts"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
     "@radix-ui/react-collapsible": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-navigation-menu": "^1.2.13",
+    "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
@@ -43,6 +45,7 @@
     "astro-remote": "^0.3.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.525.0",

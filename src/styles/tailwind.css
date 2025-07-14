@@ -82,6 +82,8 @@
   --moldo-plastico-dark: #b82357;
   --tampoprint: #4a6ba8;
   --tampoprint-dark: #022d62;
+  --bbm: #013867;
+  --bbm-light: #0158a0;
 
   /* Secondary Colors */
   --secondary: oklch(0.97 0 0);

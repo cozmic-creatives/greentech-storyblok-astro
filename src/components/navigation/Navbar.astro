@@ -27,8 +27,8 @@ const navigationSections = {
 >
   <StoryblokComponent blok={topBarRow} {...storyblokEditable(topBarRow)} />
   <div class="container flex h-18 items-center justify-between">
-    <div class="lg:hidden">
-      <MobileNavbar {...navigationSections} client:load {...storyblokEditable(story)} />
+    <div class="lg:hidden" {...storyblokEditable(story.content)}>
+      <MobileNavbar {...navigationSections} client:load />
     </div>
 
     <a
@@ -38,8 +38,8 @@ const navigationSections = {
       <img src="/greentech-logo.svg" alt="GreenTech Logo" class="h-8 lg:h-9 w-auto" />
     </a>
 
-    <div class="hidden lg:flex">
-      <DesktopNavbar {...navigationSections} client:load {...storyblokEditable(story)} />
+    <div class="hidden lg:flex" {...storyblokEditable(story.content)}>
+      <DesktopNavbar {...navigationSections} client:load />
     </div>
   </div>
 </nav>

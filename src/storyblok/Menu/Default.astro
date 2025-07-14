@@ -1,0 +1,17 @@
+---
+/**
+ * Default Menu Variant
+ *
+ * Renders menu items using StoryblokComponent for each item in the blok's items array.
+ * Simple flex layout with responsive wrapping using Tailwind CSS.
+ */
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+const { blok } = Astro.props;
+const { items } = blok;
+---
+
+<div {...storyblokEditable(blok)} class="flex flex-wrap gap-4">
+  {items && items.length > 0 && items.map((item: any) => <StoryblokComponent blok={item} />)}
+</div>

@@ -1,0 +1,104 @@
+---
+/**
+ * Articles Menu Variant
+ *
+ * Enhanced menu that combines regular menu items with tag-based navigation.
+ * Features:
+ * - Renders regular menu items using StoryblokComponent
+ * - Loads tag analytics from public/tag-analytics.json
+ * - Displays top 4 most popular tags as clickable badges (left side)
+ * - Shows remaining tags in a searchable combobox (right side, lg:w-80)
+ * - Responsive layout: stacked on mobile, side-by-side on large screens
+ * - Uses Tailwind CSS classes for styling (no custom CSS)
+ *
+ * Tag links point to: /articles?tag=${tagName}
+ */
+import { storyblokEditable } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { Badge } from '~/components/ui/badge';
+import { TagCombobox } from '~/components/TagCombobox';
+
+const { blok } = Astro.props;
+const { items } = blok;
+
+// Load tag analytics
+let tagAnalytics = null;
+try {
+  const fs = await import('fs');
+  const path = await import('path');
+  const analyticsPath = path.resolve('./public/tag-analytics.json');
+  if (fs.existsSync(analyticsPath)) {
+    const data = fs.readFileSync(analyticsPath, 'utf-8');
+    tagAnalytics = JSON.parse(data);
+  }
+} catch (error) {
+  console.warn('Could not load tag analytics:', error);
+}
+
+// Extract top tags and remaining tags
+const topTags = tagAnalytics?.tags?.slice(0, 4) || [];
+const remainingTags = tagAnalytics?.tags?.slice(4) || [];
+---
+
+<div {...storyblokEditable(blok)} class="space-y-6">
+  {/* Regular menu items */}
+  {
+    items && items.length > 0 && (
+      <div class="flex flex-wrap gap-4">
+        {items.map((item: any) => (
+          <StoryblokComponent blok={item} />
+        ))}
+      </div>
+    )
+  }
+
+  {/* Tag-based navigation */}
+  {
+    tagAnalytics && (
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-medium text-gray-700">Popular Topics</h3>
+          <span class="text-xs text-gray-500">
+            {tagAnalytics.totalArticles} articles, {tagAnalytics.tags.length} topics
+          </span>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-4 justify-between">
+          {/* Top 4 tags */}
+          {topTags.length > 0 && (
+            <div class="flex-1">
+              <div class="flex flex-wrap gap-2">
+                {topTags.map((tag: any) => (
+                  <a
+                    href={`/articles?tag=${encodeURIComponent(tag.name)}`}
+                    class="transition-transform hover:scale-105"
+                  >
+                    <Badge
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-primary/20 transition-colors"
+                    >
+                      {tag.name}
+                      <span class="ml-1 text-xs opacity-70">{tag.count}</span>
+                    </Badge>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Combobox for remaining tags */}
+          {remainingTags.length > 0 && (
+            <div class="lg:w-80">
+              <TagCombobox
+                tags={remainingTags}
+                placeholder={`Search ${remainingTags.length} more topics...`}
+                emptyMessage="No topics found."
+                client:load
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+</div>

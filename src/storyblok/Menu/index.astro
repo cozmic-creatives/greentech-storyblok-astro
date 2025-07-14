@@ -1,0 +1,23 @@
+---
+/**
+ * Menu Component - Main entry point for Menu component with variant support
+ *
+ * Fields:
+ * - items: Array of Storyblok components to render
+ * - variant: "default" | "articles"
+ *
+ * Variants:
+ * - default: Standard menu rendering items as StoryblokComponents
+ * - articles: Enhanced menu with tag analytics from generated JSON
+ */
+import { storyblokEditable } from '@storyblok/astro';
+import DefaultMenu from '~/storyblok/Menu/Default.astro';
+import ArticlesMenu from '~/storyblok/Menu/Articles.astro';
+
+const { blok } = Astro.props;
+const { variant } = blok;
+---
+
+{variant === 'articles' && <ArticlesMenu blok={blok} />}
+
+{(!variant || variant === 'default') && <DefaultMenu blok={blok} />}

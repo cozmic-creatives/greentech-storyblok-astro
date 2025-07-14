@@ -50,6 +50,7 @@ export default defineConfig({
         tabs: 'storyblok/Tabs',
         tabItem: 'storyblok/TabItem',
         gallery: 'storyblok/Gallery',
+        menu: 'storyblok/Menu/index',
       },
     }),
     react(),
