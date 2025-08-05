@@ -3,6 +3,7 @@ import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Text from '~/storyblok/Text.astro';
 import { cn } from '~/lib/utils';
+import { getResponsiveBackgroundData } from '~/utils/image';
 
 const { blok } = Astro.props;
 const { variant, heroClasses, sectionClasses, blocks, images } = blok;
@@ -10,16 +11,24 @@ const { variant, heroClasses, sectionClasses, blocks, images } = blok;
 const listItems = blocks.filter(block => block.component === 'list');
 const buttonItems = blocks.filter(block => block.component === 'button');
 const badgeItems = blocks.filter(block => block.component === 'badge');
+
+// Generate optimized background image data
+const backgroundData = getResponsiveBackgroundData(images?.[0]?.filename);
 ---
+
+{backgroundData && (
+  <style set:html={backgroundData.css}></style>
+)}
 
 <section
   id="parallax-hero-centered"
   {...storyblokEditable(blok)}
   class={cn(
     sectionClasses,
-    'relative bg-cover bg-center m-4 rounded-3xl overflow-hidden shadow-xl shadow-primary/40 transition-all duration-300'
+    'relative bg-cover bg-center m-4 rounded-3xl overflow-hidden shadow-xl shadow-primary/40 transition-all duration-300',
+    backgroundData?.className
   )}
-  style={`background-image: url(${images?.[0]?.filename || ''}); background-position: center center;`}
+  style="background-position: center center;"
 >
   <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80"></div>
 
