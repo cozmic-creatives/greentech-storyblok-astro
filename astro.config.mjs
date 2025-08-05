@@ -18,6 +18,9 @@ export default defineConfig({
   site: 'https://greentech.matthewbracke.com', // Update with your actual domain
   output: isPreview ? 'server' : 'static',
   adapter: isPreview ? node({ mode: 'standalone' }) : undefined,
+  image: {
+    format: 'webp',
+  },
 
   integrations: [
     storyblok({

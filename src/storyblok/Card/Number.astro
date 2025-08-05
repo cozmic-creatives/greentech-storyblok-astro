@@ -20,11 +20,8 @@ const { link, images, text, icon, cardClasses, title } = blok;
   import { initCountUp } from '@/lib/countup';
 
   // Initialize count-up animations
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCountUp);
-  } else {
-    initCountUp();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initCountUp);
+  else initCountUp();
 
   // Re-initialize for Astro navigation
   document.addEventListener('astro:page-load', initCountUp);
