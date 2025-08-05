@@ -129,11 +129,11 @@ function generateBreakpointUrls(
   format: string
 ) {
   const urls = {
-    mobile: buildOptimizedUrl(imageUrl, { quality, format: 'auto', width: breakpoints.mobile }),
-    tablet: buildOptimizedUrl(imageUrl, { quality, format: 'auto', width: breakpoints.tablet }),
-    desktop: buildOptimizedUrl(imageUrl, { quality, format: 'auto', width: breakpoints.desktop }),
-    large: buildOptimizedUrl(imageUrl, { quality, format: 'auto', width: breakpoints.large }),
-    original: buildOptimizedUrl(imageUrl, { quality, format: 'auto' }),
+    mobile: buildOptimizedUrl(imageUrl, { quality, format: 'webp', width: breakpoints.mobile }),
+    tablet: buildOptimizedUrl(imageUrl, { quality, format: 'webp', width: breakpoints.tablet }),
+    desktop: buildOptimizedUrl(imageUrl, { quality, format: 'webp', width: breakpoints.desktop }),
+    large: buildOptimizedUrl(imageUrl, { quality, format: 'webp', width: breakpoints.large }),
+    original: buildOptimizedUrl(imageUrl, { quality, format: 'webp' }),
   };
 
   return urls;
@@ -150,28 +150,30 @@ function generateResponsiveCSS(
 ): string {
   return `
     .${className} {
-      background-image: url(${urls.original}), url(${originalImageUrl});
-      background-image: url(${urls.mobile});
+      background-image: url("${urls.original}"), url("${originalImageUrl}");
+      background-image: url("${urls.mobile}");
     }
     
     @media (min-width: ${breakpoints.mobile + 1}px) {
       .${className} {
-        background-image: url(${urls.tablet});
+        background-image: url("${urls.tablet}");
       }
     }
     
     @media (min-width: ${breakpoints.tablet + 1}px) {
       .${className} {
-        background-image: url(${urls.desktop});
+        background-image: url("${urls.desktop}");
       }
     }
     
     @media (min-width: ${breakpoints.desktop + 1}px) {
       .${className} {
-        background-image: url(${urls.large});
+        background-image: url("${urls.large}");
       }
     }
-  `.replace(/\s+/g, ' ').trim();
+  `
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /**

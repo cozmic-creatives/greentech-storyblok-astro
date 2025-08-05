@@ -12,13 +12,7 @@ const { name = 'text', visualClasses, images, video } = blok;
     images && images.length > 0 && (
       <div class="flex flex-wrap gap-4">
         {images.map(image => (
-          <OptimisedImage
-            src={image.filename}
-            alt={image.alt || ''}
-            width={image.width || 800}
-            height={image.height || 600}
-            class="max-w-full h-auto"
-          />
+          <OptimisedImage src={image.filename} alt={image.alt || ''} class="max-w-full h-auto" />
         ))}
       </div>
     )
