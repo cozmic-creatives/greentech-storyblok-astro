@@ -1,6 +1,6 @@
 ---
 import { storyblokEditable, renderRichText } from '@storyblok/astro';
-import { Image } from 'astro:assets';
+import OptimisedImage from '~/components/OptimisedImage.astro';
 import Text from '../Text.astro';
 import RichText from '../RichText.astro';
 import Badge from '../Badge.astro';
@@ -43,10 +43,9 @@ const tags = articleTags ? articleTags.split(',') : [];
           image && (
             <div class="lg:w-1/2 w-full">
               <div class="relative overflow-hidden rounded-xl">
-                <Image
+                <OptimisedImage
                   src={image.filename}
                   alt={image.alt || title}
-                  inferSize={true}
                   class="w-full h-full object-cover"
                 />
               </div>

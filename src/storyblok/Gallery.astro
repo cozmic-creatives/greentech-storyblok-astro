@@ -1,6 +1,7 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 import { cn } from '~/lib/utils';
+import OptimisedImage from '~/components/OptimisedImage.astro';
 
 const { blok } = Astro.props;
 const { galleryClasses, images = [] } = blok;
@@ -15,7 +16,7 @@ const galleryId = `gallery-${Math.random().toString(36).substring(2, 9)}`;
       images.map((image, index) => (
         <div class="gallery-item mb-4 break-inside-avoid">
           {image.filename && (
-            <img
+            <OptimisedImage
               src={image.filename}
               alt={image.alt || ''}
               class="w-full gallery-image cursor-pointer"

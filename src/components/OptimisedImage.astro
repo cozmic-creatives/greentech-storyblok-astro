@@ -1,0 +1,106 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  widths?: number[];
+  sizes?: string;
+  quality?: number;
+  format?: 'webp' | 'auto';
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  widths,
+  sizes,
+  quality = 80,
+  format = 'webp',
+  loading = 'lazy',
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Constants
+const DEFAULT_WIDTHS = [320, 640, 768, 1024];
+const DEFAULT_SIZES =
+  '(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1024px) 50vw, 33vw';
+
+// Helper functions
+function isStoryblokUrl(url: string): boolean {
+  return !!(url && url.includes('storyblok') && !url.endsWith('.svg') && !url.startsWith('/'));
+}
+
+function normalizeStoryblokUrl(url: string): string {
+  if (url.includes('s3.amazonaws.com/a.storyblok.com/')) {
+    return url.replace('https://s3.amazonaws.com/a.storyblok.com/', 'https://a.storyblok.com/');
+  }
+  return url;
+}
+
+function buildDimensionPath(targetWidth?: number, targetHeight?: number): string {
+  if (!targetWidth && !targetHeight) return '/m';
+
+  const w = targetWidth || 0;
+  const h = targetHeight || 0;
+
+  // Maintain aspect ratio when only one dimension is specified
+  if (targetWidth && !targetHeight) return `/m/${w}x0`;
+  if (!targetWidth && targetHeight) return `/m/0x${h}`;
+  return `/m/${w}x${h}`;
+}
+
+function buildFilterParams(quality: number, format: string): string {
+  const params: string[] = [];
+
+  if (quality !== 80) params.push(`quality(${quality})`);
+  if (format === 'webp') params.push('format(webp)');
+
+  return params.length > 0 ? `/filters:${params.join(':')}` : '';
+}
+
+function buildOptimizedUrl(
+  originalUrl: string,
+  targetWidth?: number,
+  targetHeight?: number
+): string {
+  if (!isStoryblokUrl(originalUrl)) return originalUrl;
+
+  const normalizedUrl = normalizeStoryblokUrl(originalUrl);
+  const dimensionPath = buildDimensionPath(targetWidth, targetHeight);
+  const filterParams = buildFilterParams(quality, format);
+
+  return `${normalizedUrl}${dimensionPath}${filterParams}`;
+}
+
+function generateSrcset(originalUrl: string, widthsArray: number[]): string {
+  return widthsArray.map(w => `${buildOptimizedUrl(originalUrl, w, height)} ${w}w`).join(', ');
+}
+
+// Determine responsive image configuration
+const isStoryblokImage = isStoryblokUrl(src);
+const shouldUseDefaultResponsive = isStoryblokImage && !widths && !width && !height;
+const responsiveWidths = widths || (shouldUseDefaultResponsive ? DEFAULT_WIDTHS : []);
+const shouldUseResponsive = responsiveWidths && responsiveWidths.length > 0;
+
+// Generate optimized URLs
+const optimizedSrc = buildOptimizedUrl(src, width, height);
+const srcsetValue = shouldUseResponsive ? generateSrcset(src, responsiveWidths) : undefined;
+const sizesValue = shouldUseResponsive ? sizes || DEFAULT_SIZES : undefined;
+---
+
+<img
+  src={optimizedSrc}
+  alt={alt}
+  loading={loading}
+  class={className}
+  srcset={srcsetValue}
+  sizes={sizesValue}
+  {...rest}
+/>

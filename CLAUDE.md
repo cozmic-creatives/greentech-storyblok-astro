@@ -18,18 +18,26 @@ STORYBLOK_PREVIEW_TOKEN=your_token_here
 
 - **Start development server**: `npm run dev`
   - This starts the dev server in preview mode with `PUBLIC_ENV=preview`
+  - Runs on `https://localhost:4321` (note: uses HTTPS with self-signed certificates)
 
 - **Build for production**: `npm run build:production`
   - Creates a static build with `PUBLIC_ENV=production`
+  - Automatically runs tag analytics generation before building
 
 - **Build for preview**: `npm run build:preview` 
   - Creates a server build with `PUBLIC_ENV=preview`
+  - Automatically runs tag analytics generation before building
 
 - **Preview build**: `npm run preview`
   - Previews the built site
 
 - **Generate Storyblok Types**: `npm run storyblok:generate-types`
   - Pulls Storyblok components and generates TypeScript type definitions
+  - Updates `src/types/component-types-sb.d.ts`
+
+- **Generate Tag Analytics**: `npm run generate:tag-analytics`
+  - Fetches articles from Storyblok and generates tag usage statistics
+  - Creates `public/tag-analytics.json` for the tag combobox component
 
 ## Project Architecture
 
@@ -51,13 +59,20 @@ STORYBLOK_PREVIEW_TOKEN=your_token_here
    - **Layout Components**: Handle page structure with `BaseLayout.astro` as the main layout
 
 4. **Page Routing**:
-   - Static pages like `index.astro` and `company.astro`
+   - Static pages like `index.astro`, `company.astro`, `contact.astro`, `privacy-policy.astro`
    - Dynamic routes for brands, industries, and solutions with `[param].astro` files
+   - Articles section with `[slug].astro` for individual article pages
 
 5. **Styling**:
-   - Uses Tailwind CSS for styling
+   - Uses Tailwind CSS v4 for styling with Vite plugin
    - Custom animations in `src/utils/animations.ts`
    - View transitions for page navigation
+   - shadcn/ui components with Radix UI primitives in `src/components/ui/`
+
+6. **Content Management**:
+   - Tag analytics system for article categorization
+   - SEO optimization with structured data and social media meta tags
+   - Automated sitemap generation
 
 ## Important Files
 
@@ -65,6 +80,10 @@ STORYBLOK_PREVIEW_TOKEN=your_token_here
 - `src/lib/storyblok.ts`: Utility functions for fetching content from Storyblok
 - `src/layouts/BaseLayout.astro`: Main layout component with navigation, footer, and transitions
 - `src/components/navigation/Navbar.astro`: Main navigation component with mobile and desktop versions
+- `src/scripts/generate-tag-analytics.ts`: Script that fetches articles and generates tag statistics
+- `src/components/SEO.astro`: SEO component with structured data and social media optimization
+- `src/utils/seo.ts`: SEO utility functions for extracting metadata from Storyblok content
+- `public/scripts/viewTransitions.js`: Handles third-party script reinitialization during page transitions
 
 ## Development Workflow
 
@@ -90,3 +109,16 @@ When using Astro's view transitions, be aware that:
 3. **External widgets and iframes**:
    - Chat widgets, comment systems, and other external embeds may need special handling
    - Follow the pattern used for Crisp chat in viewTransitions.js for other similar tools
+
+## Docker Deployment
+
+The project includes Docker configurations for both static and SSR deployments:
+
+- `Dockerfile.static`: For production static builds
+- `Dockerfile.ssr`: For server-side rendering builds  
+- `nginx/nginx.conf`: Nginx configuration for static deployments
+
+## Additional Resources
+
+- `SEO_GUIDE.md`: Comprehensive guide for SEO implementation and best practices
+- `src/scripts/storyblok/`: Collection of utility scripts for Storyblok content management and migration

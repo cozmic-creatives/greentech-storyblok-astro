@@ -3,7 +3,7 @@ import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Text from '~/storyblok/Text.astro';
 import { cn } from '~/lib/utils';
-import { Image } from 'astro:assets';
+import OptimisedImage from '~/components/OptimisedImage.astro';
 
 const { blok } = Astro.props;
 const { variant, heroClasses, sectionClasses, blocks, images } = blok;
@@ -30,10 +30,9 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
   {
     images?.[1]?.filename && (
       <div class="absolute top-10 right-10 z-20 bg-white/95 p-4 border-3 border-primary hidden lg:block lg:max-w-72">
-        <Image
+        <OptimisedImage
           src={images[1].filename}
           alt={images[1].alt || ''}
-          inferSize={true}
           class="w-full lg:max-h-36"
         />
       </div>
@@ -69,10 +68,11 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
 {
   images?.[1]?.filename && (
     <div class="bottom-0 left-0 right-0 bg-white/95 p-5 lg:hidden border-t-3 border-primary">
-      <Image
+      <OptimisedImage
         src={images[1].filename}
         alt={images[1].alt || ''}
-        inferSize={true}
+        widths={[200, 300, 400]}
+        sizes="(max-width: 640px) 200px, 300px"
         class="mx-auto max-w-56 max-h-36 object-contain"
       />
     </div>

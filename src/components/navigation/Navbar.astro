@@ -4,6 +4,7 @@ import { DesktopNavbar } from '~/components/navigation/DesktopNavbar';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { storyblokEditable } from '@storyblok/astro';
 import { getStoryblokStory } from '~/lib/storyblok';
+import OptimisedImage from '~/components/OptimisedImage.astro';
 
 const story = await getStoryblokStory('main-navigation');
 
@@ -35,7 +36,7 @@ const navigationSections = {
       href="/"
       class="absolute left-1/2 -translate-x-1/2 lg:relative lg:translate-x-0 lg:left-auto"
     >
-      <img src="/greentech-logo.svg" alt="GreenTech Logo" class="h-8 lg:h-9 w-auto" />
+      <OptimisedImage src="/greentech-logo.svg" alt="GreenTech Logo" class="h-8 lg:h-9 w-auto" />
     </a>
 
     <div class="hidden lg:flex" {...storyblokEditable(story.content)}>

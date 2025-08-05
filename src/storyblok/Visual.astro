@@ -1,7 +1,7 @@
 ---
 import { cn } from '~/lib/utils';
 import { storyblokEditable } from '@storyblok/astro';
-import { Image } from 'astro:assets';
+import OptimisedImage from '~/components/OptimisedImage.astro';
 
 const { blok } = Astro.props;
 const { name = 'text', visualClasses, images, video } = blok;
@@ -12,7 +12,7 @@ const { name = 'text', visualClasses, images, video } = blok;
     images && images.length > 0 && (
       <div class="flex flex-wrap gap-4">
         {images.map(image => (
-          <Image
+          <OptimisedImage
             src={image.filename}
             alt={image.alt || ''}
             width={image.width || 800}
