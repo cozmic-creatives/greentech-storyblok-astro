@@ -22,11 +22,11 @@ const story = await getStoryblokStory(`articles/${slug}`);
 
 // Extract SEO data from the story with article-specific fallbacks
 const seo = extractSEOFromStory(story, {
-  title: `${story.content?.title || story.name} | GreenTech Articles`,
+  title: `${story.content?.title || story.name} | GREENTECH Articles`,
   description:
     story.content?.excerpt ||
-    `Read ${story.name}, an insightful article about sustainable technology and green innovation by GreenTech.`,
-  keywords: `${story.name}, sustainable technology, green innovation, environmental solutions, GreenTech articles`,
+    `Read ${story.name}, an insightful article about sustainable technology and green innovation by GREENTECH.`,
+  keywords: `${story.name}, sustainable technology, green innovation, environmental solutions, GREENTECH articles`,
   openGraph: {
     type: 'article',
   },

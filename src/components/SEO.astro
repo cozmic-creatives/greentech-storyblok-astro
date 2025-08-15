@@ -43,7 +43,7 @@ export interface SEOProps {
 interface Props extends SEOProps {}
 
 const {
-  title = 'GreenTech - Sustainable Plastic Solutions',
+  title = 'GREENTECH - Sustainable Plastic Solutions',
   description = 'Leading provider of sustainable plastic solutions and innovative recycling technologies. Transforming waste into valuable resources for a greener future.',
   canonical = Astro.url.href,
   openGraph = {},
@@ -52,7 +52,7 @@ const {
   noindex = false,
   nofollow = false,
   keywords,
-  author = 'GreenTech',
+  author = 'GREENTECH',
   robots,
   articleMeta,
   additionalMetaTags = [],
@@ -67,9 +67,9 @@ const og = {
   title: title,
   description: description,
   image: '/greentech-social-banner.png',
-  imageAlt: 'GreenTech - Sustainable Plastic Solutions',
+  imageAlt: 'GREENTECH - Sustainable Plastic Solutions',
   url: canonicalURL.href,
-  siteName: 'GreenTech',
+  siteName: 'GREENTECH',
   ...openGraph,
 };
 
@@ -103,7 +103,7 @@ const robotsContent =
 const defaultStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'GreenTech',
+  name: 'GREENTECH',
   description:
     'Leading provider of sustainable plastic solutions and innovative recycling technologies.',
   url: canonicalURL.origin,

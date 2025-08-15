@@ -74,7 +74,7 @@ function generateStructuredData(story: ISbStoryData<any>, meta: any) {
   let structuredData: any = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'GreenTech',
+    name: 'GREENTECH',
     description:
       'Leading provider of sustainable plastic solutions and innovative recycling technologies.',
     url: baseUrl,
@@ -101,11 +101,11 @@ function generateStructuredData(story: ISbStoryData<any>, meta: any) {
       dateModified: story.published_at || story.created_at,
       author: {
         '@type': 'Organization',
-        name: 'GreenTech',
+        name: 'GREENTECH',
       },
       publisher: {
         '@type': 'Organization',
-        name: 'GreenTech',
+        name: 'GREENTECH',
         logo: {
           '@type': 'ImageObject',
           url: `${baseUrl}/greentech-logo.svg`,
@@ -122,11 +122,11 @@ function generateStructuredData(story: ISbStoryData<any>, meta: any) {
       url: meta.url,
       brand: {
         '@type': 'Brand',
-        name: 'GreenTech',
+        name: 'GREENTECH',
       },
       manufacturer: {
         '@type': 'Organization',
-        name: 'GreenTech',
+        name: 'GREENTECH',
       },
     };
   } else if (story.full_slug.includes('solutions/') || story.full_slug.includes('industries/')) {
@@ -139,7 +139,7 @@ function generateStructuredData(story: ISbStoryData<any>, meta: any) {
       url: meta.url,
       provider: {
         '@type': 'Organization',
-        name: 'GreenTech',
+        name: 'GREENTECH',
       },
       serviceType: 'Sustainable Plastic Solutions',
     };
@@ -207,7 +207,7 @@ function getBaseUrl(): string {
   if (typeof window !== 'undefined') {
     return window.location.origin;
   }
-  return process.env.SITE_URL || 'https://greentech.matthewbracke.com'; // Updated with actual domain
+  return process.env.SITE_URL || 'https://greentechmachinery.co.za'; // Updated with actual domain
 }
 
 /**

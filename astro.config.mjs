@@ -15,7 +15,7 @@ const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://greentech.matthewbracke.com', // Update with your actual domain
+  site: 'https://greentechmachinery.co.za', // Update with your actual domain
   output: isPreview ? 'server' : 'static',
   adapter: isPreview ? node({ mode: 'standalone' }) : undefined,
   image: {
