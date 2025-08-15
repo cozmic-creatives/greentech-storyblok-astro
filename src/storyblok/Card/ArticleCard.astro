@@ -17,17 +17,26 @@ const hasValidImage = imageUrl && imageUrl.trim() !== '';
   {...storyblokEditable(blok)}
 >
   <!-- Image Section - Full width, no padding -->
-  {
-    hasValidImage && (
-      <div class="relative overflow-hidden">
+  <div class="relative overflow-hidden">
+    {
+      hasValidImage ? (
         <OptimisedImage
           src={imageUrl}
           alt={title}
           class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
         />
-      </div>
-    )
-  }
+      ) : (
+        <!-- Fallback gradient background with GreenTech logo -->
+        <div class="w-full h-48 bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center group">
+          <img
+            src="/greentech-logo.svg"
+            alt="GreenTech Logo"
+            class="w-2/3 filter invert opacity-70"
+          />
+        </div>
+      )
+    }
+  </div>
 
   <!-- Content Section - With padding -->
   <div class="flex flex-col flex-grow px-6 py-4">

@@ -16,7 +16,7 @@ const tags = articleTags ? articleTags.split(',') : [];
 
 <article {...storyblokEditable(blok)}>
   <!-- Hero Section -->
-  <section class="relative py-12 lg:py-16 bg-line-connects-light">
+  <section class="relative py-12 lg:py-16 bg-line-connects-light border-b-3 border-primary">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         <!-- Left Column: Content -->
@@ -64,9 +64,12 @@ const tags = articleTags ? articleTags.split(',') : [];
         <main class="flex-1 order-2 lg:order-1">
           {
             body && (
-              <div class="prose prose-lg prose-gray dark:prose-invert mx-auto">
-                <RichText blok={{ text: body }} />
-              </div>
+              <RichText
+                blok={{
+                  text: body,
+                  richTextClass: 'prose-lg prose-gray dark:prose-invert mx-auto',
+                }}
+              />
             )
           }
 

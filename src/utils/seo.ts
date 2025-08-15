@@ -178,11 +178,22 @@ function extractArticleMeta(story: ISbStoryData<any>) {
     story.full_slug.includes('blog/') ||
     story.full_slug.includes('news/')
   ) {
+    // Handle tags that might be a string (comma-separated) or array
+    let tags: string[] = [];
+    if (content.tags) {
+      if (typeof content.tags === 'string') {
+        // Split comma-separated string and clean up whitespace
+        tags = content.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+      } else if (Array.isArray(content.tags)) {
+        tags = content.tags;
+      }
+    }
+
     return {
       publishedTime: story.created_at,
       modifiedTime: story.published_at || story.created_at,
       section: content.category || content.section,
-      tags: content.tags || [],
+      tags,
     };
   }
 

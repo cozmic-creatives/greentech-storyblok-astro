@@ -42,4 +42,14 @@
   p:has(+ ul) {
     @apply mb-0;
   }
+
+  &.article-body {
+    h1 {
+      @apply hidden;
+    }
+
+    h2 {
+      @apply text-2xl font-bold;
+    }
+  }
 }

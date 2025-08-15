@@ -1,22 +1,173 @@
 import { config } from 'dotenv';
-import { createStory, uploadAsset, slugExists, getFolderByName } from './utils.js';
-import { improveWordPressPost } from './robot.js';
-import { convertToRichText } from '../../utils/richtext.js';
+import { createStory, uploadAsset, slugExists, getFolderByName } from './utils.ts';
+import { improveWordPressPost } from './robot.ts';
+import { convertToRichText } from '../../utils/richtext.ts';
 
 // Load environment variables
 config();
 
-// Configuration
-const WP_API_BASE = 'https://greentechmachinery.co.za/wp-json/wp/v2';
-const ENABLE_ASSET_UPLOAD = true; // Enable asset upload
-const ENABLE_AI_IMPROVEMENT = true; // Enable AI content improvement
+// Migration Configuration
+interface MigrationConfig {
+  wpApiBase: string;
+  enableAssetUpload: boolean;
+  enableAiImprovement: boolean;
+  perPage: number;
+  offset: number;
+  rateLimitDelay: number;
+  maxRetries: number;
+}
+
+const MIGRATION_CONFIG: MigrationConfig = {
+  wpApiBase: 'https://greentechmachinery.co.za/wp-json/wp/v2',
+  enableAssetUpload: true,
+  enableAiImprovement: true,
+  perPage: 10, // Process 10 posts at a time for efficiency
+  offset: 0,
+  rateLimitDelay: 1000,
+  maxRetries: 3,
+};
+
+// Validation utilities
+function validateMigrationConfig(config: MigrationConfig): void {
+  if (!config.wpApiBase || !config.wpApiBase.startsWith('http')) {
+    throw new Error('Invalid WordPress API base URL');
+  }
+  if (config.perPage < 1 || config.perPage > 100) {
+    throw new Error('Per page must be between 1 and 100');
+  }
+  if (config.offset < 0) {
+    throw new Error('Offset must be non-negative');
+  }
+  if (config.rateLimitDelay < 0) {
+    throw new Error('Rate limit delay must be non-negative');
+  }
+  if (config.maxRetries < 1) {
+    throw new Error('Max retries must be at least 1');
+  }
+}
+
+function validateWordPressPost(post: WordPressPost): string[] {
+  const errors: string[] = [];
+
+  if (!post.title?.rendered?.trim()) {
+    errors.push('Post title is required');
+  }
+  if (!post.content?.rendered?.trim()) {
+    errors.push('Post content is required');
+  }
+  if (!post.slug?.trim()) {
+    errors.push('Post slug is required');
+  }
+  if (!post.date_modified && !post.modified && !post.date) {
+    errors.push('Post date is required (date_modified, modified, or date)');
+  }
+
+  return errors;
+}
+
+function validateSEOContent(
+  title: string,
+  content: string,
+  excerpt?: string,
+  tags?: string
+): string[] {
+  const seoErrors: string[] = [];
+
+  // Title validation
+  if (title.length < 10) {
+    seoErrors.push('Title too short (minimum 10 characters for SEO)');
+  }
+  if (title.length > 60) {
+    seoErrors.push('Title too long (maximum 60 characters for SEO)');
+  }
+
+  // Content validation
+  if (content.length < 300) {
+    seoErrors.push('Content too short (minimum 300 characters for SEO)');
+  }
+
+  // Excerpt validation
+  if (excerpt && excerpt.length > 160) {
+    seoErrors.push('Excerpt too long (maximum 160 characters for meta description)');
+  }
+
+  // Tags validation
+  if (tags) {
+    const tagArray = tags.split(',').map(tag => tag.trim());
+    if (tagArray.length < 2) {
+      seoErrors.push('Need at least 2 tags for better SEO');
+    }
+    if (tagArray.length > 10) {
+      seoErrors.push('Too many tags (maximum 10 for optimal SEO)');
+    }
+  }
+
+  return seoErrors;
+}
+
+// Enhanced logging utilities
+function formatTimestamp(): string {
+  return new Date().toISOString().replace('T', ' ').slice(0, 19);
+}
+
+function logInfo(message: string): void {
+  console.log(`[${formatTimestamp()}] ℹ️  ${message}`);
+}
+
+function logSuccess(message: string): void {
+  console.log(`[${formatTimestamp()}] ✅ ${message}`);
+}
+
+function logWarning(message: string): void {
+  console.log(`[${formatTimestamp()}] ⚠️  ${message}`);
+}
+
+function logError(message: string, error?: any): void {
+  const errorDetails = error ? ` - ${error.message || error}` : '';
+  console.error(`[${formatTimestamp()}] ❌ ${message}${errorDetails}`);
+}
+
+function logProgress(current: number, total: number, message: string): void {
+  const percentage = Math.round((current / total) * 100);
+  console.log(`[${formatTimestamp()}] 🔄 [${percentage}%] ${message} (${current}/${total})`);
+}
+
+// Retry utility function
+async function withRetry<T>(
+  operation: () => Promise<T>,
+  maxRetries: number = MIGRATION_CONFIG.maxRetries,
+  delay: number = 1000
+): Promise<T> {
+  let lastError: any;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+
+      if (attempt === maxRetries) {
+        logError(`Operation failed after ${maxRetries} attempts`, error);
+        throw error;
+      }
+
+      logWarning(`Attempt ${attempt} failed, retrying in ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      delay *= 2; // Exponential backoff
+    }
+  }
+
+  throw lastError;
+}
 
 interface WordPressPost {
   id: number;
   title: { rendered: string };
   content: { rendered: string };
   featured_media: number;
-  date_modified: string;
+  date_modified?: string;
+  modified?: string;
+  date?: string;
   slug: string;
 }
 
@@ -36,36 +187,37 @@ interface WordPressMedia {
  * Fetch WordPress posts
  */
 async function fetchWordPressPosts(
-  perPage: number = 1,
-  offset: number = 0
+  perPage: number = MIGRATION_CONFIG.perPage,
+  offset: number = MIGRATION_CONFIG.offset
 ): Promise<WordPressPost[]> {
-  try {
-    const response = await fetch(`${WP_API_BASE}/posts?per_page=${perPage}&offset=${offset}`);
+  return withRetry(async () => {
+    const response = await fetch(
+      `${MIGRATION_CONFIG.wpApiBase}/posts?per_page=${perPage}&offset=${offset}`
+    );
     if (!response.ok) {
       throw new Error(`Failed to fetch posts: ${response.statusText}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error('Error fetching WordPress posts:', error);
+  }).catch(error => {
+    logError('Error fetching WordPress posts after retries', error);
     return [];
-  }
+  });
 }
 
 /**
  * Fetch WordPress media by ID
  */
 async function fetchWordPressMedia(mediaId: number): Promise<WordPressMedia | null> {
-  try {
-    const response = await fetch(`${WP_API_BASE}/media/${mediaId}`);
+  return withRetry(async () => {
+    const response = await fetch(`${MIGRATION_CONFIG.wpApiBase}/media/${mediaId}`);
     if (!response.ok) {
-      console.error(`Failed to fetch media ${mediaId}: ${response.statusText}`);
-      return null;
+      throw new Error(`Failed to fetch media ${mediaId}: ${response.statusText}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error(`Error fetching WordPress media ${mediaId}:`, error);
+  }).catch(error => {
+    logError(`Error fetching WordPress media ${mediaId} after retries`, error);
     return null;
-  }
+  });
 }
 
 /**
@@ -95,7 +247,7 @@ async function processFeaturedMedia(mediaId: number, postSlug: string): Promise<
   const media = await fetchWordPressMedia(mediaId);
   if (!media || !media.source_url) return null;
 
-  if (!ENABLE_ASSET_UPLOAD) {
+  if (!MIGRATION_CONFIG.enableAssetUpload) {
     return {
       id: null,
       filename: media.source_url,
@@ -141,7 +293,7 @@ function createArticleContent(
     component: 'article',
     title: post.title.rendered,
     body: convertToRichText(post.content.rendered),
-    dateModified: post.date_modified,
+    dateModified: post.date_modified || post.modified || post.date,
     image: featuredImage,
   };
 
@@ -152,7 +304,7 @@ function createArticleContent(
 
   // Add tags if provided
   if (articleTags) {
-    articleContent.tags = articleTags;
+    articleContent.articleTags = articleTags;
   }
 
   return articleContent;
@@ -179,7 +331,7 @@ async function generateUniqueSlug(baseSlug: string): Promise<string> {
  */
 async function processWordPressPost(post: WordPressPost, articlesFolder: any): Promise<boolean> {
   try {
-    console.log(`\n🔄 Processing: ${post.title.rendered}`);
+    logInfo(`Processing: ${post.title.rendered}`);
 
     // Check for slug existence including folder path
     const baseSlug = post.slug;
@@ -199,9 +351,9 @@ async function processWordPressPost(post: WordPressPost, articlesFolder: any): P
     let articleTags = '';
 
     // AI content improvement if enabled
-    if (ENABLE_AI_IMPROVEMENT) {
+    if (MIGRATION_CONFIG.enableAiImprovement) {
       try {
-        console.log('🤖 Improving content with AI...');
+        logInfo('Improving content with AI...');
         const improved = await improveWordPressPost({
           title: post.title.rendered,
           content: post.content.rendered,
@@ -211,11 +363,21 @@ async function processWordPressPost(post: WordPressPost, articlesFolder: any): P
         content = improved.content;
         summary = improved.summary;
         articleTags = improved.tags;
-        console.log('✅ Content improved successfully');
+        logSuccess('Content improved successfully');
+        logInfo(`Generated tags: ${articleTags}`);
       } catch (error) {
-        console.log('⚠️  AI improvement failed, using original content');
+        logWarning('AI improvement failed, using original content');
+        logError('AI improvement error details', error);
         // Continue with original content if AI fails
       }
+    }
+
+    // Validate SEO content
+    const seoErrors = validateSEOContent(title, content, summary, articleTags);
+    if (seoErrors.length > 0) {
+      logWarning(`SEO issues found for "${title}": ${seoErrors.join(', ')}`);
+    } else {
+      logSuccess('SEO validation passed');
     }
 
     const articleContent = createArticleContent(
@@ -246,14 +408,14 @@ async function processWordPressPost(post: WordPressPost, articlesFolder: any): P
     }
 
     if (createdStory) {
-      console.log(`✅ Successfully migrated: ${title}`);
+      logSuccess(`Successfully migrated: ${title}`);
       return true;
     } else {
-      console.log(`❌ Failed to migrate: ${title}`);
+      logError(`Failed to migrate: ${title}`);
       return false;
     }
   } catch (error) {
-    console.error(`Error processing ${post.title.rendered}:`, error);
+    logError(`Error processing ${post.title.rendered}`, error);
     return false;
   }
 }
@@ -262,31 +424,49 @@ async function processWordPressPost(post: WordPressPost, articlesFolder: any): P
  * Main migration function
  */
 async function runMigration(): Promise<void> {
-  console.log('🚀 Starting WordPress to Storyblok migration...\n');
+  logInfo('Starting WordPress to Storyblok migration...');
 
   try {
+    // Validate configuration
+    validateMigrationConfig(MIGRATION_CONFIG);
+    logSuccess('Configuration validated');
+
     // Get the Articles folder
-    console.log('📁 Finding Articles folder...');
+    logInfo('Finding Articles folder...');
     const articlesFolder = await getFolderByName('Articles');
 
     if (articlesFolder) {
-      console.log(`✅ Found Articles folder (ID: ${articlesFolder.id})`);
+      logSuccess(`Found Articles folder (ID: ${articlesFolder.id})`);
     } else {
-      console.log('⚠️  Articles folder not found, stories will be created in root');
+      logWarning('Articles folder not found, stories will be created in root');
     }
 
-    const posts = await fetchWordPressPosts(1, 0);
+    const posts = await fetchWordPressPosts();
 
     if (posts.length === 0) {
-      console.log('❌ No posts found to migrate');
+      logWarning('No posts found to migrate');
       return;
     }
 
-    console.log(`📊 Found ${posts.length} post(s) to migrate`);
+    logInfo(`Found ${posts.length} post(s) to migrate`);
 
     const results = { success: 0, failed: 0 };
 
-    for (const post of posts) {
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+
+      // Validate post data
+      const validationErrors = validateWordPressPost(post);
+      if (validationErrors.length > 0) {
+        logError(
+          `Skipping invalid post "${post.title?.rendered || 'Unknown'}"`,
+          validationErrors.join(', ')
+        );
+        results.failed++;
+        continue;
+      }
+
+      logProgress(i + 1, posts.length, `Processing: ${post.title.rendered}`);
       const success = await processWordPressPost(post, articlesFolder);
       if (success) {
         results.success++;
@@ -295,15 +475,17 @@ async function runMigration(): Promise<void> {
       }
 
       // Rate limiting delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, MIGRATION_CONFIG.rateLimitDelay));
     }
 
-    console.log('\n📈 Migration Summary:');
-    console.log(`✅ Successfully migrated: ${results.success} posts`);
-    console.log(`❌ Failed to migrate: ${results.failed} posts`);
-    console.log('🎉 Migration completed!');
+    logInfo('Migration Summary:');
+    logSuccess(`Successfully migrated: ${results.success} posts`);
+    if (results.failed > 0) {
+      logWarning(`Failed to migrate: ${results.failed} posts`);
+    }
+    logSuccess('Migration completed!');
   } catch (error) {
-    console.error('💥 Migration failed:', error);
+    logError('Migration failed', error);
   }
 }
 

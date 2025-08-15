@@ -1,4 +1,4 @@
-import { createClaudeClient } from '~/utils/claude.js';
+import { createClaudeClient } from '../../utils/claude.ts';
 
 const SYSTEM_PROMPT = `You are a skilled content writer with expertise in injection molding technologies, specializing in creating engaging, conversational content that feels natural and human. Your writing style is:
 
