@@ -1,47 +1,57 @@
 {
-  "totalTags": 8,
-  "totalArticles": 4,
+  "totalTags": 10,
+  "totalArticles": 5,
   "tags": [
     {
-      "name": "PlasticRecycling",
+      "name": "InjectionMolding",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
-      "name": "MaterialProcessing",
+      "name": "Manufacturing",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
-      "name": "Degassing",
+      "name": "PlasticProcessing",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
       "name": "ProductionEfficiency",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
-      "name": "CircularEconomy",
+      "name": "QualityControl",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
-      "name": "ManufacturingInnovation",
+      "name": "TechnicalInnovation",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
-      "name": "Sustainability",
+      "name": "ScientificMolding",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
     },
     {
-      "name": "PostConsumerRecycling",
+      "name": "ProcessOptimization",
       "count": 1,
-      "percentage": 12.5
+      "percentage": 10
+    },
+    {
+      "name": "MaterialScience",
+      "count": 1,
+      "percentage": 10
+    },
+    {
+      "name": "DefectReduction",
+      "count": 1,
+      "percentage": 10
     }
   ],
-  "generatedAt": "2025-07-14T07:02:54.878Z"
+  "generatedAt": "2025-08-16T07:23:40.825Z"
 }

@@ -128,6 +128,15 @@ function generateStructuredData(story: ISbStoryData<any>, meta: any) {
         '@type': 'Organization',
         name: 'GREENTECH',
       },
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/InStock',
+        priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 1 year from now
+        seller: {
+          '@type': 'Organization',
+          name: 'GREENTECH',
+        },
+      },
     };
   } else if (story.full_slug.includes('solutions/') || story.full_slug.includes('industries/')) {
     structuredData = {
