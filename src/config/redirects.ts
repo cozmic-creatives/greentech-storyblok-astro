@@ -1,4 +1,13 @@
-export const redirects = {
+const createRedirects = (redirectMap: Record<string, string>, status: number = 302) => {
+  return Object.fromEntries(
+    Object.entries(redirectMap).map(([from, to]) => [
+      from,
+      { status, destination: to }
+    ])
+  );
+};
+
+const redirectMap = {
   // Basic redirects
   '/contact-us': '/contact',
   '/our-markets': '/#industries',
@@ -34,3 +43,5 @@ export const redirects = {
   '/portfolio/bbm': '/brands/bbm',
   '/portfolio/engel': '/brands/engel',
 };
+
+export const redirects = createRedirects(redirectMap);
