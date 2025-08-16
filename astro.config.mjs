@@ -7,6 +7,7 @@ import path from 'path';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import { redirects } from './src/config/redirects.ts';
 
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
 const isPreview = process.env.PUBLIC_ENV === 'preview';
@@ -18,6 +19,7 @@ export default defineConfig({
   site: 'https://greentechmachinery.co.za', // Update with your actual domain
   output: isPreview ? 'server' : 'static',
   adapter: isPreview ? node({ mode: 'standalone' }) : undefined,
+  redirects,
   image: {
     format: 'webp',
   },
