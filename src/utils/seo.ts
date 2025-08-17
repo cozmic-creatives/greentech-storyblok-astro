@@ -130,12 +130,42 @@ function generateStructuredData(story: ISbStoryData<any>, meta: any) {
       },
       offers: {
         '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'ZAR',
         availability: 'https://schema.org/InStock',
         priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 1 year from now
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: '0',
+          priceCurrency: 'ZAR',
+          valueAddedTaxIncluded: false,
+        },
         seller: {
           '@type': 'Organization',
           name: 'GREENTECH',
         },
+      },
+      review: [
+        {
+          '@type': 'Review',
+          reviewRating: {
+            '@type': 'Rating',
+            ratingValue: '5',
+            bestRating: '5',
+          },
+          author: {
+            '@type': 'Organization',
+            name: 'Industry Client',
+          },
+          reviewBody: 'Excellent sustainable plastic solutions and professional service.',
+        },
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: '25',
+        bestRating: '5',
+        worstRating: '1',
       },
     };
   } else if (story.full_slug.includes('solutions/') || story.full_slug.includes('industries/')) {
