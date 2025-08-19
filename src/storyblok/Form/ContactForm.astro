@@ -1,6 +1,7 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { Alert, AlertTitle, AlertDescription } from '~/components/ui/alert';
 
 const { blok } = Astro.props;
 const { blocks, name } = blok;
@@ -8,6 +9,13 @@ const { blocks, name } = blok;
 const formItems = blocks?.filter(block => block.component === 'input');
 const textItems = blocks?.filter(block => block.component === 'text');
 const buttonItems = blocks?.filter(block => block.component === 'button');
+
+// Check if form was submitted successfully
+const url = new URL(Astro.request.url);
+const isSubmitted = url.searchParams.get('submitted') === 'true';
+
+// Get the current origin for the redirect URL
+const origin = url.origin;
 ---
 
 <div {...storyblokEditable(blok)} class="contact-form bg-white rounded-lg shadow-lg">
@@ -15,7 +23,27 @@ const buttonItems = blocks?.filter(block => block.component === 'button');
     {textItems[0] && <StoryblokComponent blok={textItems[0]} />}
   </div>
 
-  <div class="p-6 lg:p-8 border border-t-0 rounded-b-lg gap-4 flex flex-col">
+  <form
+    action="https://formsubmit.co/sales@greentechmachinery.co.za"
+    method="POST"
+    class="p-6 lg:p-8 border border-t-0 rounded-b-lg gap-4 flex flex-col"
+  >
+    <!-- FormSubmit configuration -->
+    <input type="hidden" name="_replyto" />
+    <input type="hidden" name="_next" value={`${origin}/contact?submitted=true`} />
+    <input
+      type="hidden"
+      name="_subject"
+      value="New contact form submission from GreenTech website"
+    />
+    <input
+      type="hidden"
+      name="_autoresponse"
+      value="Thank you for your message! We will respond to you shortly."
+    />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
+
     {
       formItems.map(block => {
         return <StoryblokComponent blok={block} />;
@@ -27,5 +55,36 @@ const buttonItems = blocks?.filter(block => block.component === 'button');
         return <StoryblokComponent blok={block} />;
       })
     }
-  </div>
+
+    {
+      isSubmitted && (
+        <Alert variant="success" className="mt-2">
+          <AlertTitle>Message sent successfully!</AlertTitle>
+          <AlertDescription>
+            Thank you for contacting us. We will get back to you shortly.
+          </AlertDescription>
+        </Alert>
+      )
+    }
+  </form>
 </div>
+
+<script>
+  // Auto-populate _replyto field when email input changes
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.contact-form form');
+    const replytoField = form?.querySelector('input[name="_replyto"]');
+    const emailInput = form?.querySelector('input[type="email"]');
+
+    if (emailInput && replytoField) {
+      emailInput.addEventListener('input', function (e) {
+        replytoField.value = e.target.value;
+      });
+      
+      // Also set initial value if email field has content
+      if (emailInput.value) {
+        replytoField.value = emailInput.value;
+      }
+    }
+  });
+</script>

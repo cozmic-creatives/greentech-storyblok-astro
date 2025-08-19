@@ -13,22 +13,25 @@ import { storyblokEditable } from '@storyblok/astro';
 import { cn } from '~/lib/utils';
 
 const { blok } = Astro.props;
-const { inputClasses, placeholder, type = 'text', label, options = [], size } = blok;
+const { inputClasses, placeholder, type = 'text', label, options = [], size, required } = blok;
+
+// Normalize field name for form submission (lowercase, replace spaces with underscores)
+const normalizedName = label?.toLowerCase().replace(/\s+/g, '_') || '';
 ---
 
 <div class={cn('flex flex-col', label ? 'gap-1' : '', inputClasses)} {...storyblokEditable(blok)}>
   {
     type !== 'checkbox' && (
       <label for={label + '-input'} class="text-sm font-medium text-gray-700 whitespace-nowrap">
-        {label}
+        {label}{required && <span class="text-red-500 ml-1">*</span>}
       </label>
     )
   }
 
   {
     type === 'select' ? (
-      <Select>
-        <SelectTrigger id={label + '-input'} className={inputClasses}>
+      <Select name={normalizedName}>
+        <SelectTrigger id={label + '-input'} className={inputClasses} required={required}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
@@ -40,23 +43,27 @@ const { inputClasses, placeholder, type = 'text', label, options = [], size } = 
     ) : type === 'textarea' ? (
       <Textarea
         id={label + '-input'}
+        name={normalizedName}
         placeholder={placeholder}
         className={`${inputClasses} min-h-[100px]`}
+        required={required}
       />
     ) : type === 'checkbox' ? (
       <div class="flex items-center gap-2">
-        <Checkbox id={label + '-input'} />
+        <Checkbox id={label + '-input'} name={normalizedName} required={required} defaultChecked={true} client:load />
         <label for={label + '-input'} class="text-sm font-medium text-gray-700">
-          {label}
+          {label}{required && <span class="text-red-500 ml-1">*</span>}
         </label>
       </div>
     ) : (
       <InputComponent
         id={label + '-input'}
+        name={normalizedName}
         type={type}
         placeholder={placeholder}
         className={inputClasses}
         size={size}
+        required={required}
       />
     )
   }

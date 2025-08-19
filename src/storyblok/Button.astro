@@ -6,13 +6,22 @@ import { buttonVariants } from '~/components/ui/button';
 import { isSafeCrispCommand, sanitizeCrispCommand } from '~/utils/crisp';
 
 const { blok } = Astro.props;
-const { btnClasses, iconBefore, variant, link, size } = blok;
+const { btnClasses, iconBefore, variant, link, size, type = 'button' } = blok;
 
 const btnVariants = buttonVariants({ variant, size, className: btnClasses });
 ---
 
 {
-  isSafeCrispCommand(link) ? (
+  type === 'submit' ? (
+    <button
+      {...storyblokEditable(blok)}
+      type="submit"
+      class={cn('gap-[6px]', btnVariants)}
+    >
+      {blok.text}
+      <Icon name={blok.icon} class={iconBefore && 'order-first'} />
+    </button>
+  ) : isSafeCrispCommand(link) ? (
     <button
       {...storyblokEditable(blok)}
       type="button"
