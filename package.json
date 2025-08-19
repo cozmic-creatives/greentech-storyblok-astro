@@ -4,13 +4,14 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "PUBLIC_ENV=preview astro dev",
-    "build:production": "npm run generate:tag-analytics && PUBLIC_ENV=production astro build",
-    "build:preview": "npm run generate:tag-analytics && PUBLIC_ENV=preview astro build",
+    "build:production": "npm run generate:tag-analytics:check && PUBLIC_ENV=production astro build",
+    "build:preview": "npm run generate:tag-analytics:check && PUBLIC_ENV=preview astro build",
     "start": "astro dev",
     "build": "npm run generate:tag-analytics && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate:tag-analytics": "tsx src/scripts/generate-tag-analytics.ts",
+    "generate:tag-analytics:check": "test -f public/tag-analytics.json && find public/tag-analytics.json -mmin -60 | grep -q . || npm run generate:tag-analytics",
     "storyblok:generate-types": "storyblok pull-components --space 332224 && storyblok generate-typescript-typedefs --sourceFilePaths ./components.332224.json --destinationFilePath ./src/types/component-types-sb.d.ts"
   },
   "devDependencies": {

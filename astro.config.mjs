@@ -23,6 +23,14 @@ export default defineConfig({
   image: {
     format: 'webp',
   },
+  
+  build: {
+    inlineStylesheets: 'auto',
+    assets: '_assets',
+    split: true,
+  },
+  
+  compressHTML: true,
 
   integrations: [
     storyblok({
