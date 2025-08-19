@@ -122,3 +122,9 @@ The project includes Docker configurations for both static and SSR deployments:
 
 - `SEO_GUIDE.md`: Comprehensive guide for SEO implementation and best practices
 - `src/scripts/storyblok/`: Collection of utility scripts for Storyblok content management and migration
+
+## Git Commit Guidelines
+
+- NEVER include Claude attribution or "Generated with Claude Code" in commit messages
+- Keep commit messages professional and focused on the actual changes made
+- Follow conventional commit format when appropriate
