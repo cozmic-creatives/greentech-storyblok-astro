@@ -1,0 +1,59 @@
+---
+export interface Props {
+  totalResults: number;
+  searchQuery?: string | null;
+  tagFilter?: string | null;
+}
+
+const { totalResults, searchQuery, tagFilter } = Astro.props;
+
+// Build filter display text
+const filters = [];
+if (searchQuery) {
+  filters.push(`search: "${searchQuery}"`);
+}
+if (tagFilter) {
+  filters.push(`tag: "${tagFilter}"`);
+}
+const filterText = filters.length > 0 ? filters.join(', ') : null;
+---
+
+<div class="py-4 px-1 border-b border-gray-200 dark:border-gray-700">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+    <!-- Results count -->
+    <div class="text-sm text-gray-600 dark:text-gray-400">
+      {totalResults === 0 ? (
+        <span class="text-amber-600 dark:text-amber-400">
+          No articles found
+          {filterText && <span class="font-normal"> matching your criteria</span>}
+        </span>
+      ) : (
+        <>
+          <span class="font-medium">{totalResults}</span>
+          {totalResults === 1 ? ' article' : ' articles'} found
+        </>
+      )}
+    </div>
+    
+    <!-- Active filters -->
+    {filterText && (
+      <div class="text-xs text-gray-500 dark:text-gray-500">
+        Active filters: {filterText}
+        <a 
+          href="/articles" 
+          class="ml-2 text-primary hover:text-primary-dark underline decoration-2 hover:decoration-primary-dark transition-colors"
+          title="Clear all filters"
+        >
+          clear all
+        </a>
+      </div>
+    )}
+  </div>
+
+  {/* No results help text */}
+  {totalResults === 0 && filterText && (
+    <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+      Try adjusting your search terms or <a href="/articles" class="text-primary hover:text-primary-dark underline">browse all articles</a>
+    </div>
+  )}
+</div>

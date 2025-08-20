@@ -1,57 +1,1637 @@
 {
-  "totalTags": 10,
-  "totalArticles": 5,
+  "totalTags": 737,
+  "totalArticles": 79,
   "tags": [
     {
       "name": "InjectionMolding",
-      "count": 1,
-      "percentage": 10
-    },
-    {
-      "name": "Manufacturing",
-      "count": 1,
-      "percentage": 10
+      "count": 59,
+      "percentage": 8.01
     },
     {
       "name": "PlasticProcessing",
-      "count": 1,
-      "percentage": 10
+      "count": 50,
+      "percentage": 6.78
     },
     {
       "name": "ProductionEfficiency",
-      "count": 1,
-      "percentage": 10
+      "count": 28,
+      "percentage": 3.8
+    },
+    {
+      "name": "Manufacturing",
+      "count": 27,
+      "percentage": 3.66
     },
     {
       "name": "QualityControl",
-      "count": 1,
-      "percentage": 10
+      "count": 21,
+      "percentage": 2.85
+    },
+    {
+      "name": "CircularEconomy",
+      "count": 16,
+      "percentage": 2.17
+    },
+    {
+      "name": "MaterialHandling",
+      "count": 16,
+      "percentage": 2.17
+    },
+    {
+      "name": "EnergyEfficiency",
+      "count": 12,
+      "percentage": 1.63
+    },
+    {
+      "name": "SustainableManufacturing",
+      "count": 11,
+      "percentage": 1.49
+    },
+    {
+      "name": "Sustainability",
+      "count": 11,
+      "percentage": 1.49
+    },
+    {
+      "name": "ManufacturingInnovation",
+      "count": 11,
+      "percentage": 1.49
+    },
+    {
+      "name": "SustainableProduction",
+      "count": 10,
+      "percentage": 1.36
+    },
+    {
+      "name": "PlasticRecycling",
+      "count": 8,
+      "percentage": 1.09
+    },
+    {
+      "name": "WasteReduction",
+      "count": 7,
+      "percentage": 0.95
+    },
+    {
+      "name": "SmartManufacturing",
+      "count": 7,
+      "percentage": 0.95
+    },
+    {
+      "name": "ManufacturingEfficiency",
+      "count": 7,
+      "percentage": 0.95
+    },
+    {
+      "name": "ENGEL",
+      "count": 6,
+      "percentage": 0.81
     },
     {
       "name": "TechnicalInnovation",
-      "count": 1,
-      "percentage": 10
+      "count": 6,
+      "percentage": 0.81
     },
     {
-      "name": "ScientificMolding",
-      "count": 1,
-      "percentage": 10
+      "name": "ManufacturingEquipment",
+      "count": 6,
+      "percentage": 0.81
+    },
+    {
+      "name": "PlasticsIndustry",
+      "count": 6,
+      "percentage": 0.81
     },
     {
       "name": "ProcessOptimization",
+      "count": 5,
+      "percentage": 0.68
+    },
+    {
+      "name": "ManufacturingTechnology",
+      "count": 5,
+      "percentage": 0.68
+    },
+    {
+      "name": "TradeShow",
+      "count": 5,
+      "percentage": 0.68
+    },
+    {
+      "name": "IndustryEvent",
+      "count": 5,
+      "percentage": 0.68
+    },
+    {
+      "name": "AutomotiveManufacturing",
+      "count": 5,
+      "percentage": 0.68
+    },
+    {
+      "name": "DigitalTransformation",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "IndustryInnovation",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "SustainablePackaging",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "RecyclingTechnology",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "ENGELTechnology",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "ConveyingSystems",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "IndustrialEquipment",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "AfricanManufacturing",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "IndustryTrends",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "PlasticsMachinery",
+      "count": 4,
+      "percentage": 0.54
+    },
+    {
+      "name": "PackagingTechnology",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "ResourceEfficiency",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "ProcessAutomation",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "SurfaceTreatment",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "TemperatureControl",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "MaterialProcessing",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "MaterialDosing",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "TechnicalSupport",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "ManufacturingAutomation",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "PropakEastAfrica",
+      "count": 3,
+      "percentage": 0.41
+    },
+    {
+      "name": "RecyclingEquipment",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ENGELMachinery",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "AutomotiveLighting",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ProcessConsistency",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "Digitalisation",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ThinWallMolding",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "PackagingSolutions",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ProcessEfficiency",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "CoronaTreatment",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "GreenManufacturing",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "RecycledMaterials",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "Industry4.0",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "CO2Reduction",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "IndustrialInnovation",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ProductDevelopment",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "SupplyChain",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "BlowMolding",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "Extrusion",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "FoodPackaging",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "DowntimeReduction",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "IndustrialAutomation",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "TieBarlessTechnology",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "SouthAfricanManufacturing",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "PrecisionDosing",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "NetworkingOpportunity",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "DosingTechnology",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ExtrusionTechnology",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ProductionOptimization",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "PlasticsRecycling",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "SouthernAfrica",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "WasteManagement",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "EuropeanEngineering",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "CostReduction",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "MotanEquipment",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ManufacturingSolutions",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "ProductionEquipment",
+      "count": 2,
+      "percentage": 0.27
+    },
+    {
+      "name": "InkjetTechnology",
       "count": 1,
-      "percentage": 10
+      "percentage": 0.14
+    },
+    {
+      "name": "PrintingInnovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustrialPrinting",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProductDecoration",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Tampoprint",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EdgeTrimProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustrialRecycling",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialRecovery",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryTraining",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Automation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Inject4.0",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SkillsDevelopment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryDigitalization",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RemoteSupport",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PredictiveMaintenance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SimulationTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RobotAutomation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SpaceEfficiency",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MultiComponentMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IntegratedSystems",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LightGuides",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PMMA",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "StarveFeedingTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialPurity",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LEDApplications",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "OpticalQuality",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticizingProcess",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LargePartMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ContainerProduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "VirtualEvents",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TechnicalEducation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GlobalManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "BusinessNetworking",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "OpticalComponents",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LEDTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ContinuousImprovement",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Thermoplastics",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Lightweight",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Composites",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Recycling",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Automotive",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Aerospace",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialInnovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MedicalManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PharmaceuticalProduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RegulatoryCompliance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CleanRoomTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GMPCompliance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PolypropyleneProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AdhesionSolutions",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PrintingTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TetheredCaps",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EURegulation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticWaste",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "BottleCaps",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PackagingCompliance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "FacilityExpansion",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SwissEngineering",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustrialGrowth",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CoinjectionTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SandwichMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProductionInnovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "inject4.0",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SmartFactory",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "DigitalTwin",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "HorizontalPlatforms",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CorporateResponsibility",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EnvironmentalProtection",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SocialImpact",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TwoStageProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LargeComponentManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingIndustry",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EconomicRecovery",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Digitalization",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomotiveTransformation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SupplyChainChallenges",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "BusinessGrowth",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CompanyNews",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CorporateMerger",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EquipmentManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RetrofitSolutions",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryAcquisition",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ControlSystems",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CustomizedSolutions",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ElectricInjectionMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ThinWallPackaging",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingPrecision",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProcessStability",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PackagingProduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TwoPlatenMachines",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EngelDuoSpeed",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "HighSpeedProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RecyclateProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ShortCycleTimes",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticContainers",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "DryingEquipment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticProduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MotanTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ClampingForce",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MoldProtection",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ToolDesign",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ENGELmachinery",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PolymerProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AdhesionImprovement",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SurfaceActivation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EquipmentLongevity",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ENGELMachines",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "HydraulicVsElectric",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaintenanceStrategies",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PackagingManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "DosingEquipment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialTransport",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GainInWeightDosing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Regrind",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "DosingSystems",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PackagingEquipment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EastAfricaMarket",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LargeScaleMachinery",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "WaterManagement",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CustomEngineering",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AdvancedManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RobotIntegration",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TierSupplier",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "WINTECMachines",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "HKTMRobots",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AdvancedMachinery",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MobilityInnovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CarbonReduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomativeManufacturing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "QuickChangeover",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ModularEquipment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Motan",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CompositePipes",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticMetalComposites",
+      "count": 1,
+      "percentage": 0.14
     },
     {
       "name": "MaterialScience",
       "count": 1,
-      "percentage": 10
+      "percentage": 0.14
     },
     {
-      "name": "DefectReduction",
+      "name": "AdvancedMaterials",
       "count": 1,
-      "percentage": 10
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustrialProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GreenProduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryLeadership",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomotiveIndustry",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LogisticsNetworks",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "InfrastructureDevelopment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TransportationLogistics",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "NAAMSA",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SouthAfrica",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "HeritageDay",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CulturalDiversity",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CommunityValues",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TeamCulture",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingTradition",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TechnicalResources",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryEvents",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Fakuma2023",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryPartnerships",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PartnershipAnnouncement",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "NGR",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasmaProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EPDM",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Flocking",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SlipCoating",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingPartnerships",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RegionalExpansion",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingExcellence",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GlobalLeadership",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RawMaterialProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GermanEngineering",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ModularSystems",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ThinWallApplications",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CapAndClosure",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PrecisionMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialsHandling",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialsManagement",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticsDrying",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialDrying",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ETAplus",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "rPET",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RecycledPlastics",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EU2025Regulations",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Certification",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SafetyStandards",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GlobalCompliance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MachineMaintenance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PreventativeMaintenance",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EquipmentReliability",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingInfrastructure",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "LargeScaleMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticComponents",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GravimetricBlending",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PCRProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialMixing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProductionAutomation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SheetExtrusion",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "RecyclateSolutions",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "CarbonFootprintReduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomatedLoading",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticGranulate",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialConveying",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "METROSGHES",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomatedProduction",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ToolChangeOptimization",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Fakuma2024",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EquipmentInnovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GravimetricDosing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "VolumetricDosing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ConveyingEquipment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingTips",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialDischarge",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GranulateHandling",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PowderProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EquipmentSelection",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PlasticsProcessing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProductionControl",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomationSolutions",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialLoaders",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustrialControls",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SiemensTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProductInnovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TechnicalPublications",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProcessImprovement",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "StrategicPartnerships",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MakeInIndia",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "GlobalTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ENGELGroup",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "PropakAfrica",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ProcessingEquipment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Innovation",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "Efficiency",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EducationalPartnerships",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryCollaboration",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "KnowledgeSharing",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "AutomationSystems",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustryConference",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TechnicalKnowledge",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "NetworkingEvents",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "EuropeanMachinery",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "DegassingTechnology",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ExtrustionBlowMolding",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "IndustrialPackaging",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MachineRefurbishment",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TechnicalParts",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "TechnicalInsights",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "SuccessStories",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "NAACAM2025",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "MaterialThroughput",
+      "count": 1,
+      "percentage": 0.14
+    },
+    {
+      "name": "ManufacturingCycles",
+      "count": 1,
+      "percentage": 0.14
     }
   ],
-  "generatedAt": "2025-08-16T08:08:17.280Z"
+  "generatedAt": "2025-08-20T11:55:07.627Z"
 }

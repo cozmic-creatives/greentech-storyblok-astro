@@ -1,10 +1,24 @@
 import { config } from 'dotenv';
-import { createStory, uploadAsset, slugExists, getFolderByName } from './utils.ts';
+import { createStory, slugExists, getFolderByName, getAssetFolderByName } from './utils.ts';
 import { improveWordPressPost } from './robot.ts';
-import { convertToRichText } from '../../utils/richtext.ts';
 
 // Load environment variables
 config();
+
+// Node.js HTTPS module for custom Host header support
+import https from 'https';
+import { URL } from 'url';
+
+// Enhanced logging utilities
+function formatTimestamp(): string {
+  return new Date().toISOString().replace('T', ' ').slice(0, 19);
+}
+
+function logInfo(message: string): void {
+  console.log(`[${formatTimestamp()}] ℹ️  ${message}`);
+}
+
+// Note: SSL certificate validation is handled in customFetch() function
 
 // Migration Configuration
 interface MigrationConfig {
@@ -18,11 +32,11 @@ interface MigrationConfig {
 }
 
 const MIGRATION_CONFIG: MigrationConfig = {
-  wpApiBase: 'https://greentechmachinery.co.za/wp-json/wp/v2',
+  wpApiBase: 'https://156.38.250.198/wp-json/wp/v2', // Old server IP
   enableAssetUpload: true,
   enableAiImprovement: true,
-  perPage: 10, // Process 10 posts at a time for efficiency
-  offset: 0,
+  perPage: 39, // Process remaining 39 articles (79 - 40)
+  offset: 40,
   rateLimitDelay: 1000,
   maxRetries: 3,
 };
@@ -105,15 +119,7 @@ function validateSEOContent(
   return seoErrors;
 }
 
-// Enhanced logging utilities
-function formatTimestamp(): string {
-  return new Date().toISOString().replace('T', ' ').slice(0, 19);
-}
-
-function logInfo(message: string): void {
-  console.log(`[${formatTimestamp()}] ℹ️  ${message}`);
-}
-
+// Additional logging functions
 function logSuccess(message: string): void {
   console.log(`[${formatTimestamp()}] ✅ ${message}`);
 }
@@ -184,6 +190,179 @@ interface WordPressMedia {
 }
 
 /**
+ * Shared HTTPS request function for old WordPress server access
+ * Handles Host header override that Node.js fetch() cannot do properly
+ */
+async function makeWordPressRequest(url: string, returnBinary = false): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const parsedUrl = new URL(url);
+
+    const options = {
+      hostname: '156.38.250.198', // Direct IP
+      port: 443,
+      path: parsedUrl.pathname + parsedUrl.search,
+      method: 'GET',
+      headers: {
+        Host: 'greentechmachinery.co.za', // Virtual host header
+        'User-Agent': 'Migration-Script/1.0',
+      },
+      rejectUnauthorized: false, // Ignore SSL certificate issues
+    };
+
+    const req = https.request(options, res => {
+      if (returnBinary) {
+        // For images - return ArrayBuffer
+        const chunks: Buffer[] = [];
+
+        res.on('data', chunk => {
+          chunks.push(chunk);
+        });
+
+        res.on('end', () => {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            const buffer = Buffer.concat(chunks);
+            resolve(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength));
+          } else {
+            logError(`Request failed: ${res.statusCode} ${res.statusMessage}`);
+            resolve(null);
+          }
+        });
+      } else {
+        // For JSON/text data
+        let data = '';
+
+        res.on('data', chunk => {
+          data += chunk;
+        });
+
+        res.on('end', () => {
+          try {
+            const jsonData = JSON.parse(data);
+            resolve({
+              ok: res.statusCode >= 200 && res.statusCode < 300,
+              status: res.statusCode,
+              statusText: res.statusMessage || '',
+              json: () => Promise.resolve(jsonData),
+              text: () => Promise.resolve(data),
+            });
+          } catch (error) {
+            resolve({
+              ok: res.statusCode >= 200 && res.statusCode < 300,
+              status: res.statusCode,
+              statusText: res.statusMessage || '',
+              json: () => Promise.reject(new Error('Invalid JSON')),
+              text: () => Promise.resolve(data),
+            });
+          }
+        });
+      }
+    });
+
+    req.on('error', error => {
+      reject(error);
+    });
+
+    req.end();
+  });
+}
+
+/**
+ * Custom fetch function for WordPress API calls
+ */
+async function customFetch(url: string): Promise<any> {
+  return makeWordPressRequest(url, false);
+}
+
+/**
+ * Get total count of WordPress articles from API headers
+ */
+async function getWordPressArticleCount(): Promise<number> {
+  try {
+    logInfo('Getting total WordPress article count...');
+
+    return new Promise((resolve, reject) => {
+      const parsedUrl = new URL(`${MIGRATION_CONFIG.wpApiBase}/posts?per_page=1`);
+
+      const options = {
+        hostname: '156.38.250.198', // Direct IP
+        port: 443,
+        path: parsedUrl.pathname + parsedUrl.search,
+        method: 'GET',
+        headers: {
+          Host: 'greentechmachinery.co.za', // Virtual host header
+          'User-Agent': 'Migration-Script/1.0',
+        },
+        rejectUnauthorized: false,
+      };
+
+      const req = https.request(options, res => {
+        // WordPress API sends total count in X-WP-Total header
+        const totalCount = res.headers['x-wp-total'];
+
+        if (totalCount) {
+          const count = parseInt(totalCount as string, 10);
+          logSuccess(`Found ${count} total WordPress articles`);
+          resolve(count);
+        } else {
+          logWarning('X-WP-Total header not found, counting manually...');
+          // Fallback: consume response and count pages
+          let data = '';
+          res.on('data', chunk => {
+            data += chunk;
+          });
+          res.on('end', () => {
+            try {
+              const posts = JSON.parse(data);
+              resolve(posts.length > 0 ? posts.length : 0);
+            } catch (error) {
+              resolve(0);
+            }
+          });
+        }
+      });
+
+      req.on('error', error => {
+        logError('Error getting article count', error);
+        resolve(0);
+      });
+
+      req.end();
+    });
+  } catch (error) {
+    logError('Error getting WordPress article count', error);
+    return 0;
+  }
+}
+
+/**
+ * Test connection to WordPress API
+ */
+async function testWordPressConnection(): Promise<boolean> {
+  try {
+    logInfo('Testing connection to WordPress API...');
+    logInfo(`Using custom fetch with IP and Host header`);
+
+    const response = await customFetch(`${MIGRATION_CONFIG.wpApiBase}/posts?per_page=1`);
+
+    logInfo(`Response status: ${response.status} ${response.statusText}`);
+
+    if (response.ok) {
+      const posts = await response.json();
+      logSuccess(`Connection successful! Found ${posts.length} posts available`);
+      return true;
+    } else {
+      const errorText = await response.text();
+      logError(`Connection failed: ${response.status} ${response.statusText}`);
+      logError(`Response body: ${errorText.substring(0, 200)}...`);
+      return false;
+    }
+  } catch (error) {
+    logError('Connection test failed', error);
+    return false;
+  }
+}
+
+/**
  * Fetch WordPress posts
  */
 async function fetchWordPressPosts(
@@ -191,7 +370,7 @@ async function fetchWordPressPosts(
   offset: number = MIGRATION_CONFIG.offset
 ): Promise<WordPressPost[]> {
   return withRetry(async () => {
-    const response = await fetch(
+    const response = await customFetch(
       `${MIGRATION_CONFIG.wpApiBase}/posts?per_page=${perPage}&offset=${offset}`
     );
     if (!response.ok) {
@@ -209,7 +388,7 @@ async function fetchWordPressPosts(
  */
 async function fetchWordPressMedia(mediaId: number): Promise<WordPressMedia | null> {
   return withRetry(async () => {
-    const response = await fetch(`${MIGRATION_CONFIG.wpApiBase}/media/${mediaId}`);
+    const response = await customFetch(`${MIGRATION_CONFIG.wpApiBase}/media/${mediaId}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch media ${mediaId}: ${response.statusText}`);
     }
@@ -239,9 +418,70 @@ function createAssetObject(uploadedAsset: any, media: WordPressMedia): any {
 }
 
 /**
+ * Custom image fetch that handles old WordPress server
+ */
+async function fetchImageWithCustomHost(imageUrl: string): Promise<ArrayBuffer | null> {
+  try {
+    // Use shared helper with binary mode
+    return await makeWordPressRequest(imageUrl, true);
+  } catch (error) {
+    logError('Image fetch error', error);
+    return null;
+  }
+}
+
+/**
+ * Upload WordPress image to Storyblok using custom fetch
+ */
+async function uploadWordPressImage(
+  imageUrl: string,
+  filename: string,
+  dimensions: string,
+  assetFolderId?: number
+): Promise<any | null> {
+  try {
+    logInfo(`Fetching image: ${imageUrl}`);
+
+    // Use our custom fetch to get the image
+    const arrayBuffer = await fetchImageWithCustomHost(imageUrl);
+    if (!arrayBuffer) {
+      logError(`Failed to fetch image from old server: ${imageUrl}`);
+      return null;
+    }
+
+    logSuccess(`Successfully fetched image (${arrayBuffer.byteLength} bytes)`);
+
+    // Import the required functions from utils
+    const { getSignedResponse, uploadToSignedUrl, finalizeUpload } = await import('./utils.ts');
+
+    // Step 1: Get signed response with folder
+    const signedResponse = await getSignedResponse(filename, dimensions, assetFolderId);
+    if (!signedResponse) return null;
+
+    // Step 2: Upload to signed URL
+    const uploadSuccess = await uploadToSignedUrl(signedResponse, arrayBuffer);
+    if (!uploadSuccess) return null;
+
+    // Step 3: Finalize upload
+    const finalResult = await finalizeUpload(signedResponse.id);
+    if (!finalResult) return null;
+
+    logSuccess(`Image uploaded successfully: ${filename}`);
+    return finalResult;
+  } catch (error) {
+    logError(`Failed to upload WordPress image: ${filename}`, error);
+    return null;
+  }
+}
+
+/**
  * Process featured media and upload to Storyblok
  */
-async function processFeaturedMedia(mediaId: number, postSlug: string): Promise<any> {
+async function processFeaturedMedia(
+  mediaId: number,
+  postSlug: string,
+  assetFolderId?: number
+): Promise<any> {
   if (!mediaId || mediaId <= 0) return null;
 
   const media = await fetchWordPressMedia(mediaId);
@@ -271,7 +511,12 @@ async function processFeaturedMedia(mediaId: number, postSlug: string): Promise<
   // Get actual image dimensions from WordPress
   const dimensions = `${media.media_details.width}x${media.media_details.height}`;
 
-  const uploadedAsset = await uploadAsset(media.source_url, filename, dimensions);
+  const uploadedAsset = await uploadWordPressImage(
+    media.source_url,
+    filename,
+    dimensions,
+    assetFolderId
+  );
 
   if (uploadedAsset) {
     return createAssetObject(uploadedAsset, media);
@@ -286,13 +531,14 @@ async function processFeaturedMedia(mediaId: number, postSlug: string): Promise<
 function createArticleContent(
   post: WordPressPost,
   featuredImage: any,
+  improvedContent?: string,
   excerpt?: string,
   articleTags?: string
 ): any {
   const articleContent: any = {
     component: 'article',
     title: post.title.rendered,
-    body: convertToRichText(post.content.rendered),
+    body: improvedContent || post.content.rendered, // Use improved markdown content if available
     dateModified: post.date_modified || post.modified || post.date,
     image: featuredImage,
   };
@@ -329,7 +575,11 @@ async function generateUniqueSlug(baseSlug: string): Promise<string> {
 /**
  * Process a single WordPress post and create a Storyblok story
  */
-async function processWordPressPost(post: WordPressPost, articlesFolder: any): Promise<boolean> {
+async function processWordPressPost(
+  post: WordPressPost,
+  articlesFolder: any,
+  assetFolder?: any
+): Promise<boolean> {
   try {
     logInfo(`Processing: ${post.title.rendered}`);
 
@@ -342,7 +592,11 @@ async function processWordPressPost(post: WordPressPost, articlesFolder: any): P
     // Extract just the slug part for story creation (folder structure is handled by parent_id)
     const storySlug = finalSlug.replace('articles/', '');
 
-    const featuredImage = await processFeaturedMedia(post.featured_media, storySlug);
+    const featuredImage = await processFeaturedMedia(
+      post.featured_media,
+      storySlug,
+      assetFolder?.id
+    );
 
     // Prepare content for potential AI improvement
     let title = post.title.rendered;
@@ -381,8 +635,9 @@ async function processWordPressPost(post: WordPressPost, articlesFolder: any): P
     }
 
     const articleContent = createArticleContent(
-      { ...post, title: { rendered: title }, content: { rendered: content } },
+      { ...post, title: { rendered: title } },
       featuredImage,
+      content, // Pass the improved markdown content
       summary,
       articleTags
     );
@@ -431,6 +686,18 @@ async function runMigration(): Promise<void> {
     validateMigrationConfig(MIGRATION_CONFIG);
     logSuccess('Configuration validated');
 
+    // Test WordPress connection
+    const connectionOk = await testWordPressConnection();
+    if (!connectionOk) {
+      throw new Error('Cannot connect to WordPress API');
+    }
+
+    // Get total article count
+    const totalArticles = await getWordPressArticleCount();
+    logInfo(
+      `Migration will process ${MIGRATION_CONFIG.perPage} of ${totalArticles} total articles`
+    );
+
     // Get the Articles folder
     logInfo('Finding Articles folder...');
     const articlesFolder = await getFolderByName('Articles');
@@ -439,6 +706,16 @@ async function runMigration(): Promise<void> {
       logSuccess(`Found Articles folder (ID: ${articlesFolder.id})`);
     } else {
       logWarning('Articles folder not found, stories will be created in root');
+    }
+
+    // Get the Articles asset folder
+    logInfo('Finding Articles asset folder...');
+    const articlesAssetFolder = await getAssetFolderByName('Articles');
+
+    if (articlesAssetFolder) {
+      logSuccess(`Found Articles asset folder (ID: ${articlesAssetFolder.id})`);
+    } else {
+      logWarning('Articles asset folder not found, images will be uploaded to root');
     }
 
     const posts = await fetchWordPressPosts();
@@ -467,7 +744,7 @@ async function runMigration(): Promise<void> {
       }
 
       logProgress(i + 1, posts.length, `Processing: ${post.title.rendered}`);
-      const success = await processWordPressPost(post, articlesFolder);
+      const success = await processWordPressPost(post, articlesFolder, articlesAssetFolder);
       if (success) {
         results.success++;
       } else {

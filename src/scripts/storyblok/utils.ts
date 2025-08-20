@@ -158,9 +158,28 @@ export async function copyContentToStories(
 }
 
 /**
+ * Get asset folder by name
+ */
+export async function getAssetFolderByName(folderName: string): Promise<any> {
+  try {
+    const api = getStoryblokApi();
+    const { data } = await (api as any).get(`spaces/${SPACE_ID}/asset_folders`);
+
+    const folder = data.asset_folders?.find(
+      (folder: any) => folder.name.toLowerCase() === folderName.toLowerCase()
+    );
+
+    return folder || null;
+  } catch (error) {
+    console.error(`Error fetching asset folder '${folderName}':`, error);
+    return null;
+  }
+}
+
+/**
  * Step 1: Get signed response object from Storyblok (direct API call)
  */
-async function getSignedResponse(filename: string, dimensions: string): Promise<any> {
+export async function getSignedResponse(filename: string, dimensions: string, assetFolderId?: number): Promise<any> {
   try {
     const response = await fetch(`https://mapi.storyblok.com/v1/spaces/${SPACE_ID}/assets`, {
       method: 'POST',
@@ -172,6 +191,7 @@ async function getSignedResponse(filename: string, dimensions: string): Promise<
         filename: filename,
         size: dimensions,
         validate_upload: 1,
+        ...(assetFolderId && { asset_folder_id: assetFolderId }),
       }),
     });
 
@@ -192,7 +212,7 @@ async function getSignedResponse(filename: string, dimensions: string): Promise<
 /**
  * Step 2: Upload file to the signed URL
  */
-async function uploadToSignedUrl(signedResponse: any, fileBuffer: ArrayBuffer): Promise<boolean> {
+export async function uploadToSignedUrl(signedResponse: any, fileBuffer: ArrayBuffer): Promise<boolean> {
   try {
     const formData = new FormData();
 
@@ -219,7 +239,7 @@ async function uploadToSignedUrl(signedResponse: any, fileBuffer: ArrayBuffer): 
 /**
  * Step 3: Finalize the upload process
  */
-async function finalizeUpload(signedResponseId: string): Promise<any> {
+export async function finalizeUpload(signedResponseId: string): Promise<any> {
   try {
     const api = getStoryblokApi();
     const { data } = await (api as any).get(
@@ -238,7 +258,8 @@ async function finalizeUpload(signedResponseId: string): Promise<any> {
 export async function uploadAsset(
   imageUrl: string,
   filename: string,
-  dimensions: string = '1024x768'
+  dimensions: string = '1024x768',
+  assetFolderId?: number
 ): Promise<any | null> {
   try {
     // Fetch the image data
@@ -250,8 +271,8 @@ export async function uploadAsset(
 
     const arrayBuffer = await response.arrayBuffer();
 
-    // Step 1: Get signed response with actual dimensions
-    const signedResponse = await getSignedResponse(filename, dimensions);
+    // Step 1: Get signed response with actual dimensions and folder
+    const signedResponse = await getSignedResponse(filename, dimensions, assetFolderId);
     if (!signedResponse) return null;
 
     // Step 2: Upload to signed URL

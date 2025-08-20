@@ -22,7 +22,8 @@ CONTENT APPROACH:
 5. End with actionable takeaways or next steps
 
 FORMAT GUIDELINES:
-- Always use markdown formatting (# for headings, - for bullets, etc.)
+- Use markdown formatting (H2-H6 for headings, - for bullets, etc.)
+- NEVER use H1 (#) - reserved for article titles
 - Structure content with compelling headings that promise value
 - Use bullet points and numbered lists for clarity
 - Keep paragraphs concise and scannable
@@ -34,26 +35,33 @@ You're writing for GreenTech, a company that imports, installs, and services bes
 const claude = createClaudeClient();
 
 export async function improveContent(content: string): Promise<string> {
-  const prompt = `Transform this content into engaging, conversational writing that flows naturally while maintaining all technical accuracy. Make it feel like a knowledgeable friend explaining injection molding concepts - professional but approachable.
+  const prompt = `Transform this WordPress HTML content into engaging, conversational writing that flows naturally while maintaining technical accuracy. Write like a knowledgeable friend explaining injection molding concepts - professional but approachable.
 
-Focus on:
+FORMATTING REQUIREMENTS:
+- Convert HTML to clean markdown format
+- NEVER use H1 headers (#) - article title is already H1
+- Start with H2 (##) as largest heading in body
+- Use H2-H6, bullet points, numbered lists appropriately
+- Preserve original content length (short stays short, detailed stays detailed)
+
+CONTENT FOCUS:
 - Natural, conversational tone (avoid robotic AI language)
-- Engaging flow that keeps readers interested
+- Engaging flow that keeps readers interested  
 - Clear value propositions for the reader
 - Practical insights and real-world applications
 - Smooth transitions between ideas
+- Match original article's scope and depth
 
-Format as clean markdown with headings, bullet points, and numbered lists where appropriate.
-
-IMPORTANT: At the end of your response, include relevant tags for this article wrapped in this exact format:
+TAG GENERATION:
+At the end, include relevant tags in this exact format:
 <tags>InjectionMolding,Manufacturing,PlasticProcessing,ProductionEfficiency,QualityControl,TechnicalInnovation</tags>
 
-Use relevant tags related to injection molding, manufacturing, sustainability, materials, processes, or business benefits mentioned in the content.
+Use tags related to: injection molding, manufacturing, sustainability, materials, processes, business benefits, specific technologies mentioned.
 
-Original Content:
+WORDPRESS HTML CONTENT:
 ${content}
 
-Return only the improved content in markdown format followed by the tags.`;
+OUTPUT: Return improved markdown content followed by tags.`;
 
   return await claude.generateText(prompt, SYSTEM_PROMPT);
 }
@@ -68,29 +76,52 @@ export async function removeTagsFromContent(content: string): Promise<string> {
 }
 
 export async function improveTitle(title: string, contentPreview: string): Promise<string> {
-  const prompt = `Based on the following article content, please create an improved, more engaging title for this injection molding technology article. The title should be professional, captivating, and clearly communicate the main value or benefit to the reader.
+  const prompt = `Create an improved, engaging title for this injection molding technology article.
 
-Original Title: ${title}
+REQUIREMENTS:
+- Maximum 60 characters for optimal SEO
+- Professional and captivating
+- Clearly communicate the main value/benefit
+- Use action words and benefit-focused language
+- Target manufacturing professionals
+
+EXAMPLES OF GOOD TITLES:
+- "5 Ways to Boost Injection Molding Efficiency"
+- "New Recycling Tech Cuts Costs by 40%"
+- "Smart Dosing Systems: Game-Changer for Quality"
+
+Original Title: "${title}"
 
 Article Content Preview:
 ${contentPreview.substring(0, 500)}...
 
-Return ONLY the improved title as plain text - no markdown formatting, no # symbols, no quotes.`;
+Return ONLY the improved title (under 60 chars) - no formatting, quotes, or extra text.`;
 
   const improvedTitle = await claude.generateText(prompt, SYSTEM_PROMPT);
-  return improvedTitle.replace(/^#+\s*/, '').trim();
+  return improvedTitle.replace(/^#+\s*/, '').replace(/['"]/g, '').trim();
 }
 
 export async function generateSummary(content: string): Promise<string> {
-  const prompt = `Please create a compelling meta description/summary for this injection molding technology article. The summary should be 160 characters or less, engaging, and clearly communicate the main value proposition for GreenTech's audience.
+  const prompt = `Create a compelling meta description for this injection molding article.
+
+REQUIREMENTS:
+- Exactly 150-160 characters for optimal SEO
+- Include main benefit or value proposition
+- Use active voice and compelling language
+- Target manufacturing professionals
+- Include a call-to-action phrase
+
+GOOD EXAMPLES:
+- "Discover how smart dosing systems improve injection molding quality by 30%. Learn the key benefits and implementation tips from GreenTech experts."
+- "Boost your plastic recycling efficiency with NGR technology. See how 27 production lines transformed manufacturing operations worldwide."
 
 Article Content:
-${content}
+${content.substring(0, 800)}...
 
-Please return only the summary text without any additional commentary.`;
+Return ONLY the meta description (150-160 chars) - no quotes or extra text.`;
 
   const summary = await claude.generateText(prompt, SYSTEM_PROMPT);
-  return summary.substring(0, 160);
+  return summary.replace(/['"]/g, '').trim().substring(0, 160);
 }
 
 export async function improveWordPressPost(post: { title: string; content: string }) {

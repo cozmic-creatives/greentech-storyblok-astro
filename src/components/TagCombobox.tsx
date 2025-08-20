@@ -125,7 +125,8 @@ export function TagCombobox(props: TagComboboxProps) {
   }));
 
   const handleSelect = (option: ComboboxOption) => {
-    window.location.href = `/articles?tag=${encodeURIComponent(option.value)}`;
+    const { updateQueryParam } = require('~/utils/queryParams');
+    updateQueryParam('tag', option.value);
   };
 
   return (

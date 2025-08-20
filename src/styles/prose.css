@@ -44,12 +44,20 @@
   }
 
   &.article-body {
-    h1 {
-      @apply hidden;
+    h2 {
+      @apply text-2xl font-bold mb-3;
     }
 
-    h2 {
-      @apply text-2xl font-bold;
+    h3 {
+      @apply mt-3;
+    }
+
+    ul {
+      @apply mb-2;
+
+      li {
+        @apply my-1;
+      }
     }
   }
 }

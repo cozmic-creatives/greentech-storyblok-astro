@@ -1,23 +1,32 @@
 ---
-import { storyblokEditable, renderRichText } from '@storyblok/astro';
+import { storyblokEditable } from '@storyblok/astro';
 import OptimisedImage from '~/components/OptimisedImage.astro';
 import Text from '../Text.astro';
-import RichText from '../RichText.astro';
 import Badge from '../Badge.astro';
-import ArticleAside from './ArticleAside.astro';
+import Icon from '~/components/Icon.astro';
+import { formatDisplayDate, formatISODate } from '~/utils/date';
+// import ArticleAside from './ArticleAside.astro';
 
 const { blok } = Astro.props;
-const { title, excerpt, body, articleTags, image } = blok;
+const { title, excerpt, body, articleTags, image, dateModified } = blok;
 
-// Render rich text content properly
-const renderedBody = body ? renderRichText(body) : '';
 const tags = articleTags ? articleTags.split(',') : [];
+const formattedDate = dateModified ? formatDisplayDate(dateModified) : '';
+const isoDate = dateModified ? formatISODate(dateModified) : '';
 ---
 
 <article {...storyblokEditable(blok)}>
   <!-- Hero Section -->
   <section class="relative py-12 lg:py-16 bg-line-connects-light border-b-3 border-primary">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <!-- Back to Articles Link - Absolute positioned -->
+      <a
+        href="/articles"
+        class="absolute top-[-45px] inline-flex items-center text-primary hover:text-primary-dark font-medium gap-2 transition-colors duration-200 z-10"
+      >
+        <Icon name="arrow-left" />
+        Back to Articles
+      </a>
       <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         <!-- Left Column: Content -->
         <div class="lg:w-1/2 lg:pr-8">
@@ -31,8 +40,17 @@ const tags = articleTags ? articleTags.split(',') : [];
 
           {
             excerpt && (
-              <div class="text-lg sm:text-xl text-gray-700 dark:text-gray-200 leading-relaxed">
+              <div class="text-lg sm:text-xl text-gray-700 dark:text-gray-200 leading-relaxed mb-4">
                 <Text blok={{ text: excerpt }} />
+              </div>
+            )
+          }
+
+          {
+            formattedDate && (
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <Icon name="calendar" />
+                <time datetime={isoDate}>{formattedDate}</time>
               </div>
             )
           }
@@ -64,10 +82,10 @@ const tags = articleTags ? articleTags.split(',') : [];
         <main class="flex-1 order-2 lg:order-1">
           {
             body && (
-              <RichText
+              <Text
                 blok={{
                   text: body,
-                  richTextClass: 'prose-lg prose-gray dark:prose-invert mx-auto',
+                  textClasses: 'prose-lg prose-gray dark:prose-invert mx-auto article-body',
                 }}
               />
             )
@@ -90,9 +108,9 @@ const tags = articleTags ? articleTags.split(',') : [];
           }
         </main>
 
-        <!-- Article Aside Component -->
-        <div class="order-1 lg:order-2">
-          <ArticleAside />
+        <!-- Article Aside Component - Commented out but maintains layout space -->
+        <div class="order-1 lg:order-2 hidden lg:block w-64 flex-shrink-0">
+          <!-- <ArticleAside /> -->
         </div>
       </div>
     </div>

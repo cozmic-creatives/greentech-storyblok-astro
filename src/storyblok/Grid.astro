@@ -2,98 +2,55 @@
 import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { getStoryblokStories } from '~/lib/storyblok';
+import ResultsSummary from '~/components/ResultsSummary.astro';
+import { buildStoryblokQuery, processStories } from '~/utils/storyblok';
+import { parseGridConfig } from '~/utils/grid';
 
 const { blok } = Astro.props;
-const { numberOfColumns, blocks, gridClasses, sectionClasses, fetchItems } = blok;
+const { numberOfColumns, blocks, gridClasses, sectionClasses, fetchItems, showResultsSummary } = blok;
 
-// Fetch items if fetchItems is specified
+// Extract URL parameters
+const tagFilter = Astro.url.searchParams.get('tag');
+const searchQuery = Astro.url.searchParams.get('search');
+
+// Fetch and process items if fetchItems is specified
 let fetchedItems = [];
 if (fetchItems) {
   try {
-    const stories = await getStoryblokStories({
-      content_type: fetchItems,
-      starts_with: `${fetchItems}s/`, // Convert 'article' to 'articles/'
-    });
-
-    // Convert stories to blocks compatible with ArticleCard
-    fetchedItems = stories.map(story => ({
-      component: 'card',
-      variant: 'article',
-      title: story.content?.title || story.name,
-      excerpt: story.content?.excerpt,
-      image: story.content?.image,
-      slug: story.slug,
-      cardClasses: '',
-    }));
+    const queryParams = buildStoryblokQuery(fetchItems, searchQuery);
+    const stories = await getStoryblokStories(queryParams);
+    fetchedItems = processStories(stories, tagFilter, fetchItems);
   } catch (error) {
     console.error(`Error fetching ${fetchItems}:`, error);
   }
 }
 
-// Merge existing blocks with fetched items
+// Combine all blocks
 const allBlocks = [...(blocks || []), ...fetchedItems];
 
-// Check if semicolon exists to determine mode
-const usesGridTemplate = numberOfColumns?.includes(';');
-
-let gridClassConfig = '';
-let lgTemplate = '';
-let mdTemplate = '';
-let smTemplate = '';
-
-if (usesGridTemplate) {
-  // Parse semicolon format: "3fr,2fr,2fr,2fr; 3fr,2fr,2fr,2fr; 3fr,2fr,2fr,2fr"
-  const breakpoints = numberOfColumns.split(';').map(bp => bp.trim());
-
-  // Assign grid-template-columns for each breakpoint (lg, md, sm) and convert commas to spaces
-  lgTemplate = breakpoints[0] ? breakpoints[0].replace(/,/g, ' ') : '';
-  mdTemplate = breakpoints[1] ? breakpoints[1].replace(/,/g, ' ') : lgTemplate;
-  smTemplate = breakpoints[2] ? breakpoints[2].replace(/,/g, ' ') : mdTemplate;
-} else {
-  // Original behavior with comma-separated columns
-  const columnConfig = numberOfColumns?.split(',') || ['1', '2', '3'];
-  const [lgColumns, mdColumns, smColumns] = columnConfig;
-  gridClassConfig = `grid grid-cols-${smColumns || 1} md:grid-cols-${mdColumns || 2} lg:grid-cols-${lgColumns || 3} ${gridClasses}`;
-}
-
-// Generate a unique ID for this grid
-const gridId = `grid-${Math.random().toString(36).substring(2, 9)}`;
-
-// Generate CSS for custom grid layout if using template mode
-const gridCSS = usesGridTemplate
-  ? `
-  #${gridId} {
-    display: grid;
-    grid-template-columns: ${smTemplate};
-  }
-  
-  @media (min-width: 48rem) {
-    #${gridId} {
-      grid-template-columns: ${mdTemplate};
-    }
-  }
-  
-  @media (min-width: 64rem) {
-    #${gridId} {
-      grid-template-columns: ${lgTemplate};
-    }
-  }
-`
-  : '';
+// Configure grid layout
+const gridConfig = parseGridConfig(numberOfColumns, gridClasses);
 ---
 
-{usesGridTemplate && <style set:html={gridCSS} />}
+{gridConfig.usesGridTemplate && <style set:html={gridConfig.gridCSS} />}
 
 <div class={sectionClasses}>
+  {/* Results Summary - show for articles when there are filters or always if showResultsSummary is true */}
+  {fetchItems === 'article' && (showResultsSummary || searchQuery || tagFilter) && (
+    <ResultsSummary 
+      totalResults={allBlocks.length}
+      searchQuery={searchQuery}
+      tagFilter={tagFilter}
+    />
+  )}
+
   <div
-    id={usesGridTemplate ? gridId : undefined}
-    class={usesGridTemplate ? `grid ${gridClasses}` : gridClassConfig}
+    id={gridConfig.usesGridTemplate ? gridConfig.gridId : undefined}
+    class={gridConfig.usesGridTemplate ? `grid ${gridClasses}` : gridConfig.gridClassConfig}
     {...storyblokEditable(blok)}
   >
-    {
-      allBlocks?.map(nestedBlok => {
-        return <StoryblokComponent blok={nestedBlok} />;
-      })
-    }
+    {allBlocks?.map(nestedBlok => (
+      <StoryblokComponent blok={nestedBlok} />
+    ))}
   </div>
 </div>

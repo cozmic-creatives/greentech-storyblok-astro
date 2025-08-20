@@ -1,0 +1,25 @@
+---
+import { Badge } from '~/components/ui/badge';
+
+export interface Props {
+  tag: {
+    name: string;
+    count: number;
+  };
+}
+
+const { tag } = Astro.props;
+---
+
+<a
+  href={`/articles?tag=${encodeURIComponent(tag.name)}`}
+  class="transition-transform hover:scale-105"
+>
+  <Badge
+    variant="secondary"
+    className="cursor-pointer hover:bg-primary/20 transition-colors"
+  >
+    {tag.name}
+    <span class="ml-1 text-xs opacity-70">{tag.count}</span>
+  </Badge>
+</a>
