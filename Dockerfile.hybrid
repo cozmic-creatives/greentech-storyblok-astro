@@ -1,0 +1,50 @@
+# Hybrid Deployment Dockerfile
+# Serves static pages via nginx and SSR pages via Node.js
+# Perfect for Astro's on-demand rendering with prerender: false
+
+# Build stage
+FROM node:lts-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build:production
+
+# Runtime stage - nginx + Node.js
+FROM node:lts-alpine AS runtime
+
+# Install nginx and supervisor for process management  
+RUN apk add --no-cache nginx
+
+# Copy nginx configuration
+COPY ./nginx/nginx.hybrid.conf /etc/nginx/nginx.conf
+
+# Copy built assets
+COPY --from=build /app/dist/client /usr/share/nginx/html
+COPY --from=build /app/dist/server /app/server
+COPY --from=build /app/package*.json /app/
+COPY --from=build /app/.env* /app/
+
+# Install all dependencies for the server (needed for Storyblok and other runtime deps)
+WORKDIR /app
+RUN npm ci
+
+# Create startup script
+COPY <<EOF /app/start.sh
+#!/bin/sh
+# Start Node.js server in background on port 3000
+cd /app && HOST=0.0.0.0 PORT=3000 node server/entry.mjs &
+# Start nginx in foreground  
+nginx -g "daemon off;"
+EOF
+
+RUN chmod +x /app/start.sh
+
+# Create nginx directories
+RUN mkdir -p /var/log/nginx /var/lib/nginx/tmp /run/nginx
+
+# Expose port
+EXPOSE 8080
+
+# Start both services
+CMD ["/app/start.sh"]

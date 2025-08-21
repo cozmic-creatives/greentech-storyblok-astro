@@ -112,11 +112,19 @@ When using Astro's view transitions, be aware that:
 
 ## Docker Deployment
 
-The project includes Docker configurations for both static and SSR deployments:
+The project includes multiple Docker configurations for different deployment strategies:
 
-- `Dockerfile.static`: For production static builds
-- `Dockerfile.ssr`: For server-side rendering builds  
-- `nginx/nginx.conf`: Nginx configuration for static deployments
+- `Dockerfile.hybrid`: **Recommended** - Hybrid deployment with nginx + Node.js
+  - Serves static pages via nginx for performance
+  - Routes SSR pages (`/articles/`) to Node.js server
+  - Single container solution with `nginx/nginx.hybrid.conf`
+  - Perfect for Astro's on-demand rendering with `prerender: false`
+  - Use for production deployments
+
+- `Dockerfile.ssr`: Full server-side rendering
+  - All pages rendered by Node.js server
+  - For preview environments with `PUBLIC_ENV=preview`
+  - Enables Storyblok visual editor functionality
 
 ## Additional Resources
 
