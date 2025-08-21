@@ -5,12 +5,22 @@
 
 // Intercept Astro's client-side navigation to prevent port 8080 in URLs
 function interceptAstroNavigation() {
-  if (window.location.port === '8080' && window.location.hostname === 'greentechmachinery.co.za') {
+  // This applies to both local testing (localhost:8080) and production (greentechmachinery.co.za via proxy)
+  const shouldIntercept = (
+    (window.location.port === '8080') || // Local testing
+    (window.location.hostname === 'greentechmachinery.co.za') // Production behind proxy
+  );
+  
+  if (shouldIntercept) {
+    console.log('Intercepting navigation for URL cleanup');
+    
     // Override history.pushState to ensure clean URLs during navigation
     const originalPushState = history.pushState;
     history.pushState = function(state, title, url) {
       if (typeof url === 'string' && url.includes(':8080')) {
+        console.log('Cleaning URL from:', url);
         url = url.replace(':8080', '');
+        console.log('Cleaned URL to:', url);
       }
       return originalPushState.call(this, state, title, url);
     };
@@ -19,7 +29,9 @@ function interceptAstroNavigation() {
     const originalReplaceState = history.replaceState;
     history.replaceState = function(state, title, url) {
       if (typeof url === 'string' && url.includes(':8080')) {
+        console.log('Cleaning replaceState URL from:', url);
         url = url.replace(':8080', '');
+        console.log('Cleaned replaceState URL to:', url);
       }
       return originalReplaceState.call(this, state, title, url);
     };
