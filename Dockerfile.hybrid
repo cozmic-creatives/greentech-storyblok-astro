@@ -16,8 +16,9 @@ FROM node:lts-alpine AS runtime
 # Install nginx and supervisor for process management  
 RUN apk add --no-cache nginx
 
-# Copy nginx configuration
+# Copy nginx configuration and proxy parameters
 COPY ./nginx/nginx.hybrid.conf /etc/nginx/nginx.conf
+COPY ./nginx/proxy_params /etc/nginx/conf.d/proxy_params
 
 # Copy built assets
 COPY --from=build /app/dist/client /usr/share/nginx/html
@@ -29,11 +30,21 @@ COPY --from=build /app/.env* /app/
 WORKDIR /app
 RUN npm ci
 
+# Set environment variables for configuration
+ENV DOMAIN=greentechmachinery.co.za \
+    NODE_PORT=3000 \
+    NGINX_PORT=8080
+
 # Create startup script
 COPY <<EOF /app/start.sh
 #!/bin/sh
-# Start Node.js server in background on port 3000
-cd /app && HOST=0.0.0.0 PORT=3000 node server/entry.mjs &
+# Start Node.js server in background
+# Use environment variables for clean configuration
+cd /app && HOST=0.0.0.0 PORT=\${NODE_PORT} \
+  ORIGIN=https://\${DOMAIN} \
+  PROTOCOL_HEADER=x-forwarded-proto \
+  HOST_HEADER=x-forwarded-host \
+  node server/entry.mjs &
 # Start nginx in foreground  
 nginx -g "daemon off;"
 EOF
@@ -44,7 +55,7 @@ RUN chmod +x /app/start.sh
 RUN mkdir -p /var/log/nginx /var/lib/nginx/tmp /run/nginx
 
 # Expose port
-EXPOSE 8080
+EXPOSE $NGINX_PORT
 
 # Start both services
 CMD ["/app/start.sh"]

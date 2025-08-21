@@ -114,10 +114,12 @@ When using Astro's view transitions, be aware that:
 
 The project includes multiple Docker configurations for different deployment strategies:
 
-- `Dockerfile.hybrid`: **Recommended** - Hybrid deployment with nginx + Node.js
+- `Dockerfile.hybrid`: **Recommended** - Clean hybrid deployment with nginx + Node.js
   - Serves static pages via nginx for performance
   - Routes SSR pages (`/articles/`) to Node.js server
-  - Single container solution with `nginx/nginx.hybrid.conf`
+  - DRY configuration with shared proxy parameters (`nginx/proxy_params`)
+  - Environment variables for easy customization (DOMAIN, NODE_PORT, NGINX_PORT)
+  - Single container solution with intelligent routing
   - Perfect for Astro's on-demand rendering with `prerender: false`
   - Use for production deployments
 
