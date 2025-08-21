@@ -20,6 +20,7 @@ export default defineConfig({
   output: isPreview ? 'server' : 'static', // Server for preview, static for production
   adapter: node({ mode: 'standalone' }),
   redirects,
+  trailingSlash: 'ignore', // Allow both with and without trailing slashes
   image: {
     format: 'webp',
   },
