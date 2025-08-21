@@ -23,8 +23,20 @@ const { blok } = Astro.props;
 const { items } = blok;
 
 // Load tag analytics and split into top/remaining (only 3 top tags now)
-const tagAnalytics = await loadTagAnalytics();
-const { topTags, remainingTags } = splitTags(tagAnalytics, 3);
+let tagAnalytics = null;
+let topTags = [];
+let remainingTags = [];
+
+try {
+  tagAnalytics = await loadTagAnalytics();
+  if (tagAnalytics) {
+    const split = splitTags(tagAnalytics, 3);
+    topTags = split.topTags;
+    remainingTags = split.remainingTags;
+  }
+} catch (error) {
+  console.warn('Failed to load tag analytics for articles menu:', error);
+}
 ---
 
 <div {...storyblokEditable(blok)} class="space-y-6">

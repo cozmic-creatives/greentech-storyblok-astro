@@ -17,13 +17,21 @@ export interface TagAnalytics {
  */
 export async function loadTagAnalytics(): Promise<TagAnalytics | null> {
   try {
+    // In SSR mode, try multiple paths where the file might be located
     const fs = await import('fs');
     const path = await import('path');
-    const analyticsPath = path.resolve('./public/tag-analytics.json');
     
-    if (fs.existsSync(analyticsPath)) {
-      const data = fs.readFileSync(analyticsPath, 'utf-8');
-      return JSON.parse(data);
+    const possiblePaths = [
+      path.resolve('./public/tag-analytics.json'),  // Development/build time
+      path.resolve('../public/tag-analytics.json'), // From server directory
+      '/usr/share/nginx/html/tag-analytics.json',   // Docker nginx path
+    ];
+    
+    for (const analyticsPath of possiblePaths) {
+      if (fs.existsSync(analyticsPath)) {
+        const data = fs.readFileSync(analyticsPath, 'utf-8');
+        return JSON.parse(data);
+      }
     }
     
     return null;
