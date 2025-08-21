@@ -17,19 +17,19 @@ const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false
 // https://astro.build/config
 export default defineConfig({
   site: 'https://greentechmachinery.co.za', // Update with your actual domain
-  output: isPreview ? 'server' : 'static',
-  adapter: isPreview ? node({ mode: 'standalone' }) : undefined,
+  output: isPreview ? 'server' : 'static', // Server for preview, static for production
+  adapter: node({ mode: 'standalone' }),
   redirects,
   image: {
     format: 'webp',
   },
-  
+
   build: {
     inlineStylesheets: 'auto',
     assets: '_assets',
     split: true,
   },
-  
+
   compressHTML: true,
 
   integrations: [
