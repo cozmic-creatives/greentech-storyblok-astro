@@ -3,44 +3,29 @@
  * Manages loading indicator, scroll behavior, and other transitions
  */
 
-// Intercept Astro's client-side navigation to prevent port 8080 in URLs
+// Legacy fix for port 8080 URL issue - may no longer be needed
+// since we fixed the root cause (nginx now listens on port 80)
+// Keeping minimal version as fallback safety net
 function interceptAstroNavigation() {
-  // Always intercept on greentechmachinery.co.za or localhost with port 8080
-  const shouldIntercept = (
-    window.location.hostname === 'greentechmachinery.co.za' || 
-    window.location.port === '8080'
-  );
-  
-  if (shouldIntercept) {
-    console.log('🔧 Intercepting Astro navigation for URL cleanup on:', window.location.hostname + ':' + (window.location.port || 'default'));
+  // Only intercept if we detect any remaining port 8080 issues
+  if (window.location.hostname === 'greentechmachinery.co.za') {
+    console.log('🛡️ URL cleanup safety net active for:', window.location.hostname);
     
-    // Override history.pushState to clean URLs during client-side navigation
+    // Minimal fallback: clean any remaining port 8080 references
     const originalPushState = history.pushState;
     history.pushState = function(state, title, url) {
-      if (typeof url === 'string') {
-        const originalUrl = url;
-        // Remove any port 8080 references
+      if (typeof url === 'string' && url.includes(':8080')) {
+        console.log('🚨 Fallback: Cleaning unexpected port 8080 from:', url);
         url = url.replace(/greentechmachinery\.co\.za:8080/g, 'greentechmachinery.co.za');
-        url = url.replace(/localhost:8080/g, 'localhost');
-        
-        if (originalUrl !== url) {
-          console.log('🧹 Cleaned navigation URL:', originalUrl, '→', url);
-        }
       }
       return originalPushState.call(this, state, title, url);
     };
     
-    // Override history.replaceState to clean URLs
     const originalReplaceState = history.replaceState;
     history.replaceState = function(state, title, url) {
-      if (typeof url === 'string') {
-        const originalUrl = url;
+      if (typeof url === 'string' && url.includes(':8080')) {
+        console.log('🚨 Fallback: Cleaning unexpected port 8080 from replaceState:', url);
         url = url.replace(/greentechmachinery\.co\.za:8080/g, 'greentechmachinery.co.za');
-        url = url.replace(/localhost:8080/g, 'localhost');
-        
-        if (originalUrl !== url) {
-          console.log('🧹 Cleaned replaceState URL:', originalUrl, '→', url);
-        }
       }
       return originalReplaceState.call(this, state, title, url);
     };
