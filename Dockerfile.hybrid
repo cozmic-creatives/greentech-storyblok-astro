@@ -33,7 +33,7 @@ RUN npm ci
 # Set environment variables for configuration
 ENV DOMAIN=greentechmachinery.co.za \
     NODE_PORT=3000 \
-    NGINX_PORT=8080
+    NGINX_PORT=80
 
 # Create startup script
 COPY <<EOF /app/start.sh
@@ -50,8 +50,8 @@ RUN chmod +x /app/start.sh
 # Create nginx directories
 RUN mkdir -p /var/log/nginx /var/lib/nginx/tmp /run/nginx
 
-# Expose port
-EXPOSE $NGINX_PORT
+# Expose port 80 (nginx will listen on 80 internally)
+EXPOSE 80
 
 # Start both services
 CMD ["/app/start.sh"]

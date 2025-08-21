@@ -5,33 +5,42 @@
 
 // Intercept Astro's client-side navigation to prevent port 8080 in URLs
 function interceptAstroNavigation() {
-  // This applies to both local testing (localhost:8080) and production (greentechmachinery.co.za via proxy)
+  // Always intercept on greentechmachinery.co.za or localhost with port 8080
   const shouldIntercept = (
-    (window.location.port === '8080') || // Local testing
-    (window.location.hostname === 'greentechmachinery.co.za') // Production behind proxy
+    window.location.hostname === 'greentechmachinery.co.za' || 
+    window.location.port === '8080'
   );
   
   if (shouldIntercept) {
-    console.log('Intercepting navigation for URL cleanup');
+    console.log('🔧 Intercepting Astro navigation for URL cleanup on:', window.location.hostname + ':' + (window.location.port || 'default'));
     
-    // Override history.pushState to ensure clean URLs during navigation
+    // Override history.pushState to clean URLs during client-side navigation
     const originalPushState = history.pushState;
     history.pushState = function(state, title, url) {
-      if (typeof url === 'string' && url.includes(':8080')) {
-        console.log('Cleaning URL from:', url);
-        url = url.replace(':8080', '');
-        console.log('Cleaned URL to:', url);
+      if (typeof url === 'string') {
+        const originalUrl = url;
+        // Remove any port 8080 references
+        url = url.replace(/greentechmachinery\.co\.za:8080/g, 'greentechmachinery.co.za');
+        url = url.replace(/localhost:8080/g, 'localhost');
+        
+        if (originalUrl !== url) {
+          console.log('🧹 Cleaned navigation URL:', originalUrl, '→', url);
+        }
       }
       return originalPushState.call(this, state, title, url);
     };
     
-    // Override history.replaceState to ensure clean URLs
+    // Override history.replaceState to clean URLs
     const originalReplaceState = history.replaceState;
     history.replaceState = function(state, title, url) {
-      if (typeof url === 'string' && url.includes(':8080')) {
-        console.log('Cleaning replaceState URL from:', url);
-        url = url.replace(':8080', '');
-        console.log('Cleaned replaceState URL to:', url);
+      if (typeof url === 'string') {
+        const originalUrl = url;
+        url = url.replace(/greentechmachinery\.co\.za:8080/g, 'greentechmachinery.co.za');
+        url = url.replace(/localhost:8080/g, 'localhost');
+        
+        if (originalUrl !== url) {
+          console.log('🧹 Cleaned replaceState URL:', originalUrl, '→', url);
+        }
       }
       return originalReplaceState.call(this, state, title, url);
     };
