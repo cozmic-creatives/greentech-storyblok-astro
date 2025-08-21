@@ -1,24 +1,22 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
-import { getStoryblokStories, getStoryblokStory } from '~/lib/storyblok';
+import { getStoryblokStory } from '~/lib/storyblok';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { extractSEOFromStory } from '~/utils/seo';
 
-export async function getStaticPaths() {
-  const stories = await getStoryblokStories({
-    content_type: 'article',
-    starts_with: 'articles/',
-  });
-
-  return stories.map(story => {
-    return {
-      params: { slug: story.slug },
-    };
-  });
-}
+// Enable server-side rendering for on-demand article pages
+export const prerender = false;
 
 const { slug } = Astro.params;
-const story = await getStoryblokStory(`articles/${slug}`);
+
+// Fetch story on-demand, handle 404 if not found
+let story;
+try {
+  story = await getStoryblokStory(`articles/${slug}`);
+} catch (error) {
+  console.error(`Article not found: ${slug}`, error);
+  return Astro.redirect('/404', 404);
+}
 
 // Extract SEO data from the story with article-specific fallbacks
 const seo = extractSEOFromStory(story, {
