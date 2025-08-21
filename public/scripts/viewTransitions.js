@@ -3,32 +3,32 @@
  * Manages loading indicator, scroll behavior, and other transitions
  */
 
-// Fix URL generation to remove port 8080 from client-side navigation
-function fixNavigationURLs() {
-  // Override URL construction for client-side navigation
+// Intercept Astro's client-side navigation to prevent port 8080 in URLs
+function interceptAstroNavigation() {
   if (window.location.port === '8080' && window.location.hostname === 'greentechmachinery.co.za') {
-    // Replace any URLs that include port 8080 with clean URLs
-    const links = document.querySelectorAll('a[href*=":8080"]');
-    links.forEach(link => {
-      const cleanUrl = link.href.replace(':8080', '');
-      link.href = cleanUrl;
-    });
+    // Override history.pushState to ensure clean URLs during navigation
+    const originalPushState = history.pushState;
+    history.pushState = function(state, title, url) {
+      if (typeof url === 'string' && url.includes(':8080')) {
+        url = url.replace(':8080', '');
+      }
+      return originalPushState.call(this, state, title, url);
+    };
     
-    // Fix form actions that might include the port
-    const forms = document.querySelectorAll('form[action*=":8080"]');
-    forms.forEach(form => {
-      const cleanAction = form.action.replace(':8080', '');
-      form.action = cleanAction;
-    });
+    // Override history.replaceState to ensure clean URLs
+    const originalReplaceState = history.replaceState;
+    history.replaceState = function(state, title, url) {
+      if (typeof url === 'string' && url.includes(':8080')) {
+        url = url.replace(':8080', '');
+      }
+      return originalReplaceState.call(this, state, title, url);
+    };
   }
 }
 
 // This runs on initial page load and after each page transition
 document.addEventListener('astro:page-load', () => {
   console.log('Page transition complete!');
-  
-  // Fix URLs that might have port 8080
-  fixNavigationURLs();
   
   // Handle Crisp chat after page transition
   if (window.CRISP_WEBSITE_ID && window.$crisp && window.$crisp.push) {
@@ -63,17 +63,7 @@ document.addEventListener('astro:before-swap', event => {
 document.addEventListener('astro:after-swap', () => {
   console.log('Page swap complete - scrolling to top');
   window.scrollTo({ top: 0, behavior: 'instant' });
-  
-  // Fix any new URLs that were just loaded
-  setTimeout(fixNavigationURLs, 100);
 });
 
-// Run immediately when script loads
-document.addEventListener('DOMContentLoaded', fixNavigationURLs);
-
-// Also run immediately if DOM is already loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', fixNavigationURLs);
-} else {
-  fixNavigationURLs();
-}
+// Initialize URL interception immediately when script loads
+interceptAstroNavigation();
