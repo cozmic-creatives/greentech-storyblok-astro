@@ -40,11 +40,7 @@ COPY <<EOF /app/start.sh
 #!/bin/sh
 # Start Node.js server in background
 # Use environment variables for clean configuration
-cd /app && HOST=0.0.0.0 PORT=\${NODE_PORT} \
-  ORIGIN=https://\${DOMAIN} \
-  PROTOCOL_HEADER=x-forwarded-proto \
-  HOST_HEADER=x-forwarded-host \
-  node server/entry.mjs &
+cd /app && HOST=0.0.0.0 PORT=\${NODE_PORT} ORIGIN=https://\${DOMAIN} PROTOCOL_HEADER=x-forwarded-proto HOST_HEADER=x-forwarded-host node server/entry.mjs &
 # Start nginx in foreground  
 nginx -g "daemon off;"
 EOF
