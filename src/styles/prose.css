@@ -59,5 +59,17 @@
         @apply my-1;
       }
     }
+
+    blockquote {
+      @apply border-primary my-2 bg-primary/10 p-3 pl-4;
+
+      p {
+        @apply my-0;
+
+        &::before {
+          content: '';
+        }
+      }
+    }
   }
 }
