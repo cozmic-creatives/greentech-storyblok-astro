@@ -23,9 +23,6 @@ export function MobileNavbar({ businessLines, brands, markets, otherLinks }: Mob
             <a href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
               <img src="/greentech-logo.svg" alt="GreenTech Logo" className="h-7 w-auto" />
             </a>
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-              <span className="sr-only">Close</span>
-            </Button>
           </div>
 
           <div className="px-4 py-2">
@@ -62,8 +59,8 @@ export function MobileNavbar({ businessLines, brands, markets, otherLinks }: Mob
       </SheetContent>
 
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="mr-2">
-          <Menu className="h-5 w-5" />
+        <Button variant="ghost" size="icon">
+          <Menu className="size-6" />
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>

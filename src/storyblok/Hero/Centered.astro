@@ -16,16 +16,14 @@ const badgeItems = blocks.filter(block => block.component === 'badge');
 const backgroundData = getResponsiveBackgroundData(images?.[0]?.filename);
 ---
 
-{backgroundData && (
-  <style set:html={backgroundData.css}></style>
-)}
+{backgroundData && <style set:html={backgroundData.css} />}
 
 <section
   id="parallax-hero-centered"
   {...storyblokEditable(blok)}
   class={cn(
     sectionClasses,
-    'relative bg-cover bg-center m-4 rounded-3xl overflow-hidden shadow-xl shadow-primary/40 transition-all duration-300',
+    'relative bg-cover bg-center m-3 lg:m-4 rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-primary/40 transition-all duration-300',
     backgroundData?.className
   )}
   style="background-position: center center;"
