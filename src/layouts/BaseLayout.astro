@@ -2,6 +2,7 @@
 import Navbar from '~/components/navigation/Navbar.astro';
 import Footer from '~/components/Footer.astro';
 import SEO, { type SEOProps } from '~/components/SEO.astro';
+import PrivacyBanner from '~/components/PrivacyBanner/index';
 
 import '~/styles/main.css';
 import '~/styles/view-transitions.css';
@@ -57,6 +58,22 @@ const { seo = {} } = Astro.props;
       <slot />
     </main>
     <Footer />
+
+    <!-- Privacy Banner -->
+    <PrivacyBanner client:only="react" />
+
+    <!-- Initialize Salesviewer if consent already exists -->
+    <script>
+      import { initializeSalesviewer } from '~/utils/salesviewer';
+
+      // Initialize on page load
+      initializeSalesviewer();
+
+      // Re-initialize on view transitions
+      document.addEventListener('astro:page-load', () => {
+        initializeSalesviewer();
+      });
+    </script>
 
     <!-- View transitions event handlers -->
     <!-- <script is:inline src="/scripts/viewTransitions.js"></script> -->

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import Icon from '~/components/Icon.astro';
 import { getStoryblokStory } from '~/lib/storyblok';
 import { extractSEOFromStory } from '~/utils/seo';
 
@@ -21,4 +22,32 @@ const seo = extractSEOFromStory(story, {
 
 <BaseLayout seo={seo}>
   <StoryblokComponent blok={story.content} />
+
+  <!-- Privacy Tracking Controls -->
+  <div class="container pb-10 text-center">
+    <button
+      id="manage-tracking-btn"
+      class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors shadow-md"
+    >
+      <Icon name="shield-check" class="text-xl" />
+      Manage Tracking Preferences
+    </button>
+  </div>
+
+  <script>
+    import { showPrivacyBanner } from '~/utils/consent';
+
+    function attachPrivacyButtonListener() {
+      const button = document.getElementById('manage-tracking-btn');
+      if (button) {
+        button.addEventListener('click', () => showPrivacyBanner('controls'));
+      }
+    }
+
+    // Attach listener on initial load
+    attachPrivacyButtonListener();
+
+    // Re-attach listener after view transitions
+    document.addEventListener('astro:page-load', attachPrivacyButtonListener);
+  </script>
 </BaseLayout>

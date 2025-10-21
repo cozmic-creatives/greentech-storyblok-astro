@@ -1,6 +1,7 @@
 @import './icons.css';
 @import './tailwind.css';
 @import './prose.css';
+@import './privacy-banner.css';
 
 html {
   scroll-behavior: smooth;
