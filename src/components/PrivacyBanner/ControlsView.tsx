@@ -37,7 +37,7 @@ export default function ControlsView({
         );
       case ConsentStatus.DECLINED:
         return (
-          <Badge variant="outline" className="border-gray-400 text-gray-700 dark:text-gray-300">
+          <Badge variant="outline" className="border-gray-400 text-gray-300">
             Declined
           </Badge>
         );
@@ -71,12 +71,12 @@ export default function ControlsView({
 
       <div className="privacy-banner-controls-status">
         <div className="flex items-center justify-between text-sm">
-          <span className="font-medium text-gray-900 dark:text-gray-100">Current Status:</span>
+          <span className="font-medium text-gray-100">Current Status:</span>
           {getStatusBadge()}
         </div>
 
         {consentData && (
-          <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1 mt-2">
+          <div className="text-xs text-gray-400 space-y-1 mt-2">
             <div className="flex justify-between">
               <span>Last Updated:</span>
               <span>{formatDate(consentData.timestamp, true)}</span>

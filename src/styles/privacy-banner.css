@@ -16,7 +16,7 @@
 
 /* === OVERLAY === */
 .privacy-banner-overlay {
-  @apply fixed bottom-0 left-0 right-0 z-[9999] pointer-events-none;
+  @apply fixed bottom-0 left-0 right-0 z-9999 pointer-events-none;
   animation: slideUp 0.4s ease-out;
 }
 
@@ -24,24 +24,24 @@
 .privacy-banner {
   @apply backdrop-blur-lg pointer-events-auto rounded-xl shadow-lg relative;
   @apply mx-auto mb-4 w-[calc(100%-2rem)] max-w-md;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-  border: 1px solid transparent;
-  background-clip: padding-box;
+  background: linear-gradient(to top, rgba(23, 23, 23, 0.98), rgba(23, 23, 23, 0.95));
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Gradient border effect */
+/* Gradient border effect - fancy brand green shine */
 .privacy-banner::before {
   @apply absolute inset-0 pointer-events-none;
   content: '';
   border-radius: 0.75rem;
-  padding: 1px;
+  padding: 1.5px;
   background: linear-gradient(
     135deg,
-    rgba(34, 197, 94, 0.6),
-    rgba(34, 197, 94, 0.3) 30%,
-    rgba(34, 197, 94, 0.12) 60%,
-    rgba(34, 197, 94, 0.04)
+    rgba(150, 192, 61, 0.8) 0%,
+    rgba(150, 192, 61, 0.6) 20%,
+    rgba(150, 192, 61, 0.4) 40%,
+    rgba(150, 192, 61, 0.2) 60%,
+    rgba(150, 192, 61, 0.1) 80%,
+    rgba(150, 192, 61, 0.05) 100%
   );
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -56,7 +56,7 @@
 }
 
 .privacy-banner-icon {
-  @apply flex-shrink-0;
+  @apply shrink-0;
 }
 
 .privacy-banner-inner {
@@ -69,16 +69,16 @@
 
 /* === TYPOGRAPHY === */
 .privacy-banner-title {
-  @apply text-lg font-semibold mb-2 text-gray-900;
+  @apply text-lg font-semibold mb-2 text-white;
 }
 
 .privacy-banner-description {
-  @apply text-sm leading-relaxed m-0 text-gray-700;
+  @apply text-sm leading-relaxed m-0 text-gray-300;
 }
 
 /* === ACTIONS === */
 .privacy-banner-actions {
-  @apply flex flex-col gap-3 flex-shrink-0;
+  @apply flex flex-col gap-3 shrink-0;
 }
 
 .privacy-banner-actions button,
@@ -130,13 +130,13 @@
 }
 
 .privacy-banner-back {
-  @apply p-1.5 rounded-lg hover:bg-gray-100 transition-colors;
-  @apply text-gray-600 hover:text-gray-900 flex-shrink-0;
+  @apply p-1.5 rounded-lg hover:bg-gray-800 transition-colors;
+  @apply text-gray-400 hover:text-gray-100 shrink-0;
 }
 
 .privacy-banner-close {
-  @apply p-1.5 rounded-lg hover:bg-gray-100 transition-colors;
-  @apply text-gray-600 hover:text-gray-900 flex-shrink-0 ml-auto;
+  @apply p-1.5 rounded-lg hover:bg-gray-800 transition-colors;
+  @apply text-gray-400 hover:text-gray-100 shrink-0 ml-auto;
 }
 
 .privacy-banner-controls-header {
@@ -148,7 +148,7 @@
 }
 
 .privacy-banner-controls-status {
-  @apply p-3 bg-gray-50 rounded-lg border border-gray-200;
+  @apply p-3 bg-gray-800 rounded-lg border border-gray-700;
 }
 
 .privacy-banner-controls-info {
@@ -166,43 +166,5 @@
 
 .privacy-banner-policy-link {
   @apply text-sm text-primary hover:underline whitespace-nowrap;
-  @apply flex-shrink-0;
-}
-
-/* === DARK MODE === */
-@media (prefers-color-scheme: dark) {
-  .privacy-banner {
-    background: linear-gradient(to top, rgba(23, 23, 23, 0.98), rgba(23, 23, 23, 0.95));
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
-  }
-
-  .privacy-banner::before {
-    background: linear-gradient(
-      135deg,
-      rgba(34, 197, 94, 0.4),
-      rgba(34, 197, 94, 0.2) 30%,
-      rgba(34, 197, 94, 0.1) 60%,
-      rgba(34, 197, 94, 0.03)
-    );
-  }
-
-  .privacy-banner-title {
-    @apply text-white;
-  }
-
-  .privacy-banner-description {
-    @apply text-gray-300;
-  }
-
-  .privacy-banner-back {
-    @apply hover:bg-gray-800 text-gray-400 hover:text-gray-100;
-  }
-
-  .privacy-banner-close {
-    @apply hover:bg-gray-800 text-gray-400 hover:text-gray-100;
-  }
-
-  .privacy-banner-controls-status {
-    @apply bg-gray-800 border-gray-700;
-  }
+  @apply shrink-0;
 }
