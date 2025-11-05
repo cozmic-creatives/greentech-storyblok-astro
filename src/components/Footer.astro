@@ -2,6 +2,7 @@
 import { storyblokEditable } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { getStoryblokStory } from '~/lib/storyblok';
+import { Sparkles } from '@lucide/astro';
 
 const footer = await getStoryblokStory('main-footer');
 const footerContent = footer.content;
@@ -11,3 +12,31 @@ const footerBlocks = footerContent.items[0].blocks;
 <footer {...storyblokEditable(footerContent)}>
   {footerBlocks?.map(blok => <StoryblokComponent blok={blok} />)}
 </footer>
+
+<!-- Attribution -->
+<div class="relative w-full py-4 px-4 bg-black dark overflow-hidden">
+  <!-- Gradient Shine Border Top -->
+  <div
+    class="absolute top-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-primary/50 to-transparent"
+  >
+  </div>
+
+  <!-- Static Green Gradient Background Overlay -->
+  <div class="absolute inset-0 bg-linear-to-r from-primary/20 via-primary/10 to-primary/20"></div>
+
+  <p class="text-xs text-white/70 flex items-center justify-center gap-2.5 relative z-10">
+    <Sparkles size={18} class="text-primary shrink-0" />
+    <span>
+      Website crafted by{' '}
+      <a
+        href="https://matthewbracke.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium text-white hover:text-primary transition-colors duration-300 hover:underline underline-offset-2"
+      >
+        Digital Dassie
+      </a>{' '}
+      • High-converting websites for ambitious businesses
+    </span>
+  </p>
+</div>
