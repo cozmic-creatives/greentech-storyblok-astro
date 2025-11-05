@@ -4,6 +4,11 @@
 
 # Build stage
 FROM node:lts-alpine AS build
+
+# Accept Storyblok token as build argument
+ARG STORYBLOK_PREVIEW_TOKEN
+ENV STORYBLOK_PREVIEW_TOKEN=$STORYBLOK_PREVIEW_TOKEN
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
