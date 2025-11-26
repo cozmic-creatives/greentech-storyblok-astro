@@ -5,8 +5,10 @@
 # Build stage
 FROM node:lts-alpine AS build
 
-# Accept Storyblok token as build argument
+# Accept Storyblok tokens as build arguments
+ARG STORYBLOK_TOKEN
 ARG STORYBLOK_PREVIEW_TOKEN
+ENV STORYBLOK_TOKEN=$STORYBLOK_TOKEN
 ENV STORYBLOK_PREVIEW_TOKEN=$STORYBLOK_PREVIEW_TOKEN
 
 WORKDIR /app
@@ -38,7 +40,8 @@ RUN npm ci
 # Set environment variables for configuration
 ENV DOMAIN=greentechmachinery.co.za \
     NODE_PORT=3000 \
-    NGINX_PORT=80
+    NGINX_PORT=80 \
+    PUBLIC_ENV=production
 
 # Create startup script
 COPY <<EOF /app/start.sh

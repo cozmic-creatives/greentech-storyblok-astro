@@ -6,6 +6,7 @@ config();
 
 // Management API token and space configuration
 const MANAGEMENT_TOKEN = process.env.STORYBLOK_MANAGEMENT_TOKEN;
+// Use preview token for scripts (need draft access for content management)
 const PREVIEW_TOKEN = process.env.STORYBLOK_PREVIEW_TOKEN;
 const SPACE_ID = process.env.STORYBLOK_SPACE_ID;
 

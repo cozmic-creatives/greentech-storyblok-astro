@@ -12,7 +12,11 @@ import { redirects } from './src/config/redirects.ts';
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
 const isPreview = process.env.PUBLIC_ENV === 'preview';
 const isDev = process.env.NODE_ENV === 'development';
+const isProduction = process.env.PUBLIC_ENV === 'production';
 const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false;
+
+// Use public token for production, preview token for preview/dev
+const storyblokToken = isProduction ? env.STORYBLOK_TOKEN : env.STORYBLOK_PREVIEW_TOKEN;
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,7 +38,7 @@ export default defineConfig({
 
   integrations: [
     storyblok({
-      accessToken: env.STORYBLOK_PREVIEW_TOKEN,
+      accessToken: storyblokToken,
       apiOptions: {
         region: '',
       },

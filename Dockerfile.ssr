@@ -9,6 +9,10 @@ FROM base AS build-deps
 RUN npm install
 
 FROM build-deps AS build
+# Accept Storyblok preview token as build argument
+ARG STORYBLOK_PREVIEW_TOKEN
+ENV STORYBLOK_PREVIEW_TOKEN=$STORYBLOK_PREVIEW_TOKEN
+
 COPY . .
 RUN npm run build:preview
 

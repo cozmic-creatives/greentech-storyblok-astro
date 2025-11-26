@@ -10,10 +10,15 @@ import Storyblok from 'storyblok-js-client';
 config();
 
 // Storyblok configuration
-const PREVIEW_TOKEN = process.env.STORYBLOK_PREVIEW_TOKEN;
+const IS_PRODUCTION = process.env.PUBLIC_ENV === 'production';
+const TOKEN = IS_PRODUCTION
+  ? process.env.STORYBLOK_TOKEN
+  : process.env.STORYBLOK_PREVIEW_TOKEN;
+const VERSION = IS_PRODUCTION ? 'published' : 'draft';
 
-if (!PREVIEW_TOKEN) {
-  throw new Error('STORYBLOK_PREVIEW_TOKEN environment variable is required');
+if (!TOKEN) {
+  const requiredVar = IS_PRODUCTION ? 'STORYBLOK_TOKEN' : 'STORYBLOK_PREVIEW_TOKEN';
+  throw new Error(`${requiredVar} environment variable is required`);
 }
 
 interface TagAnalytics {
@@ -93,7 +98,7 @@ async function fetchArticles(): Promise<Article[]> {
 
     // Create Storyblok client
     const storyblokApi = new Storyblok({
-      accessToken: PREVIEW_TOKEN,
+      accessToken: TOKEN,
       region: '', // Use default region (EU)
     });
 
@@ -101,7 +106,7 @@ async function fetchArticles(): Promise<Article[]> {
       content_type: 'article',
       starts_with: 'articles/',
       per_page: 100, // Adjust if you have more than 100 articles
-      version: 'draft',
+      version: VERSION,
     });
 
     const stories = data.stories || [];
