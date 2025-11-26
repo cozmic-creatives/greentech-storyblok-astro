@@ -8,7 +8,7 @@ import SocialIcons from '~/components/SocialIcons.astro';
 import Divider from '~/components/Divider.astro';
 
 const { blok } = Astro.props;
-const { text = 'text', textClasses } = blok;
+const { text = '', textClasses } = blok;
 
 const hasProseClass = textClasses?.includes('prose');
 const proseClasses = hasProseClass
@@ -16,10 +16,12 @@ const proseClasses = hasProseClass
   : 'prose prose-headings:m-0 prose-p:m-0 dark:prose-invert';
 ---
 
-<div class={cn(`${proseClasses} flex flex-col`, textClasses)} {...storyblokEditable(blok)}>
-  <Markdown
-    content={text}
-    sanitize={{ allowComponents: true }}
-    components={{ Icon, Badge, SocialIcons, Divider }}
-  />
-</div>
+{text && (
+  <div class={cn(`${proseClasses} flex flex-col`, textClasses)} {...storyblokEditable(blok)}>
+    <Markdown
+      content={text}
+      sanitize={{ allowComponents: true }}
+      components={{ Icon, Badge, SocialIcons, Divider }}
+    />
+  </div>
+)}

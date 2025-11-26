@@ -8,6 +8,8 @@ FROM node:lts-alpine AS build
 # Accept Storyblok tokens as build arguments
 ARG STORYBLOK_TOKEN
 ARG STORYBLOK_PREVIEW_TOKEN
+RUN echo "Build args check - STORYBLOK_TOKEN: $(test -n "$STORYBLOK_TOKEN" && echo "SET" || echo "NOT SET")"
+RUN echo "Build args check - STORYBLOK_PREVIEW_TOKEN: $(test -n "$STORYBLOK_PREVIEW_TOKEN" && echo "SET" || echo "NOT SET")"
 ENV STORYBLOK_TOKEN=$STORYBLOK_TOKEN
 ENV STORYBLOK_PREVIEW_TOKEN=$STORYBLOK_PREVIEW_TOKEN
 
