@@ -9,6 +9,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { redirects } from './src/config/redirects.ts';
 
+// loadEnv reads from .env files, process.env has Docker build args
 const env = loadEnv('', process.cwd(), 'STORYBLOK');
 const isPreview = process.env.PUBLIC_ENV === 'preview';
 const isDev = process.env.NODE_ENV === 'development';
@@ -16,7 +17,10 @@ const isProduction = process.env.PUBLIC_ENV === 'production';
 const bridge = isPreview ? { customParent: 'https://app.storyblok.com' } : false;
 
 // Use public token for production, preview token for preview/dev
-const storyblokToken = isProduction ? env.STORYBLOK_TOKEN : env.STORYBLOK_PREVIEW_TOKEN;
+// Fall back to process.env for Docker builds where loadEnv doesn't see build args
+const storyblokToken = isProduction
+  ? (env.STORYBLOK_TOKEN || process.env.STORYBLOK_TOKEN)
+  : (env.STORYBLOK_PREVIEW_TOKEN || process.env.STORYBLOK_PREVIEW_TOKEN);
 
 // https://astro.build/config
 export default defineConfig({
