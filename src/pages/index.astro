@@ -5,18 +5,42 @@ import { extractSEOFromStory } from '~/utils/seo';
 
 import { getStoryblokStory } from '~/lib/storyblok';
 
-const story = await getStoryblokStory('home');
+let story = null;
+let fetchError = null;
 
-// Extract SEO data from the story
-const seo = extractSEOFromStory(story, {
-  title: 'GREENTECH - Sustainable Plastic Solutions | Home',
-  description:
-    'Leading provider of sustainable plastic solutions and innovative recycling technologies. Transforming waste into valuable resources for a greener future.',
-  keywords:
-    'sustainable plastic, recycling technology, green solutions, plastic waste management, eco-friendly materials',
-});
+try {
+  story = await getStoryblokStory('home');
+} catch (error) {
+  fetchError = error;
+  console.error('Failed to fetch home story:', error);
+}
+
+// Extract SEO data from the story (with fallbacks)
+const seo = story
+  ? extractSEOFromStory(story, {
+      title: 'GREENTECH - Sustainable Plastic Solutions | Home',
+      description:
+        'Leading provider of sustainable plastic solutions and innovative recycling technologies. Transforming waste into valuable resources for a greener future.',
+      keywords:
+        'sustainable plastic, recycling technology, green solutions, plastic waste management, eco-friendly materials',
+    })
+  : {
+      title: 'GREENTECH - Sustainable Plastic Solutions | Home',
+      description:
+        'Leading provider of sustainable plastic solutions and innovative recycling technologies.',
+    };
 ---
 
 <BaseLayout seo={seo}>
-  <StoryblokComponent blok={story.content} />
+  {story ? (
+    <StoryblokComponent blok={story.content} />
+  ) : (
+    <div class="min-h-screen flex items-center justify-center bg-gray-50">
+      <div class="text-center p-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">GREENTECH</h1>
+        <p class="text-xl text-gray-600 mb-8">Sustainable Plastic Solutions</p>
+        <p class="text-gray-500">Content is being updated. Please check back soon.</p>
+      </div>
+    </div>
+  )}
 </BaseLayout>
