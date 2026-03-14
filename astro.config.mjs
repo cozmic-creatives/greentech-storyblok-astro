@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import { storyblok } from '@storyblok/astro';
 import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
@@ -39,6 +39,21 @@ export default defineConfig({
   },
 
   compressHTML: true,
+
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      weights: [100, 300, 400, 500, 600, 700],
+    },
+  ],
+
+  experimental: {
+    queuedRendering: {
+      enabled: true,
+    },
+  },
 
   integrations: [
     storyblok({

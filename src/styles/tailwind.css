@@ -166,7 +166,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Font Family */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
   /* ===== BRAND COLORS ===== */
   /* GreenTech Primary */
