@@ -15,7 +15,7 @@ ENV STORYBLOK_PREVIEW_TOKEN=$STORYBLOK_PREVIEW_TOKEN
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 COPY . .
 RUN npm run build:production
 
@@ -37,7 +37,7 @@ COPY --from=build /app/.env* /app/
 
 # Install all dependencies for the server (needed for Storyblok and other runtime deps)
 WORKDIR /app
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Set environment variables for configuration
 ENV DOMAIN=greentechmachinery.co.za \
