@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 FROM base AS build-deps
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 FROM build-deps AS build
 # Accept Storyblok preview token as build argument
