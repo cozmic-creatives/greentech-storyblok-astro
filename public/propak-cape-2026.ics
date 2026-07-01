@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Greentech Machinery//ProPak Cape 2026//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:propak-cape-2026-greentech@greentechmachinery.co.za
+DTSTAMP:20260701T152214Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261030
+SUMMARY:Greentech at ProPak Cape 2026 — Hall 1, Stand B55
+LOCATION:CTICC, Cape Town, South Africa
+DESCRIPTION:Visit the Greentech stand at ProPak Cape 2026 to see our latest injection moulding, extrusion and automation solutions. Hall 1, Stand B55. Show hours 9am–5pm daily.
+URL:https://www.greentechmachinery.co.za/
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR
