@@ -47,6 +47,12 @@ export default defineConfig({
       cssVariable: '--font-inter',
       weights: [100, 300, 400, 500, 600, 700],
     },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'Caveat',
+      cssVariable: '--font-caveat',
+      weights: [400, 700],
+    },
   ],
 
   experimental: {

@@ -28,6 +28,7 @@
 @source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}{,!}");
 @source inline("{md,lg}:{text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl}}");
 @source inline("font-{thin,light,normal,medium,semibold,bold}");
+@source inline("font-{sans,handwriting}");
 @source inline("bg-{primary,background,foreground,gray-50,gray-100,black,white}");
 @source inline("bg-{black,white,primary,gray}/{10,20,30,40,50,60,70,80,90,95}");
 @source inline("border-{0,1,2,3}");
@@ -167,6 +168,7 @@
 
   /* Font Family */
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-handwriting: var(--font-caveat), ui-rounded, cursive;
 
   /* ===== BRAND COLORS ===== */
   /* GreenTech Primary */
