@@ -55,12 +55,6 @@ export default defineConfig({
     },
   ],
 
-  experimental: {
-    queuedRendering: {
-      enabled: true,
-    },
-  },
-
   integrations: [
     storyblok({
       accessToken: storyblokToken,
